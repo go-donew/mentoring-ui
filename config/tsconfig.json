@@ -1,0 +1,17 @@
+{
+	"include": ["../source/"],
+	"compilerOptions": {
+		"baseUrl": "..",
+		"target": "esnext",
+		"module": "esnext",
+		"noEmit": true,
+		"sourceMap": false,
+		"strict": true,
+		"strictNullChecks": true,
+		"esModuleInterop": true,
+		"moduleResolution": "node",
+		"paths": {
+			"@/*": ["source/*"]
+		}
+	}
+}

@@ -1,0 +1,79 @@
+<!-- @/signin.html -->
+<!-- The sign in page -->
+
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- Import Tailwind CSS -->
+		<script src="https://cdn.tailwindcss.com"></script>
+
+		<!-- Import JS libraries -->
+		<!-- HTTP client - ky (github.com/sindresorhus/ky) -->
+		<script
+			src="https://www.unpkg.com/ky@0.29.0/distribution/index.js"
+			type="module"
+		></script>
+
+		<!-- Import our JS code -->
+		<script src="/dist/signin.js" type="module"></script>
+	</head>
+	<body>
+		<div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+			<div class="max-w-md w-full space-y-8">
+				<div>
+					<img class="mx-auto h-20 w-auto" src="/assets/icon.png" alt="DoNew Logo" />
+					<h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+						Sign in to your account
+					</h2>
+					<p class="mt-2 text-center text-sm text-gray-700">
+						Or
+						<a href="/signup" class="font-medium text-green-700 hover:text-green-700">
+							sign up instead
+						</a>
+					</p>
+				</div>
+				<form class="mt-8 space-y-6" action="#" method="POST">
+					<input type="hidden" name="remember" value="true" />
+					<div class="rounded-md shadow-sm -space-y-px">
+						<div>
+							<label for="email-address" class="sr-only">Email address</label>
+							<input
+								id="email"
+								name="email"
+								type="email"
+								autocomplete="email"
+								required
+								class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-700 focus:border-green-600 focus:z-10 sm:text-sm"
+								placeholder="Email address"
+							/>
+						</div>
+						<div>
+							<label for="password" class="sr-only">Password</label>
+							<input
+								id="password"
+								name="password"
+								type="password"
+								autocomplete="current-password"
+								required
+								class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-700 focus:border-green-600 focus:z-10 sm:text-sm"
+								placeholder="Password"
+							/>
+						</div>
+					</div>
+
+					<div>
+						<input
+							type="button"
+							onclick="window.mentoring.signIn()"
+							class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-700 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-700"
+							value="Sign In"
+						/>
+					</div>
+				</form>
+				<p id="error" class="mt-2 text-center text-sm text-red-700"></p>
+			</div>
+		</div>
+	</body>
+</html>
