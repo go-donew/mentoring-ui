@@ -1,5 +1,5 @@
 <!--
-	~/readme.md
+	readme.md
 	Tells you about the project.
 -->
 
