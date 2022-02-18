@@ -1,4 +1,4 @@
-// @/signin.ts
+// source/signin.ts
 // Listeners and callbacks for HTML on the sign in page.
 
 import { globalExport } from './utilities/package.js'

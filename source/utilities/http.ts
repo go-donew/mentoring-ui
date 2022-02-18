@@ -1,4 +1,4 @@
-// @/utilities/http.ts
+// source/utilities/http.ts
 // A wrapper around `ky` to make it easier to use.
 
 // @ts-expect-error No type definitions

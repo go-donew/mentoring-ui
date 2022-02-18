@@ -1,4 +1,4 @@
-// @/utilities/package.ts
+// source/utilities/package.ts
 // Helper functions to import and export stuff around.
 
 /**

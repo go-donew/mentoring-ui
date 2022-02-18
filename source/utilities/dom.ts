@@ -1,4 +1,4 @@
-// @/utilities/dom.ts
+// source/utilities/dom.ts
 // DOM-related utility functions.
 
 // @ts-expect-error No type definitions
