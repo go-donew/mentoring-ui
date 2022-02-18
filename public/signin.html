@@ -9,13 +9,6 @@
 		<!-- Import Tailwind CSS -->
 		<script src="https://cdn.tailwindcss.com"></script>
 
-		<!-- Import JS libraries -->
-		<!-- HTTP client - ky (github.com/sindresorhus/ky) -->
-		<script
-			src="https://www.unpkg.com/ky@0.29.0/distribution/index.js"
-			type="module"
-		></script>
-
 		<!-- Import our JS code -->
 		<script src="/dist/signin.js" type="module"></script>
 	</head>
@@ -66,7 +59,7 @@
 					<div>
 						<input
 							type="button"
-							onclick="window.mentoring.signIn()"
+							onclick="window.mentoring.actions.signIn()"
 							class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-700 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-700"
 							value="Sign In"
 						/>

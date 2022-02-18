@@ -3,12 +3,14 @@
 
 import { globalExport } from './utilities/package.js'
 import { select } from './utilities/dom.js'
-import { fetch } from './utilities/http.js'
+import { fetch, isErrorResponse } from './utilities/http.js'
+
+import type { User, Tokens } from './types.js'
 
 /**
  * Signs the user in, based on the email and password they entered.
  */
-const signIn = async (): Promise<void> => {
+export const signIn = async (): Promise<void> => {
 	// Get the input the user has entered
 	const email = select('#email').value
 	const password = select('#password').value
@@ -18,19 +20,25 @@ const signIn = async (): Promise<void> => {
 	if (typeof email !== 'string' || typeof password !== 'string') return
 
 	// Make the request!
-	const response = await fetch
-		.post('auth/signin', {
-			json: { email, password },
-		})
-		.json()
+	const response = await fetch<{ user: User; tokens: Tokens }>({
+		url: 'auth/signin',
+		method: 'post',
+		json: { email, password },
+	})
 
 	// Handle any errors that might arise
-	if (response.error?.code === 'improper-payload') {
-		select('#error').textContent = 'Please enter a valid email and try again.'
-		return
-	} else if (response.error?.code === 'entity-not-found') {
-		select('#error').textContent =
-			'We could not find a user with that email. Please check the email for typos and try again.'
+	if (isErrorResponse(response)) {
+		const error = response.error
+
+		if (error.code === 'improper-payload')
+			select('#error').textContent = 'Please enter a valid email and try again.'
+		else if (error.code === 'entity-not-found')
+			select('#error').textContent =
+				'We could not find a user with that email. Please check the email for typos and try again.'
+		else if (error.code === 'network-error')
+			select('#error').textContent =
+				'A network error occurred while signing in. Please check your internet connectivity and try again.'
+
 		return
 	}
 
@@ -43,4 +51,6 @@ const signIn = async (): Promise<void> => {
 }
 
 // Export the functions
-globalExport({ signIn })
+globalExport({
+	actions: { signIn },
+})

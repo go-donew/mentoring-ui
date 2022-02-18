@@ -13,7 +13,11 @@
 		"watch": "tsup --watch",
 		"compile": "run-s clean build",
 		"start": "serve public/",
-		"develop": "run-p watch start"
+		"develop": "run-p watch start",
+		"lint": "xo source/**/*.ts",
+		"format": "xo --fix source/**/*.ts",
+		"test:tsc": "tsc --project config/tsconfig.json",
+		"test": "run-s compile lint test:*"
 	},
 	"engines": {
 		"node": "16",
@@ -45,7 +49,10 @@
 		"rules": {
 			"@typescript-eslint/no-empty-function": 0,
 			"@typescript-eslint/no-confusing-void-expression": 0,
+			"@typescript-eslint/no-unsafe-assignment": 0,
+			"@typescript-eslint/no-unsafe-call": 0,
 			"@typescript-eslint/restrict-template-expressions": 0,
+			"import/no-unassigned-import": 0,
 			"no-await-in-loop": 0
 		},
 		"parserOptions": {
@@ -63,6 +70,6 @@
 		"printWidth": 90
 	},
 	"lint-staged": {
-		"{source,test}/**/*.ts": "xo --fix"
+		"source/**/*.ts": "xo --fix"
 	}
 }
