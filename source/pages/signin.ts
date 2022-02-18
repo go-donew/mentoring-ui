@@ -1,11 +1,11 @@
 // source/signin.ts
 // Listeners and callbacks for HTML on the sign in page.
 
-import { globalExport } from './utilities/package.js'
-import { select } from './utilities/dom.js'
-import { fetch, isErrorResponse } from './utilities/http.js'
+import { globalExport } from 'source/utilities/package.js'
+import { select } from 'source/utilities/dom.js'
+import { fetch, isErrorResponse } from 'source/utilities/http.js'
 
-import type { User, Tokens } from './types.js'
+import type { User, Tokens } from 'source/types'
 
 /**
  * Signs the user in, based on the email and password they entered.
@@ -28,16 +28,26 @@ export const signIn = async (): Promise<void> => {
 
 	// Handle any errors that might arise
 	if (isErrorResponse(response)) {
-		const error = response.error
+		const { error } = response
 
-		if (error.code === 'improper-payload')
-			select('#error').textContent = 'Please enter a valid email and try again.'
-		else if (error.code === 'entity-not-found')
-			select('#error').textContent =
-				'We could not find a user with that email. Please check the email for typos and try again.'
-		else if (error.code === 'network-error')
-			select('#error').textContent =
-				'A network error occurred while signing in. Please check your internet connectivity and try again.'
+		switch (error.code) {
+			case 'improper-payload':
+				select('#error').textContent = 'Please enter a valid email and try again.'
+				break
+
+			case 'entity-not-found':
+				select('#error').textContent =
+					'We could not find a user with that email. Please check the email for typos and try again.'
+				break
+
+			case 'network-error':
+				select('#error').textContent =
+					'A network error occurred while signing in. Please check your internet connectivity and try again.'
+				break
+
+			default:
+				select('#error').textContent = error.message
+		}
 
 		return
 	}
@@ -46,8 +56,6 @@ export const signIn = async (): Promise<void> => {
 	if (response.user && response.tokens) {
 		console.log(response)
 	}
-
-	return
 }
 
 // Export the functions
