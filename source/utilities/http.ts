@@ -127,5 +127,5 @@ export const fetch = async <T>(options: KyOptions): Promise<MentoringApiResponse
 export const isErrorResponse = (
 	response: MentoringApiResponse
 ): response is MentoringApiErrorResponse => {
-	return typeof response.error === 'undefined'
+	return typeof response.error !== 'undefined'
 }
