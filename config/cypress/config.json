@@ -1,0 +1,12 @@
+{
+	"baseUrl": "http://localhost:3000",
+	"fileServerFolder": "public",
+	"downloadsFolder": "tests/assets/downloads",
+	"screenshotsFolder": "tests/assets/screenshots",
+	"videosFolder": "tests/assets/videos",
+	"fixturesFolder": "tests/fixtures",
+	"integrationFolder": "tests/integration",
+	"testFiles": "**/*.test.ts",
+	"pluginsFile": "config/cypress/plugins.cjs",
+	"supportFile": "config/cypress/support.js"
+}

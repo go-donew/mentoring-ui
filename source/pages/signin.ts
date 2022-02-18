@@ -1,7 +1,7 @@
 // source/signin.ts
 // Listeners and callbacks for HTML on the sign in page.
 
-import { globalExport } from 'source/utilities/package.js'
+import { exportToWindow } from 'source/utilities/package.js'
 import { select } from 'source/utilities/dom.js'
 import { fetch, isErrorResponse } from 'source/utilities/http.js'
 
@@ -59,6 +59,6 @@ export const signIn = async (): Promise<void> => {
 }
 
 // Export the functions
-globalExport({
+exportToWindow({
 	actions: { signIn },
 })

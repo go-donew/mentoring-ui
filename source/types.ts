@@ -5,16 +5,18 @@
 declare global {
 	interface Window {
 		// The `window.mentoring` object contains our stuff
-		mentoring: {
-			// We may or may not want to store data for a certain page
-			data?: any
-			// Each page has its own set of actions, so no function is guaranteed to
-			// be defined - caller beware!
-			actions?: Partial<{
-				signIn: () => Promise<void>
-			}>
-		}
+		mentoring: MentoringExports
 	}
+}
+
+export declare interface MentoringExports {
+	// We may or may not want to store data for a certain page
+	data?: any
+	// Each page has its own set of actions, so no function is guaranteed to
+	// be defined - caller beware!
+	actions?: Partial<{
+		signIn: () => Promise<void>
+	}>
 }
 
 /**
