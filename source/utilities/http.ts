@@ -2,7 +2,7 @@
 // A wrapper around `ky` to make it easier to use.
 
 // @ts-expect-error No type definitions
-import ky from 'https://www.unpkg.com/ky@0.29.0/distribution/index.js'
+import ky from 'https://cdn.skypack.dev/pin/ky@v0.29.0-C7o8wXQVpeSgwGgGPODT/mode=imports/optimized/ky.js'
 
 /**
  * A set of options to pass to the wrapper function to make an HTTP request.
