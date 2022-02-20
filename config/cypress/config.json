@@ -6,7 +6,7 @@
 	"videosFolder": "tests/assets/videos",
 	"fixturesFolder": "tests/fixtures",
 	"integrationFolder": "tests/integration",
-	"testFiles": "**/*.test.ts",
+	"testFiles": ["pages/index.test.ts", "pages/signup.test.ts", "pages/signin.test.ts"],
 	"pluginsFile": "config/cypress/plugins.cjs",
 	"supportFile": "config/cypress/support.js",
 	"defaultCommandTimeout": 10000

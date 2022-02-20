@@ -1,5 +1,5 @@
-<!-- public/signin.html -->
-<!-- The sign in page -->
+<!-- public/signup.html -->
+<!-- The sign up page -->
 
 <html>
 	<head>
@@ -10,7 +10,7 @@
 		<script src="https://cdn.tailwindcss.com"></script>
 
 		<!-- Import our JS code -->
-		<script src="/dist/pages/signin.js" type="module"></script>
+		<script src="/dist/pages/signup.js" type="module"></script>
 	</head>
 	<body>
 		<div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -18,18 +18,29 @@
 				<div>
 					<img class="mx-auto h-20 w-auto" src="/assets/icon.png" alt="DoNew Logo" />
 					<h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-						Sign in to your account
+						Create an account
 					</h2>
 					<p class="mt-2 text-center text-sm text-gray-700">
 						Or
-						<a href="/signup" class="font-medium text-green-700 hover:text-green-700">
-							sign up instead
+						<a href="/signin" class="font-medium text-green-700 hover:text-green-700">
+							sign in instead
 						</a>
 					</p>
 				</div>
 				<form class="mt-8 space-y-6">
-					<input type="hidden" name="remember" value="true" />
 					<div class="rounded-md shadow-sm -space-y-px">
+						<div>
+							<label for="email" class="sr-only">Full Name</label>
+							<input
+								id="name"
+								name="name"
+								type="name"
+								autocomplete="name"
+								required
+								class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-700 focus:border-green-600 focus:z-10 sm:text-sm"
+								placeholder="Full Name"
+							/>
+						</div>
 						<div>
 							<label for="email" class="sr-only">Email address</label>
 							<input
@@ -38,7 +49,7 @@
 								type="email"
 								autocomplete="email"
 								required
-								class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-700 focus:border-green-600 focus:z-10 sm:text-sm"
+								class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 focus:outline-none focus:ring-green-700 focus:border-green-600 focus:z-10 sm:text-sm"
 								placeholder="Email address"
 							/>
 						</div>
@@ -58,11 +69,11 @@
 
 					<div>
 						<input
-							id="signin"
+							id="signup"
 							type="button"
-							onclick="window.mentoring.actions.signIn()"
+							onclick="window.mentoring.actions.signUp()"
 							class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-700 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-700"
-							value="Sign In"
+							value="Sign Up"
 						/>
 					</div>
 				</form>

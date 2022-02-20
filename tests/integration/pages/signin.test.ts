@@ -19,6 +19,23 @@ describe('Sign In Page', () => {
 		cy.get('#password').type('wrong-secret').should('have.value', 'wrong-secret')
 		cy.get('#signin').click()
 
-		cy.get('#error').should('have.text', 'We could not find a user with that email. Please check the email for typos and try again.')
+		cy.get('#error').should(
+			'have.text',
+			'The email/password entered was incorrect. Please try again with valid credentials.'
+		)
+	})
+
+	it('should sign in successfully', () => {
+		cy.visit('/signin')
+
+		cy.get('#email').type('user@example.com').should('have.value', 'user@example.com')
+		cy.get('#password').type('secret').should('have.value', 'secret')
+		cy.get('#signin').click()
+
+		cy.location('pathname').should('eq', '/', () => {
+			expect(localStorage.getItem('user')).to.exist()
+			expect(localStorage.getItem('tokens.bearer')).to.exist()
+			expect(localStorage.getItem('tokens.refresh')).to.exist()
+		})
 	})
 })

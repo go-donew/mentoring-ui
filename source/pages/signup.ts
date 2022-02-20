@@ -1,5 +1,5 @@
-// source/signin.ts
-// Listeners and callbacks for HTML on the sign in page.
+// source/signup.ts
+// Listeners and callbacks for HTML on the sign up page.
 
 import { exportToWindow } from 'source/utilities/package.js'
 import { select } from 'source/utilities/dom.js'
@@ -9,22 +9,28 @@ import { storage } from 'source/utilities/storage.js'
 import type { User, Tokens } from 'source/types'
 
 /**
- * Signs the user in, based on the email and password they entered.
+ * Signs the user up, based on the name, email and password they entered.
  */
-export const signIn = async (): Promise<void> => {
+export const signUp = async (): Promise<void> => {
 	// Get the input the user has entered
+	const name = select('#name').value
 	const email = select('#email').value
 	const password = select('#password').value
 
 	// The input element will take care of validation, so we just return if
 	// invalid input is passed
-	if (typeof email !== 'string' || typeof password !== 'string') return
+	if (
+		typeof name !== 'string' ||
+		typeof email !== 'string' ||
+		typeof password !== 'string'
+	)
+		return
 
 	// Make the request!
 	const response = await fetch<{ user: User; tokens: Tokens }>({
-		url: 'auth/signin',
+		url: 'auth/signup',
 		method: 'post',
-		json: { email, password },
+		json: { name, email, password },
 	})
 
 	// Handle any errors that might arise
@@ -33,18 +39,18 @@ export const signIn = async (): Promise<void> => {
 
 		switch (error.code) {
 			case 'improper-payload':
-				select('#error').textContent = 'Please enter a valid email and try again.'
+				select('#error').textContent =
+					'Please enter a valid email and a 6+ letter password and try again.'
 				break
 
-			case 'incorrect-credentials':
-			case 'entity-not-found':
+			case 'entity-already-exists':
 				select('#error').textContent =
-					'The email/password entered was incorrect. Please try again with valid credentials.'
+					'A user with the same email address already exists. Perhaps you wanted to sign in?'
 				break
 
 			case 'network-error':
 				select('#error').textContent =
-					'A network error occurred while signing in. Please check your internet connectivity and try again.'
+					'A network error occurred while signing up. Please check your internet connectivity and try again.'
 				break
 
 			default:
@@ -67,5 +73,5 @@ export const signIn = async (): Promise<void> => {
 
 // Export the functions
 exportToWindow({
-	actions: { signIn },
+	actions: { signUp },
 })

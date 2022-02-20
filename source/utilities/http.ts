@@ -4,6 +4,10 @@
 // @ts-expect-error No type definitions
 import ky from 'https://cdn.skypack.dev/ky@0.29.0'
 
+import { storage } from 'source/utilities/storage.js'
+
+import type { Tokens } from 'source/types'
+
 /**
  * A set of options to pass to the wrapper function to make an HTTP request.
  */
@@ -56,9 +60,7 @@ export type MentoringApiErrorResponse = {
 /**
  * The response returned by the Mentoring API.
  */
-export type MentoringApiResponse<T = unknown> =
-	| MentoringApiErrorResponse
-	| Record<string, T | T[]>
+export type MentoringApiResponse<T = unknown> = MentoringApiErrorResponse | T
 
 export const _fetch = ky.create({
 	// Set the prefix URL to the server URL so we can mention only the endpoint
@@ -69,6 +71,39 @@ export const _fetch = ky.create({
 	// Don't throw errors, just return them as responses and we will handle the
 	// rest
 	throwHttpErrors: false,
+	// Pass the authorization token in the `Authorization` header
+	headers: {
+		authorization: storage.get('tokens.bearer'),
+	},
+	// Refresh the token automatically when we get a HTTP 401 `invalid-token`
+	// error as a response from the API
+	hooks: {
+		afterResponse: [
+			async (request: any, options: any, response: any) => {
+				if (response.status === 401 && response.json()?.error?.code === 'invalid-token') {
+					// Get a new access token
+					const tokenResponse = await fetch<{ tokens: Tokens }>({
+						method: 'post',
+						url: 'auth/refresh-token',
+						json: {
+							refreshToken: storage.get('token.refresh'),
+						},
+					})
+					// Skip if this returns an error
+					if (isErrorResponse(tokenResponse)) return
+
+					// Store them for usage in the future
+					storage.set('token.bearer', tokenResponse.tokens.bearer)
+					storage.set('token.refresh', tokenResponse.tokens.refresh)
+
+					// Retry with the token
+					request.headers.set('authorization', tokenResponse.tokens.bearer)
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+					return ky(request)
+				}
+			},
+		],
+	},
 })
 
 /**
@@ -129,5 +164,5 @@ export const fetch = async <T>(options: KyOptions): Promise<MentoringApiResponse
 export const isErrorResponse = (
 	response: MentoringApiResponse
 ): response is MentoringApiErrorResponse => {
-	return typeof response.error !== 'undefined'
+	return typeof (response as MentoringApiErrorResponse).error !== 'undefined'
 }

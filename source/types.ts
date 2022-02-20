@@ -16,6 +16,7 @@ export declare interface MentoringExports {
 	// be defined - caller beware!
 	actions?: Partial<{
 		signIn: () => Promise<void>
+		signUp: () => Promise<void>
 	}>
 }
 
