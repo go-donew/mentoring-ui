@@ -8,5 +8,6 @@
 	"integrationFolder": "tests/integration",
 	"testFiles": "**/*.test.ts",
 	"pluginsFile": "config/cypress/plugins.cjs",
-	"supportFile": "config/cypress/support.js"
+	"supportFile": "config/cypress/support.js",
+	"defaultCommandTimeout": 10000
 }

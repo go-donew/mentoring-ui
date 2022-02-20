@@ -1,4 +1,4 @@
-// tests/integration/signin.test.ts
+// tests/integration/pages/signin.test.ts
 // Integration test for the sign in page.
 
 describe('Sign In Page', () => {
