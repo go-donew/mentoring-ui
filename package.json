@@ -8,7 +8,7 @@
 	},
 	"type": "module",
 	"scripts": {
-		"clean": "del-cli public/dist/ coverage/ tests/assets/ *.log",
+		"clean": "del-cli public/dist/ coverage/ tests/assets/ .nyc_output/ *.log",
 		"start": "serve public/",
 		"develop": "run-p watch start",
 		"lint": "xo source/**/*.ts",

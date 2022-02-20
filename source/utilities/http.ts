@@ -2,7 +2,7 @@
 // A wrapper around `ky` to make it easier to use.
 
 // @ts-expect-error No type definitions
-import ky from 'https://cdn.skypack.dev/pin/ky@v0.29.0-C7o8wXQVpeSgwGgGPODT/mode=imports/optimized/ky.js'
+import ky from 'https://cdn.skypack.dev/ky@0.29.0'
 
 /**
  * A set of options to pass to the wrapper function to make an HTTP request.
@@ -63,7 +63,9 @@ export type MentoringApiResponse<T = unknown> =
 export const _fetch = ky.create({
 	// Set the prefix URL to the server URL so we can mention only the endpoint
 	// path in the rest of the code
-	prefixUrl: 'https://mentoring.godonew.com/api',
+	prefixUrl: window.location.href.startsWith('http://localhost')
+		? 'https://donew-mentoring-api-sandbox.web.app/api'
+		: 'https://mentoring.godonew.com/api',
 	// Don't throw errors, just return them as responses and we will handle the
 	// rest
 	throwHttpErrors: false,
