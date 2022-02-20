@@ -25,7 +25,10 @@
 		"test:web": "run-s build:cov && start-server-and-test start http://localhost:3000 cypress:run",
 		"test": "run-s compile lint test:* view:cov:txt",
 		"view:cov:txt": "nyc report --reporter=text",
-		"view:cov:web": "serve coverage/lcov-report/"
+		"view:cov:web": "serve coverage/lcov-report/",
+		"deploy:prd": "firebase deploy --only hosting --project donew-mentoring-api",
+		"deploy:dev": "firebase deploy --only hosting --project donew-mentoring-api-sandbox",
+		"deploy": "run-s deploy:*"
 	},
 	"engines": {
 		"node": "16",

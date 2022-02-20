@@ -6,6 +6,7 @@ coverage/
 public/dist/
 tests/assets/
 .nyc_output/
+.firebase/
 
 .idea/
 .vscode/

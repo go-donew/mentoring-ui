@@ -63,9 +63,9 @@ export type MentoringApiResponse<T = unknown> =
 export const _fetch = ky.create({
 	// Set the prefix URL to the server URL so we can mention only the endpoint
 	// path in the rest of the code
-	prefixUrl: window.location.href.startsWith('http://localhost')
-		? 'https://donew-mentoring-api-sandbox.web.app/api'
-		: 'https://mentoring.godonew.com/api',
+	prefixUrl: window.location.href.startsWith('https://mentoring.godonew.com')
+		? 'https://mentoring.godonew.com/api'
+		: 'https://mentoring-sandbox.godonew.com/api',
 	// Don't throw errors, just return them as responses and we will handle the
 	// rest
 	throwHttpErrors: false,
