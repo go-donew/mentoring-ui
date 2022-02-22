@@ -5,6 +5,7 @@ import { exportToWindow } from 'source/utilities/package.js'
 import { select } from 'source/utilities/dom.js'
 import { fetch, isErrorResponse } from 'source/utilities/http.js'
 import { storage } from 'source/utilities/storage.js'
+import { errors } from 'source/utilities/messages.js'
 
 import type { User, Tokens } from 'source/types'
 
@@ -13,8 +14,8 @@ import type { User, Tokens } from 'source/types'
  */
 export const signIn = async (): Promise<void> => {
 	// Get the input the user has entered
-	const email = select('#email').value
-	const password = select('#password').value
+	const email = select('[data-ref=email-inp]').value
+	const password = select('[data-ref=password-inp]').value
 
 	// The input element will take care of validation, so we just return if
 	// invalid input is passed
@@ -33,22 +34,20 @@ export const signIn = async (): Promise<void> => {
 
 		switch (error.code) {
 			case 'improper-payload':
-				select('#error').textContent = 'Please enter a valid email and try again.'
+				select('[data-ref=error-txt]').textContent = errors.get('invalid-email-address')
 				break
 
 			case 'incorrect-credentials':
 			case 'entity-not-found':
-				select('#error').textContent =
-					'The email/password entered was incorrect. Please try again with valid credentials.'
+				select('[data-ref=error-txt]').textContent = errors.get('incorrect-credentials')
 				break
 
 			case 'network-error':
-				select('#error').textContent =
-					'A network error occurred while signing in. Please check your internet connectivity and try again.'
+				select('[data-ref=error-txt]').textContent = errors.get('network-error')
 				break
 
 			default:
-				select('#error').textContent = error.message
+				select('[data-ref=error-txt]').textContent = error.message
 		}
 
 		return

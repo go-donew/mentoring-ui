@@ -5,6 +5,7 @@ import { exportToWindow } from 'source/utilities/package.js'
 import { select } from 'source/utilities/dom.js'
 import { fetch, isErrorResponse } from 'source/utilities/http.js'
 import { storage } from 'source/utilities/storage.js'
+import { errors } from 'source/utilities/messages.js'
 
 import type { User, Tokens } from 'source/types'
 
@@ -13,9 +14,9 @@ import type { User, Tokens } from 'source/types'
  */
 export const signUp = async (): Promise<void> => {
 	// Get the input the user has entered
-	const name = select('#name').value
-	const email = select('#email').value
-	const password = select('#password').value
+	const name = select('[data-ref=name-inp]').value
+	const email = select('[data-ref=email-inp]').value
+	const password = select('[data-ref=password-inp]').value
 
 	// The input element will take care of validation, so we just return if
 	// invalid input is passed
@@ -39,22 +40,19 @@ export const signUp = async (): Promise<void> => {
 
 		switch (error.code) {
 			case 'improper-payload':
-				select('#error').textContent =
-					'Please enter a valid email and a 6+ letter password and try again.'
+				select('[data-ref=error-txt]').textContent = errors.get('invalid-email-address')
 				break
 
 			case 'entity-already-exists':
-				select('#error').textContent =
-					'A user with the same email address already exists. Perhaps you wanted to sign in?'
+				select('[data-ref=error-txt]').textContent = errors.get('user-already-exists')
 				break
 
 			case 'network-error':
-				select('#error').textContent =
-					'A network error occurred while signing up. Please check your internet connectivity and try again.'
+				select('[data-ref=error-txt]').textContent = errors.get('network-error')
 				break
 
 			default:
-				select('#error').textContent = error.message
+				select('[data-ref=error-txt]').value = error.message
 		}
 
 		return

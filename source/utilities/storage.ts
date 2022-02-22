@@ -4,6 +4,19 @@
 const json = JSON
 
 /**
+ * A function to check if data is stored in Local Storage.
+ *
+ * @param key {string} - The name of the object to check.
+ *
+ * @returns {boolean} - Whether any data with the passed name is stored in Local Storage.
+ */
+const exists = (key: string): boolean => {
+	const serializedData = localStorage.getItem(key)
+
+	return serializedData !== null
+}
+
+/**
  * A function to store data in Local Storage.
  *
  * @param key {string} - The name that will be used to access the data.
@@ -35,23 +48,18 @@ const get = <T = unknown>(key: string): T | undefined => {
 }
 
 /**
- * A function to check if data is stored in Local Storage.
+ * A function to delete data stored in Local Storage.
  *
- * @param key {string} - The name of the object to check.
- *
- * @returns {boolean} - Whether any data with the passed name is stored in Local Storage.
+ * @param key {string} - The name of the data to delete.
  */
-const exists = (key: string): boolean => {
-	const serializedData = localStorage.getItem(key)
-
-	return serializedData !== null
-}
+const _delete = (key: string): void => localStorage.removeItem(key)
 
 /**
  * A wrapper around `localStorage`, that supports storing JSON objects/arrays.
  */
 export const storage = {
+	exists,
 	set,
 	get,
-	exists,
+	delete: _delete,
 }
