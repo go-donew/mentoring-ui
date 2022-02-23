@@ -11,8 +11,12 @@
 		"clean": "del-cli public/dist/ coverage/ tests/assets/ .nyc_output/ *.log",
 		"start": "serve public/",
 		"develop": "run-p watch start",
-		"lint": "xo source/**/*.ts",
-		"format": "xo --fix source/**/*.ts",
+		"format:code": "xo --fix {source,test}/**/*.ts",
+		"format:rest": "prettier --write --ignore-path .gitignore .",
+		"format": "run-s format:*",
+		"lint:code": "xo {source,test}/**/*.ts",
+		"lint:rest": "prettier --check --ignore-path .gitignore .",
+		"lint": "run-s lint:*",
 		"build:tsp": "tsup",
 		"build:cov": "run-s build:tsp && nyc instrument --in-place public/dist",
 		"compile": "run-s clean build:tsp",
@@ -28,7 +32,9 @@
 		"view:cov:web": "serve coverage/lcov-report/",
 		"deploy:prd": "firebase deploy --only hosting --project donew-mentoring-api",
 		"deploy:dev": "firebase deploy --only hosting --project donew-mentoring-api-sandbox",
-		"deploy": "run-s deploy:*"
+		"deploy": "run-s deploy:*",
+		"hooks": "husky install config/husky",
+		"prepare": "bash -c \"[[ -z \\\"$FIREBASE_DEPLOY\\\" ]] && pnpm run-s compile hooks || true\""
 	},
 	"engines": {
 		"node": "16",
@@ -37,6 +43,8 @@
 	"devDependencies": {
 		"@cypress/code-coverage": "3.9.12",
 		"cypress": "9.5.0",
+		"commitizen": "4.2.4",
+		"cz-conventional-changelog": "3.3.0",
 		"del-cli": "4.0.1",
 		"firebase-tools": "10.2.1",
 		"husky": "7.0.4",
@@ -87,6 +95,7 @@
 		"printWidth": 90
 	},
 	"lint-staged": {
-		"source/**/*.ts": "xo --fix"
+		"{source,tests}/**/*.ts": "xo --fix",
+		"**/*.{md,json,yaml,html}": "prettier --write"
 	}
 }
