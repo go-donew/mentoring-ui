@@ -1,0 +1,15 @@
+# ~/.gitignore
+# A list of files and folders that should not be checked by Prettier
+
+**/node_modules/
+**/coverage/
+**/public/dist/
+**/tests/assets/
+**/tests/mocks/api/
+**/.nyc_output/
+**/.firebase/
+
+**/.idea/
+**/.vscode/
+
+**/*.log

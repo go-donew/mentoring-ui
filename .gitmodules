@@ -1,0 +1,3 @@
+[submodule "tests/mocks/api"]
+	path = tests/mocks/api
+	url = https://github.com/donew-innovations/mentoring-api
