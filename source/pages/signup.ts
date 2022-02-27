@@ -25,7 +25,7 @@ export const signUp = async (): Promise<void> => {
 		typeof email !== 'string' ||
 		typeof password !== 'string'
 	)
-		return
+		return // TODO: Add validation error message
 
 	// Make the request!
 	const response = await fetch<{ user: User; tokens: Tokens }>({

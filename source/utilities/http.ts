@@ -123,6 +123,9 @@ export const fetch = async <T>(options: KyOptions): Promise<MentoringApiResponse
 			searchParams: options.query,
 		}).json<MentoringApiResponse<T>>() // And convert the body to JSON
 
+		// TODO: Add caching mechanism for requests based on request hash,
+		// have timeout, have parameter to force fetch from server
+
 		// If the request succeeds, return the response
 		return response as MentoringApiResponse<T>
 	} catch (error: unknown) {
