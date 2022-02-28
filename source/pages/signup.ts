@@ -29,7 +29,7 @@ export const signUp = async (): Promise<void> => {
 
 	// Make the request!
 	const response = await fetch<{ user: User; tokens: Tokens }>({
-		url: 'auth/signup',
+		url: '/auth/signup',
 		method: 'post',
 		json: { name, email, password },
 	})

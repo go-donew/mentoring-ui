@@ -23,7 +23,7 @@ export const signIn = async (): Promise<void> => {
 
 	// Make the request!
 	const response = await fetch<{ user: User; tokens: Tokens }>({
-		url: 'auth/signin',
+		url: '/auth/signin',
 		method: 'post',
 		json: { email, password },
 	})

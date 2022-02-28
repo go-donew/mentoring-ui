@@ -4,9 +4,11 @@
 // @ts-expect-error No type definitions
 import ky from 'https://cdn.skypack.dev/ky@0.29.0'
 
-import { storage } from 'source/utilities/storage.js'
+import { storage, cache } from 'source/utilities/storage.js'
 
 import type { Tokens } from 'source/types'
+
+const json = JSON
 
 /**
  * A set of options to pass to the wrapper function to make an HTTP request.
@@ -32,6 +34,28 @@ export interface KyOptions {
 	 * Query parameters to send in the URL.
 	 */
 	query?: URLSearchParams
+
+	/**
+	 * Whether or not to do certain cache-specific things with the request and
+	 * response.
+	 */
+	cache?: {
+		/**
+		 * Whether to use the cached response from the last time the same request was
+		 * made, if the cache hasn't expired yet.
+		 */
+		use: boolean
+
+		/**
+		 * Whether to store the response to this request in cache.
+		 */
+		store: boolean
+
+		/**
+		 * How long before the cached data expires, in seconds.
+		 */
+		expiresIn: number
+	}
 }
 
 /**
@@ -114,19 +138,50 @@ export const _fetch = ky.create({
  *
  * @returns {Promise<MentoringApiResponse<T>>} - The response data, wrapped in a Promise.
  */
-export const fetch = async <T>(options: KyOptions): Promise<MentoringApiResponse<T>> => {
+export const fetch = async <T>(
+	passedOptions: KyOptions
+): Promise<MentoringApiResponse<T>> => {
+	// Normalize the options
+	const options = passedOptions
+
+	// By default, use cache and store the response in cache for 5 minutes too
+	options.cache = {
+		use: true,
+		store: true,
+		expiresIn: 5 * 60,
+		...options.cache,
+	}
+
 	try {
+		// First, check if the request has been made and cached already
+		const requestIdentifier =
+			'http:' +
+			btoa(
+				`${options.method}.${options.url}.${json.stringify(
+					options.json ?? null
+				)}.${json.stringify(options.query ?? null)}`
+			)
+		if (options.cache.use && options.method === 'get') {
+			const cachedResponse = cache.get(requestIdentifier)
+
+			if (typeof cachedResponse !== 'undefined') {
+				return cachedResponse as MentoringApiResponse<T>
+			}
+		}
+
 		// Make the request
-		const response = await _fetch(options.url, {
+		const response = await _fetch(options.url.replace(/^\/+/g, ''), {
 			method: options.method,
 			json: options.json,
 			searchParams: options.query,
 		}).json<MentoringApiResponse<T>>() // And convert the body to JSON
 
-		// TODO: Add caching mechanism for requests based on request hash,
-		// have timeout, have parameter to force fetch from server
+		// If the request succeeds, store it in cache
+		if (options.cache.store && options.method === 'get' && !isErrorResponse(response)) {
+			cache.set(requestIdentifier, response, options.cache.expiresIn)
+		}
 
-		// If the request succeeds, return the response
+		// Finally, return the response
 		return response as MentoringApiResponse<T>
 	} catch (error: unknown) {
 		// If an error occurs, check if it is a network error
