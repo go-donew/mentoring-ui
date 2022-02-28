@@ -157,9 +157,12 @@ export const fetch = async <T>(
 		const requestIdentifier =
 			'http:' +
 			btoa(
-				`${options.method}.${options.url}.${json.stringify(
-					options.json ?? null
-				)}.${json.stringify(options.query ?? null)}`
+				[
+					options.method,
+					options.url,
+					json.stringify(options.json ?? null),
+					json.stringify(options.query ?? null),
+				].join('.')
 			)
 		if (options.cache.use && options.method === 'get') {
 			const cachedResponse = cache.get(requestIdentifier)
