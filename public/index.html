@@ -7,7 +7,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!-- Import our JS code -->
+		<script src="/dist/components/auth.js" type="module"></script>
 		<script src="/dist/pages/index.js" type="module"></script>
+		<script type="module">
+			if (window.mentoring.actions.checkAuth())
+				typeof window.mentoring.init === 'function' ? window.mentoring.init() : undefined
+		</script>
 	</head>
 	<body>
 		<div>Hi</div>

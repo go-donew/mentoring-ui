@@ -18,7 +18,8 @@ export const exportToWindow = (stuff: MentoringExports): void => {
 	// object.
 	window.mentoring = {
 		...window.mentoring,
-		data: { ...stuff.data },
-		actions: { ...stuff.actions },
+		data: { ...window.mentoring.data, ...stuff.data },
+		actions: { ...window.mentoring.actions, ...stuff.actions },
+		init: stuff.init ?? window.mentoring.init,
 	}
 }

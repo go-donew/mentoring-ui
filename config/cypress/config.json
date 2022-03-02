@@ -9,5 +9,5 @@
 	"testFiles": "**/*.test.ts",
 	"pluginsFile": "config/cypress/plugins.ts",
 	"supportFile": "config/cypress/support.ts",
-	"defaultCommandTimeout": 10000
+	"defaultCommandTimeout": 30000
 }

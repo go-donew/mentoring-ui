@@ -10,7 +10,12 @@
 		<script src="https://cdn.tailwindcss.com"></script>
 
 		<!-- Import our JS code -->
-		<script src="/dist/pages/groups/index.js" type="module"></script>
+		<script src="/dist/components/auth.js" type="module"></script>
+		<script src="/dist/pages/groups.js" type="module"></script>
+		<script type="module">
+			if (window.mentoring.actions.checkAuth())
+				typeof window.mentoring.init === 'function' ? window.mentoring.init() : undefined
+		</script>
 	</head>
 	<body>
 		<div class="m-10">
@@ -26,7 +31,7 @@
 				<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 					<div class="py-10 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 						<div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-							<table class="min-w-full divide-y divide-gray-200">
+							<table class="min-w-full divide-y divide-gray-200" data-ref="groups-tbl">
 								<thead class="bg-gray-50">
 									<tr>
 										<th
@@ -66,80 +71,20 @@
 											Reports
 										</th>
 										<th scope="col" class="relative px-6 py-1">
-											<span class="sr-only">Edit</span>
+											<span class="sr-only">Actions</span>
 										</th>
 									</tr>
 								</thead>
-								<tbody class="bg-white divide-y divide-gray-200">
-									<tr>
-										<td class="px-6 py-4 whitespace-nowrap">
-											<div class="text-sm font-medium text-gray-900">DoNew SQ</div>
-										</td>
-										<td class="px-6 py-4 whitespace-nowrap">
-											<div class="text-sm font-medium text-gray-900">mycollegesq</div>
-										</td>
-										<td class="px-6 py-4">
-											<span
-												class="px-2 my-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-											>
-												Colleges
-											</span>
-											<span
-												class="px-2 my-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-											>
-												QuestInternship
-											</span>
-										</td>
-										<td class="px-6 py-4 whitespace-nowrap">
-											<div>
-												<span class="text-sm text-gray-900">Rahul</span>
-												<span class="text-sm text-gray-300">Supermentor</span>
-											</div>
-										</td>
-										<td class="px-6 py-4 whitespace-nowrap">
-											<div>
-												<span class="text-sm text-gray-900">Strengths</span>
-												<span class="text-sm text-gray-300">Mentees</span>
-											</div>
-											<div>
-												<span class="text-sm text-gray-900">Updates</span>
-												<span class="text-sm text-gray-300">Mentees</span>
-											</div>
-											<div>
-												<span class="text-sm text-gray-900">Review</span>
-												<span class="text-sm text-gray-300">Mentors</span>
-											</div>
-										</td>
-										<td class="px-6 py-4 whitespace-nowrap">
-											<div>
-												<span class="text-sm text-gray-900">Strengths Basic</span>
-												<span class="text-sm text-gray-300"
-													>SuperMentors, Mentors, Mentees</span
-												>
-											</div>
-											<div>
-												<span class="text-sm text-gray-900">Strengths Innovation</span>
-												<span class="text-sm text-gray-300">SuperMentors, Mentors</span>
-											</div>
-											<div>
-												<span class="text-sm text-gray-900">Strengths Insights</span>
-												<span class="text-sm text-gray-300">SuperMentors, Mentors</span>
-											</div>
-										</td>
-										<td
-											class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
-										>
-											<a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-										</td>
-									</tr>
-
-									<!-- More people... -->
-								</tbody>
+								<tbody
+									class="bg-white divide-y divide-gray-200"
+									data-ref="groups-list-plh"
+								></tbody>
 							</table>
 						</div>
 					</div>
 				</div>
 			</div>
+			<p class="mt-2 text-center text-sm text-red-700" data-ref="error-txt"></p>
 		</div>
 	</body>
 </html>

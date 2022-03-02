@@ -3,6 +3,7 @@
 
 **/node_modules/
 **/coverage/
+**/source/vendor/
 **/public/dist/
 **/tests/assets/
 **/tests/mocks/api/

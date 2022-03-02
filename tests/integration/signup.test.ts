@@ -1,7 +1,7 @@
 // tests/integration/pages/signup.test.ts
 // Integration test for the sign up page.
 
-import { errors } from '../../../public/dist/utilities/messages.js'
+import { errors } from '../../public/dist/utilities/messages.js'
 
 describe('Sign Up Page', () => {
 	// Always run the tests on the sign up page

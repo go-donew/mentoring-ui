@@ -2,4 +2,6 @@
 // DOM-related utility functions.
 
 // @ts-expect-error No type definitions
-export { default as select } from 'https://cdn.skypack.dev/select-dom@7.1.1'
+export { default as select } from 'deps/select-dom/index.js'
+// @ts-expect-error No type definitions
+export { default as change } from 'deps/umbrellajs/index.js'

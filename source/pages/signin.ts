@@ -59,8 +59,9 @@ export const signIn = async (): Promise<void> => {
 		storage.set('tokens.bearer', response.tokens.bearer)
 		storage.set('tokens.refresh', response.tokens.refresh)
 
-		// Redirect the user to the home page
-		window.location.href = '/'
+		// Redirect the user to the home page or wherever they came from
+		window.location.href =
+			new URLSearchParams(window.location.search).get('redirect') ?? '/'
 	}
 }
 

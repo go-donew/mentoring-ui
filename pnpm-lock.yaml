@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@cypress/code-coverage': 3.9.12
+  '@faker-js/faker': 6.0.0-alpha.7
   commitizen: 4.2.4
   cypress: 9.5.0
   cz-conventional-changelog: 3.3.0
@@ -20,6 +21,7 @@ specifiers:
 
 devDependencies:
   '@cypress/code-coverage': 3.9.12_cypress@9.5.0
+  '@faker-js/faker': 6.0.0-alpha.7
   commitizen: 4.2.4
   cypress: 9.5.0
   cz-conventional-changelog: 3.3.0
@@ -1810,6 +1812,14 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@faker-js/faker/6.0.0-alpha.7:
+    resolution:
+      {
+        integrity: sha512-T2nYE8+EfzfkRMLMSm7UvgC7fZ2KkKEyCMeyPVS0q2cuvENbt1SjWyu0bOJ0JqBbTs1g+gYMWMFMXspWlzNVmQ==,
+      }
+    engines: { node: '>=14.0.0', npm: '>=7.0.0' }
     dev: true
 
   /@gar/promisify/1.1.3:

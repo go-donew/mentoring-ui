@@ -11,10 +11,10 @@
 		"clean": "del-cli public/dist/ coverage/ tests/assets/ .nyc_output/ *.log",
 		"start": "cd tests/mocks/api && pnpm firebase emulators:exec --project donew-mentoring-api-sandbox \"cd ../../.. && serve public/\"",
 		"develop": "run-p watch start",
-		"format:code": "xo --fix {source,test}/**/*.ts",
+		"format:code": "xo --fix source/**/*.ts",
 		"format:rest": "prettier --write --ignore-path config/prettier/ignore .",
 		"format": "run-s format:*",
-		"lint:code": "xo {source,test}/**/*.ts",
+		"lint:code": "xo source/**/*.ts",
 		"lint:rest": "prettier --check --ignore-path config/prettier/ignore .",
 		"lint": "run-s lint:*",
 		"build:tsp": "tsup",
@@ -23,7 +23,7 @@
 		"watch:tsp": "tsup --watch",
 		"watch:web": "start-test http-get://localhost:3000/index.html cypress:open",
 		"watch": "run-p watch:*",
-		"test:tsc": "tsc --project config/tsconfig.json",
+		"test:tsc": "tsc",
 		"test:web": "start-test http-get://localhost:3000/index.html cypress:run",
 		"test": "run-s compile lint test:*",
 		"cypress:run": "cypress run --config-file config/cypress/config.json",
@@ -44,6 +44,7 @@
 	},
 	"devDependencies": {
 		"@cypress/code-coverage": "3.9.12",
+		"@faker-js/faker": "6.0.0-alpha.7",
 		"commitizen": "4.2.4",
 		"cypress": "9.5.0",
 		"cz-conventional-changelog": "3.3.0",
@@ -62,13 +63,12 @@
 	},
 	"tsup": {
 		"entry": [
-			"source/**/*.ts"
+			"source/**/*.{ts,js}"
 		],
 		"format": [
 			"esm"
 		],
 		"target": "esnext",
-		"tsconfig": "config/tsconfig.json",
 		"outDir": "public/dist/"
 	},
 	"xo": {
@@ -82,9 +82,6 @@
 			"import/no-unassigned-import": 0,
 			"no-await-in-loop": 0,
 			"capitalized-comments": 0
-		},
-		"parserOptions": {
-			"project": "config/tsconfig.json"
 		}
 	},
 	"prettier": {
@@ -98,7 +95,7 @@
 		"printWidth": 90
 	},
 	"lint-staged": {
-		"{source,tests}/**/*.ts": "xo --fix",
+		"source/**/*.ts": "xo --fix",
 		"**/*.{md,json,yaml,html}": "prettier --write"
 	}
 }

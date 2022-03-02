@@ -1,14 +1,7 @@
-// tests/integration/pages/index.test.ts
+// tests/integration/index.test.ts
 // Integration test for the home page.
 
-import { storage } from '../../../public/dist/utilities/storage.js'
-
 describe('Home Page', () => {
-	// Clear out the signed in user before running the tests
-	before(() => {
-		storage.delete('user')
-	})
-
 	it('should redirect to sign in page if user is not signed in', () => {
 		// Visit the home page
 		cy.visit('/')
