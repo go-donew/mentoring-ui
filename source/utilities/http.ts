@@ -100,6 +100,8 @@ export const _fetch = ky.create({
 	// path in the rest of the code
 	prefixUrl: window.location.href.startsWith('https://mentoring.godonew.com')
 		? 'https://mentoring.godonew.com/api'
+		: window.location.href.startsWith('https://mentoring-sandbox.godonew.com')
+		? 'https://mentoring-sandbox.godonew.com/api'
 		: 'http://localhost:5000/api',
 	// Don't throw errors, just return them as responses and we will handle the
 	// rest
