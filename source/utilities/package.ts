@@ -1,7 +1,7 @@
 // source/utilities/package.ts
 // Helper functions to import and export stuff around.
 
-import { MentoringExports } from 'source/types.js'
+import { MentoringExports } from 'source/types'
 
 /**
  * A helper function to assign whatever is passed to the `window.mentoring`

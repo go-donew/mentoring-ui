@@ -17,19 +17,16 @@
 		"lint:code": "xo source/**/*.ts",
 		"lint:rest": "prettier --check --ignore-path config/prettier/ignore .",
 		"lint": "run-s lint:*",
-		"build:tsp": "tsup",
-		"build:cov": "tsup && nyc instrument --in-place public/dist",
-		"compile": "run-s clean build:tsp",
-		"watch:tsp": "tsup --watch",
-		"watch:web": "start-test http-get://localhost:3000/index.html cypress:open",
+		"build:app": "esbuild --bundle --target=esnext --format=esm --outdir=public/dist source/pages/*.ts source/components/*.ts",
+		"compile": "run-s clean build:app",
+		"watch:build": "run-p build:* -- --watch",
+		"watch:tests": "start-test http-get://localhost:3000/index.html cypress:open",
 		"watch": "run-p watch:*",
 		"test:tsc": "tsc",
-		"test:web": "start-test http-get://localhost:3000/index.html cypress:run",
+		"test:app": "start-test http-get://localhost:3000/index.html cypress:run",
 		"test": "run-s compile lint test:*",
 		"cypress:run": "cypress run --config-file config/cypress/config.json",
 		"cypress:open": "cypress open --config-file config/cypress/config.json",
-		"view:cov:txt": "nyc report --reporter=text",
-		"view:cov:web": "serve coverage/lcov-report/",
 		"deploy:prd": "firebase deploy --only hosting --project donew-mentoring-api",
 		"deploy:dev": "firebase deploy --only hosting --project donew-mentoring-api-sandbox",
 		"deploy": "run-s deploy:*",
@@ -42,6 +39,11 @@
 		"node": "16",
 		"pnpm": "6"
 	},
+	"dependencies": {
+		"ky": "0.30.0",
+		"select-dom": "7.1.1",
+		"umbrellajs": "3.3.1"
+	},
 	"devDependencies": {
 		"@cypress/code-coverage": "3.9.12",
 		"@faker-js/faker": "6.0.0-alpha.7",
@@ -49,6 +51,7 @@
 		"cypress": "9.5.0",
 		"cz-conventional-changelog": "3.3.0",
 		"del-cli": "4.0.1",
+		"esbuild": "0.14.25",
 		"firebase-tools": "10.2.1",
 		"husky": "7.0.4",
 		"lint-staged": "12.3.4",
@@ -57,19 +60,8 @@
 		"prettier": "2.5.1",
 		"serve": "13.0.2",
 		"start-server-and-test": "1.14.0",
-		"tsup": "5.11.13",
 		"typescript": "4.5.5",
 		"xo": "0.48.0"
-	},
-	"tsup": {
-		"entry": [
-			"source/**/*.{ts,js}"
-		],
-		"format": [
-			"esm"
-		],
-		"target": "esnext",
-		"outDir": "public/dist/"
 	},
 	"xo": {
 		"prettier": true,

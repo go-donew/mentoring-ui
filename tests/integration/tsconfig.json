@@ -3,6 +3,11 @@
 	"files": ["./**/*.test.ts"],
 	"compilerOptions": {
 		"module": "esnext",
-		"target": "es2019"
+		"target": "es2019",
+		"baseUrl": "../../",
+		"paths": {
+			"source/*": ["source/*"],
+			"helpers/*": ["tests/helpers/*"]
+		}
 	}
 }

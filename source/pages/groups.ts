@@ -1,10 +1,10 @@
 // source/groups.ts
 // Listeners and callbacks for HTML on the group viewing and editing pages.
 
-import { exportToWindow } from 'source/utilities/package.js'
-import { select, change } from 'source/utilities/dom.js'
-import { fetch, isErrorResponse } from 'source/utilities/http.js'
-import { errors } from 'source/utilities/messages.js'
+import { exportToWindow } from 'source/utilities/package'
+import { select, change } from 'source/utilities/dom'
+import { fetch, isErrorResponse } from 'source/utilities/http'
+import { errors } from 'source/utilities/messages'
 
 import type { Group, User, Report, Conversation } from 'source/types'
 
@@ -73,11 +73,11 @@ export const fetchGroups = async (): Promise<void> => {
 
 		switch (error.code) {
 			case 'network-error':
-				select('[data-ref=error-txt]').textContent = errors.get('network-error')
+				select('[data-ref=error-txt]')!.textContent = errors.get('network-error')
 				break
 
 			default:
-				select('[data-ref=error-txt]').textContent = error.message
+				select('[data-ref=error-txt]')!.textContent = error.message
 		}
 
 		return

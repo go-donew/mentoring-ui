@@ -1,11 +1,11 @@
 // source/signin.ts
 // Listeners and callbacks for HTML on the sign in page.
 
-import { exportToWindow } from 'source/utilities/package.js'
-import { select } from 'source/utilities/dom.js'
-import { fetch, isErrorResponse } from 'source/utilities/http.js'
-import { storage } from 'source/utilities/storage.js'
-import { errors } from 'source/utilities/messages.js'
+import { exportToWindow } from 'source/utilities/package'
+import { select } from 'source/utilities/dom'
+import { fetch, isErrorResponse } from 'source/utilities/http'
+import { storage } from 'source/utilities/storage'
+import { errors } from 'source/utilities/messages'
 
 import type { User, Tokens } from 'source/types'
 
@@ -14,8 +14,8 @@ import type { User, Tokens } from 'source/types'
  */
 export const signIn = async (): Promise<void> => {
 	// Get the input the user has entered
-	const email = select('[data-ref=email-inp]').value
-	const password = select('[data-ref=password-inp]').value
+	const email = select<HTMLInputElement>('[data-ref=email-inp]')!.value
+	const password = select<HTMLInputElement>('[data-ref=password-inp]')!.value
 
 	// The input element will take care of validation, so we just return if
 	// invalid input is passed
@@ -34,20 +34,20 @@ export const signIn = async (): Promise<void> => {
 
 		switch (error.code) {
 			case 'improper-payload':
-				select('[data-ref=error-txt]').textContent = errors.get('invalid-email-address')
+				select('[data-ref=error-txt]')!.textContent = errors.get('invalid-email-address')
 				break
 
 			case 'incorrect-credentials':
 			case 'entity-not-found':
-				select('[data-ref=error-txt]').textContent = errors.get('incorrect-credentials')
+				select('[data-ref=error-txt]')!.textContent = errors.get('incorrect-credentials')
 				break
 
 			case 'network-error':
-				select('[data-ref=error-txt]').textContent = errors.get('network-error')
+				select('[data-ref=error-txt]')!.textContent = errors.get('network-error')
 				break
 
 			default:
-				select('[data-ref=error-txt]').textContent = error.message
+				select('[data-ref=error-txt]')!.textContent = error.message
 		}
 
 		return

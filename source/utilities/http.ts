@@ -1,11 +1,10 @@
 // source/utilities/http.ts
 // A wrapper around `ky` to make it easier to use.
 
-// @ts-expect-error No type definitions
-import ky from 'deps/ky/index.js'
+import ky from 'ky'
 
-import { storage, cache } from 'source/utilities/storage.js'
-import type { Tokens } from 'source/types.js'
+import { storage, cache } from 'source/utilities/storage'
+import type { Tokens } from 'source/types'
 
 const json = JSON
 
@@ -37,7 +36,7 @@ export interface KyOptions {
 	/**
 	 * A JSON object to send as the request headers.
 	 */
-	headers?: Record<string, unknown>
+	headers?: Record<string, string | undefined>
 
 	/**
 	 * If we need to use a different
@@ -245,5 +244,4 @@ export const isErrorResponse = (
 }
 
 // Export the original ky instance too
-// @ts-expect-error No type definitions
-export { default as _ky } from 'deps/ky/index.js'
+export { default as _ky } from 'ky'

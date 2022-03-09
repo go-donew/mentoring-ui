@@ -1,10 +1,10 @@
 // tests/integration/pages/signin.test.ts
 // Integration test for the sign in page.
 
-import { storage } from '../../public/dist/utilities/storage.js'
-import { errors } from '../../public/dist/utilities/messages.js'
+import { storage } from 'source/utilities/storage'
+import { errors } from 'source/utilities/messages'
 
-import { runTask } from '../helpers/tasks.ts'
+import { runTask } from 'helpers/tasks'
 
 // Create a test user first
 const credentials = {

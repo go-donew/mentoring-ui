@@ -1,9 +1,9 @@
 // tests/integration/groups.test.ts
 // Integration test for the group list page.
 
-import { storage } from '../../public/dist/utilities/storage.js'
+import { storage } from 'source/utilities/storage'
 
-import { runTask } from '../helpers/tasks.ts'
+import { runTask } from 'helpers/tasks'
 
 // Create a test user and group first
 before(async () => {

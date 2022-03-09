@@ -3,8 +3,8 @@
 
 import { faker } from '@faker-js/faker'
 
-import { _ky as ky, fetch, isErrorResponse } from '../../public/dist/utilities/http.js'
-import type { User, Tokens, Group } from '../../source/types.ts'
+import { _ky as ky, fetch, isErrorResponse } from 'source/utilities/http.ts'
+import type { User, Tokens, Group } from 'source/types.ts'
 
 const json = JSON
 
