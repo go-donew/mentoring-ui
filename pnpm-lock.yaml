@@ -8,6 +8,7 @@ specifiers:
   cz-conventional-changelog: 3.3.0
   del-cli: 4.0.1
   esbuild: 0.14.25
+  esbuild-config: 0.2.0
   firebase-tools: 10.2.1
   husky: 7.0.4
   ky: 0.30.0
@@ -35,6 +36,7 @@ devDependencies:
   cz-conventional-changelog: 3.3.0
   del-cli: 4.0.1
   esbuild: 0.14.25
+  esbuild-config: 0.2.0
   firebase-tools: 10.2.1
   husky: 7.0.4
   lint-staged: 12.3.4
@@ -5469,6 +5471,15 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /esbuild-config/0.2.0:
+    resolution:
+      {
+        integrity: sha512-sCqk1pgOLpB50RvWcQ7qPYg8sO+wlTupz50vkgr5iHe5kdHO5A8pcBt8hUKlR5u4llf86igGhXnaosSTpeA9Nw==,
+      }
+    hasBin: true
+    requiresBuild: true
+    dev: true
 
   /esbuild-darwin-64/0.14.25:
     resolution:

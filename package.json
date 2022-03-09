@@ -17,7 +17,7 @@
 		"lint:code": "xo source/**/*.ts",
 		"lint:rest": "prettier --check --ignore-path config/prettier/ignore .",
 		"lint": "run-s lint:*",
-		"build:app": "esbuild --bundle --target=esnext --format=esm --outdir=public/dist source/pages/*.ts source/components/*.ts",
+		"build:app": "esbuild $(esbuild-config)",
 		"compile": "run-s clean build:app",
 		"watch:build": "run-p build:* -- --watch",
 		"watch:tests": "start-test http-get://localhost:3000/index.html cypress:open",
@@ -52,6 +52,7 @@
 		"cz-conventional-changelog": "3.3.0",
 		"del-cli": "4.0.1",
 		"esbuild": "0.14.25",
+		"esbuild-config": "0.2.0",
 		"firebase-tools": "10.2.1",
 		"husky": "7.0.4",
 		"lint-staged": "12.3.4",
@@ -62,6 +63,16 @@
 		"start-server-and-test": "1.14.0",
 		"typescript": "4.5.5",
 		"xo": "0.48.0"
+	},
+	"esbuild": {
+		"bundle": true,
+		"target": "esnext",
+		"format": "esm",
+		"outdir": "public/dist/",
+		"entry": [
+			"source/pages/*.ts",
+			"source/components/*.ts"
+		]
 	},
 	"xo": {
 		"prettier": true,
