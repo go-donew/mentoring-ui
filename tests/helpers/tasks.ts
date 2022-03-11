@@ -10,6 +10,31 @@ const json = JSON
 
 export const tasks = {
 	/**
+	 * Generate fake user data.
+	 */
+	'fake/user': (): User => {
+		return {
+			name: faker.name.findName(),
+			email: faker.internet.email(),
+			password: faker.internet.password(),
+		}
+	},
+
+	/**
+	 * Generate fake group data.
+	 */
+	'fake/group': (): Group => {
+		return {
+			name: faker.name.findName(),
+			participants: {},
+			conversations: {},
+			reports: {},
+			code: faker.internet.domainWord(),
+			tags: [faker.internet.domainWord(), faker.internet.domainWord()],
+		}
+	},
+
+	/**
 	 * Create a new user with random data.
 	 */
 	'api/create-random-user': async (
@@ -20,9 +45,7 @@ export const tasks = {
 			method: 'post',
 			url: '/auth/signup',
 			json: {
-				name: faker.name.findName(),
-				email: faker.internet.email(),
-				password: faker.internet.password(),
+				...tasks['fake/user'](),
 				...userDetails,
 			},
 		})
@@ -42,9 +65,7 @@ export const tasks = {
 	): Promise<{ user: User; tokens: Tokens }> => {
 		// Create the user
 		const user = {
-			name: faker.name.findName(),
-			email: faker.internet.email(),
-			password: faker.internet.password(),
+			...tasks['fake/user'](),
 			...userDetails,
 		}
 		const signUpResponse = await fetch<{ user: User; tokens: Tokens }>({
@@ -93,12 +114,7 @@ export const tasks = {
 			method: 'post',
 			url: '/groups',
 			json: {
-				name: faker.name.findName(),
-				participants: {},
-				conversations: {},
-				reports: {},
-				code: faker.internet.domainWord(),
-				tags: [faker.internet.domainWord(), faker.internet.domainWord()],
+				...tasks['fake/group'](),
 				...groupDetails,
 			},
 		})
@@ -111,5 +127,4 @@ export const tasks = {
 	},
 }
 
-export const runTask = (name: string, ...args: any[]): Promise<unknown> =>
-	tasks[name](...args)
+export const runTask = (name: string, ...args: any[]) => tasks[name](...args)

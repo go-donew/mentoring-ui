@@ -3,7 +3,6 @@
 
 import { storage } from 'source/utilities/storage'
 import { errors } from 'source/utilities/messages'
-
 import { runTask } from 'helpers/tasks'
 
 // Create a test user first
