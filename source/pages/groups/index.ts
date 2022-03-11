@@ -1,5 +1,5 @@
-// source/groups.ts
-// Listeners and callbacks for HTML on the group viewing and editing pages.
+// source/groups/index.ts
+// Listeners and callbacks for HTML on the group viewing page.
 
 import { exportToWindow } from 'source/utilities/package'
 import { select, change } from 'source/utilities/dom'
@@ -83,17 +83,17 @@ export const fetchGroups = async (): Promise<Group[]> => {
 	// Handle any errors that might arise
 	if (isErrorResponse(response)) {
 		const { error } = response
+		let message = error.message
 
 		switch (error.code) {
 			case 'network-error':
-				select('[data-ref=error-txt]')!.textContent = errors.get('network-error')
+				message = errors.get('network-error')
 				break
-
 			default:
-				select('[data-ref=error-txt]')!.textContent = error.message
+				message = error.message
 		}
 
-		throw new Error(select('[data-ref=error-txt]')!.textContent!)
+		throw new Error(message)
 	}
 
 	// Return the list of groups
@@ -181,7 +181,14 @@ exportToWindow({
 	// The init function, that runs on page load
 	async init(): Promise<void> {
 		// First, fetch the groups
-		const fetchedGroups = await fetchGroups()
+		let fetchedGroups
+		try {
+			fetchedGroups = await fetchGroups()
+		} catch (error: unknown) {
+			select('[data-ref=error-txt]')!.textContent = (error as Error).message
+
+			return
+		}
 
 		// Then fetch the names of the users, conversations and reports so we render
 		// those instead of the IDs

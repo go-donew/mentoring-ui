@@ -70,7 +70,7 @@
 		"format": "esm",
 		"outdir": "public/dist/",
 		"entry": [
-			"source/pages/*.ts",
+			"source/pages/**/*.ts",
 			"source/components/*.ts"
 		]
 	},
