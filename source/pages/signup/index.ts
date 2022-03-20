@@ -38,7 +38,9 @@ export const createUser = async (
 
 		switch (error.code) {
 			case 'improper-payload':
-				message = errors.get('invalid-email-address')
+				message = error.message.includes('password')
+					? errors.get('weak-password')
+					: errors.get('invalid-email-address')
 				break
 			case 'entity-already-exists':
 				message = errors.get('user-already-exists')

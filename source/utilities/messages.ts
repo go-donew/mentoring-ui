@@ -5,6 +5,8 @@
 const messages: Record<'error' | 'info', Record<string, string>> = {
 	error: {
 		'invalid-email-address': 'Please enter a valid email and try again.',
+		'weak-password':
+			'The password you entered was too weak. Please try again with a longer (> 6 letters) password.',
 		'incorrect-credentials':
 			'The email/password entered was incorrect. Please try again with valid credentials.',
 		'user-already-exists':

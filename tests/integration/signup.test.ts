@@ -24,6 +24,20 @@ describe('Sign Up Page', () => {
 		)
 	})
 
+	it('should show a validation error when a weak password is entered', () => {
+		// Type in a valid name
+		cy.get('[data-ref=name-inp]').type('A User')
+		// Type in an valid email address
+		cy.get('[data-ref=email-inp]').type('user@example.com')
+		// Type in a weak password (less than 6 char)
+		cy.get('[data-ref=password-inp]').type('1234')
+
+		// Click the sign up button
+		cy.get('[data-ref=signup-btn]').click()
+		// Make sure the error message is the weak password text
+		cy.get('[data-ref=error-txt]').should('have.text', errors.get('weak-password'))
+	})
+
 	it('should sign up successfully', () => {
 		// Type in a valid name, email address and password combination
 		cy.get('[data-ref=email-inp]').type('yay-a-random-new-user@example.com')
