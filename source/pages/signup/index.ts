@@ -97,5 +97,13 @@ export const signUp = async (): Promise<void> => {
 
 // Export the functions
 exportToWindow({
+	// The init function, that runs on page load
+	init(): void {
+		// Check if the user was redirected here due to an issue with credentials
+		const error = new URLSearchParams(window.location.search).get('error')
+		// If an error was passed, display it
+		if (error) select('[data-ref=error-txt]')!.textContent = errors.get(error)
+	},
+	// Other functions that can be called from the page
 	actions: { signUp },
 })
