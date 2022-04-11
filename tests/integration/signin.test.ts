@@ -18,6 +18,17 @@ describe('Sign In Page', () => {
 		cy.visit('/signin')
 	})
 
+	it('should keep url params when user wants to sign up instead', () => {
+		// Add the URL parameters
+		cy.visit('/signin?redirect=%2F&error=expired-credentials')
+
+		// Click the sign up instead button
+		cy.get('[data-ref=signup-instead-btn]').click()
+
+		// Make sure the page redirects to /signup and keeps the params
+		cy.url().should('include', '/signup?redirect=%2F&error=expired-credentials')
+	})
+
 	it('should show a validation error when an invalid email is entered', () => {
 		// Type in an invalid email address
 		cy.get('[data-ref=email-inp]').type('user')
