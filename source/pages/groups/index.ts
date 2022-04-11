@@ -86,6 +86,11 @@ export const fetchGroups = async (): Promise<Group[]> => {
 		let message = error.message
 
 		switch (error.code) {
+			case 'invalid-token':
+				window.location.href = `/signin?redirect=${encodeURIComponent(
+					window.location.href
+				)}`
+				break
 			case 'network-error':
 				message = errors.get('network-error')
 				break
@@ -160,20 +165,20 @@ export const renderGroups = (groups: Group[]): void => {
 
 		// Add this as a row to the group table
 		change('[data-ref=groups-lst]').append(`
-				<tr>
-					<td class="px-6 py-4" data-ref="name" data-id="${group.id}">${name}</td>
-					<td class="px-6 py-4" data-ref="code" data-id="${group.id}">${code}</td>
-					<td class="px-6 py-4" data-ref="tags" data-id="${group.id}">${tags}</td>
-					<td class="px-6 py-4" data-ref="participants" data-id="${group.id}">${participants}</td>
-					<td class="px-6 py-4" data-ref="conversations" data-id="${group.id}">${conversations}</td>
-					<td class="px-6 py-4" data-ref="reports" data-id="${group.id}">${reports}</td>
-					<td class="px-6 py-4 text-right text-sm font-medium">
-						<a href="/groups/edit?id=${group.id}" class="text-indigo-600 hover:text-indigo-900">
-							Edit
-						</a>
-					</td>
-				</tr>
-			`)
+			<tr>
+				<td class="px-6 py-4" data-ref="name" data-id="${group.id}">${name}</td>
+				<td class="px-6 py-4" data-ref="code" data-id="${group.id}">${code}</td>
+				<td class="px-6 py-4" data-ref="tags" data-id="${group.id}">${tags}</td>
+				<td class="px-6 py-4" data-ref="participants" data-id="${group.id}">${participants}</td>
+				<td class="px-6 py-4" data-ref="conversations" data-id="${group.id}">${conversations}</td>
+				<td class="px-6 py-4" data-ref="reports" data-id="${group.id}">${reports}</td>
+				<td class="px-6 py-4 text-right text-sm font-medium">
+					<a href="/groups/edit?id=${group.id}" class="text-indigo-600 hover:text-indigo-900">
+						Edit
+					</a>
+				</td>
+			</tr>
+		`)
 	}
 }
 

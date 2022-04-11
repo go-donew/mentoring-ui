@@ -9,9 +9,18 @@ import { storage } from 'source/utilities/storage'
  * page.
  */
 export const checkAuth = () => {
-	if (storage.exists('user')) return true
+	if (
+		storage.exists('user') &&
+		storage.exists('tokens.bearer') &&
+		storage.exists('tokens.refresh')
+	)
+		return true
 
-	window.location.href = `/signin?redirect=${encodeURIComponent(window.location.href)}`
+	window.location.href =
+		'/signin' +
+		`?redirect=${encodeURIComponent(window.location.href)}` +
+		`&error=expired-credentials`
+
 	return false
 }
 

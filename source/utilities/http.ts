@@ -4,6 +4,8 @@
 import ky from 'ky'
 
 import { storage, cache } from 'source/utilities/storage'
+import { errors } from 'source/utilities/messages'
+
 import type { Tokens } from 'source/types'
 
 const json = JSON
@@ -122,12 +124,23 @@ export const _fetch = ky.create({
 							refreshToken: storage.get('tokens.refresh'),
 						},
 					})
-					// Skip if this returns an error
-					if (isErrorResponse(tokenResponse)) return
+					// If the refresh token is invalid, then delete token data and redirect
+					// to the sign in page
+					if (isErrorResponse(tokenResponse)) {
+						storage.delete('tokens.bearer')
+						storage.delete('tokens.refresh')
 
-					// Store them for usage in the future
-					storage.set('token.bearer', tokenResponse.tokens.bearer)
-					storage.set('token.refresh', tokenResponse.tokens.refresh)
+						window.location.href =
+							'/signin' +
+							`?redirect=${encodeURIComponent(window.location.href)}` +
+							`&error=expired-credentials`
+
+						return
+					}
+
+					// Else store them for usage in the future
+					storage.set('tokens.bearer', tokenResponse.tokens.bearer)
+					storage.set('tokens.refresh', tokenResponse.tokens.refresh)
 
 					// Retry with the token
 					request.headers.set('authorization', tokenResponse.tokens.bearer)
@@ -210,8 +223,7 @@ export const fetch = async <T>(
 				error: {
 					status: 503,
 					code: 'network-error',
-					message:
-						'A network error occurred while making the request. Please check your internet connectivity and try again.',
+					message: errors.get('network-error'),
 				},
 			}
 		}
@@ -223,8 +235,7 @@ export const fetch = async <T>(
 			error: {
 				status: 500,
 				code: 'server-crash',
-				message:
-					'An unexpected error occurred. Please try again in a few seconds or report this issue.',
+				message: errors.get('server-crash'),
 			},
 		}
 	}

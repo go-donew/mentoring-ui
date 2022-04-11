@@ -1,8 +1,8 @@
 // source/utilities/messages.ts
-// A list of messages to display to the message for errors or information.
+// A list of errors or messages to display
 
-// A collection of messages
-const messages: Record<'error' | 'info', Record<string, string>> = {
+// A collection of errors and messages
+const errorsAndMessages: Record<'error' | 'info', Record<string, string>> = {
 	error: {
 		'invalid-email-address': 'Please enter a valid email and try again.',
 		'weak-password':
@@ -11,6 +11,10 @@ const messages: Record<'error' | 'info', Record<string, string>> = {
 			'The email/password entered was incorrect. Please try again with valid credentials.',
 		'user-already-exists':
 			'A user with the same email address already exists. Perhaps you meant to sign in?',
+		'expired-credentials':
+			'Your session has expired and could not be renewed automatically. Please sign in to continue using the application.',
+		'server-crash':
+			'An unexpected error occurred. Please try again in a few seconds or report this issue.',
 		'network-error':
 			'A network error occurred while signing in. Please check your internet connectivity and try again.',
 	},
@@ -26,9 +30,12 @@ const messages: Record<'error' | 'info', Record<string, string>> = {
  * @returns {string} - The requested message.
  */
 const get = (category: 'error' | 'info', name: string): string => {
-	return messages[category][name]
+	return errorsAndMessages[category][name]
 }
 
 export const errors = {
 	get: (name: string) => get('error', name),
+}
+export const messages = {
+	get: (name: string) => get('info', name),
 }
