@@ -228,6 +228,14 @@ export const fetch = async <T>(
 			}
 		}
 
+		// If the token has expired, delete it and retry the request
+		if ((error as any).message?.includes('401 Unauthorized')) {
+			storage.delete('tokens.bearer')
+			storage.delete('tokens.refresh')
+
+			return fetch(passedOptions)
+		}
+
 		// Else log the error and mimic the Mentoring API's error response format
 		// and set the code to 'server-crash'
 		console.log('An unexpected error occurred while signing in:', error)

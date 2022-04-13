@@ -18,6 +18,8 @@ const renderGroup = (group: Group): void => {
 	select<HTMLInputElement>('[data-ref=name-inp]')!.value = group.name
 	// Fill in the code input box
 	select<HTMLInputElement>('[data-ref=code-inp]')!.value = group.code
+	// Fill in the tags
+	select<HTMLInputElement>('[data-ref=tags-inp]')!.value = group.tags.join(', ')
 }
 
 // The init function, that runs on page load
