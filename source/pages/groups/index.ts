@@ -1,7 +1,7 @@
 // source/groups/index.ts
 // Listeners and callbacks for HTML on the group viewing page.
 
-import { fetchGroups } from 'source/actions'
+import { listGroups } from 'source/actions'
 import { select, change } from 'source/utilities/dom'
 import { fetch, isErrorResponse } from 'source/utilities/http'
 import { errors } from 'source/utilities/messages'
@@ -150,7 +150,7 @@ window.mentoring.page.init = async (): Promise<void> => {
 	// First, fetch the groups
 	let fetchedGroups
 	try {
-		fetchedGroups = await fetchGroups()
+		fetchedGroups = await listGroups()
 	} catch (error: unknown) {
 		select('[data-ref=error-txt]')!.textContent = (error as Error).message
 

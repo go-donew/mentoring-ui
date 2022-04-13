@@ -8,6 +8,18 @@ import { errors } from 'source/utilities/messages'
 import type { User, Tokens, Group } from 'source/types'
 
 /**
+ * Order of functions:
+ * - auth
+ * - users
+ * - groups
+ * - attributes
+ * - questions
+ * - conversations
+ * - scripts
+ * - reports
+ */
+
+/**
  * Makes the API call to sign up the user, and stores the received profile and
  * tokens.
  *
@@ -117,7 +129,7 @@ export const authenticateUser = async (
  *
  * @returns {Group[]} - The list of groups a user has access to.
  */
-export const fetchGroups = async (): Promise<Group[]> => {
+export const listGroups = async (): Promise<Group[]> => {
 	// Make the request!
 	const response = await fetch<{ groups: Group[] }>({
 		url: '/groups',
