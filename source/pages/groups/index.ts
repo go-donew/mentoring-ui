@@ -1,7 +1,7 @@
 // source/groups/index.ts
 // Listeners and callbacks for HTML on the group viewing page.
 
-import { exportToWindow } from 'source/utilities/package'
+import { fetchGroups } from 'source/actions'
 import { select, change } from 'source/utilities/dom'
 import { fetch, isErrorResponse } from 'source/utilities/http'
 import { errors } from 'source/utilities/messages'
@@ -12,7 +12,7 @@ import type { Group, User, Report, Conversation } from 'source/types'
  * Replace the IDs in the `participants`, `conversations` and `reports` fields in
  * the Group object with the name of the thing the ID refers to.
  *
- * @param group {Group} - The group object.
+ * @param {Group} group - The group object.
  *
  * @returns {Group} - The group object, but with names instead of IDs.
  */
@@ -68,44 +68,7 @@ const fetchDetailsOfDetails = async (group: Group): Promise<Group> => {
 	return group
 }
 
-/**
- * Fetches a list of groups from the API.
- *
- * @returns {Group[]} - The list of groups a user has access to.
- */
-export const fetchGroups = async (): Promise<Group[]> => {
-	// Make the request!
-	const response = await fetch<{ groups: Group[] }>({
-		url: '/groups',
-		method: 'get',
-	})
-
-	// Handle any errors that might arise
-	if (isErrorResponse(response)) {
-		const { error } = response
-		let message = error.message
-
-		switch (error.code) {
-			case 'invalid-token':
-				window.location.href = `/signin?redirect=${encodeURIComponent(
-					window.location.href
-				)}`
-				break
-			case 'network-error':
-				message = errors.get('network-error')
-				break
-			default:
-				message = error.message
-		}
-
-		throw new Error(message)
-	}
-
-	// Return the list of groups
-	return response.groups
-}
-
-export const renderGroups = (groups: Group[]): void => {
+const renderGroups = (groups: Group[]): void => {
 	// Render the list of groups
 	for (const group of groups) {
 		// The various components to display for a certain group
@@ -182,26 +145,24 @@ export const renderGroups = (groups: Group[]): void => {
 	}
 }
 
-exportToWindow({
-	// The init function, that runs on page load
-	async init(): Promise<void> {
-		// First, fetch the groups
-		let fetchedGroups
-		try {
-			fetchedGroups = await fetchGroups()
-		} catch (error: unknown) {
-			select('[data-ref=error-txt]')!.textContent = (error as Error).message
+// The init function, that runs on page load
+window.mentoring.page.init = async (): Promise<void> => {
+	// First, fetch the groups
+	let fetchedGroups
+	try {
+		fetchedGroups = await fetchGroups()
+	} catch (error: unknown) {
+		select('[data-ref=error-txt]')!.textContent = (error as Error).message
 
-			return
-		}
+		return
+	}
 
-		// Then fetch the names of the users, conversations and reports so we render
-		// those instead of the IDs
-		const groups = await Promise.all(
-			fetchedGroups.map(async (group) => fetchDetailsOfDetails(group))
-		)
+	// Then fetch the names of the users, conversations and reports so we render
+	// those instead of the IDs
+	const groups = await Promise.all(
+		fetchedGroups.map(async (group) => fetchDetailsOfDetails(group))
+	)
 
-		// Lastly, render the groups
-		renderGroups(groups)
-	},
-})
+	// Lastly, render the groups
+	renderGroups(groups)
+}

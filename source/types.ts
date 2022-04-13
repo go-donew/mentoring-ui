@@ -9,14 +9,31 @@ declare global {
 	}
 }
 
+/**
+ * The options passed to the init hook.
+ *
+ * @typedef {object} PageInitOptions
+ * @property {string} requireAuth - Whether the page should require the user to be signed in.
+ */
+export declare interface PageInitOptions {
+	requireAuth?: boolean
+}
+
 export declare interface MentoringExports {
-	// We may or may not want to store data for a certain page
-	data?: any
-	// The function to run when the page has loaded
-	init?: () => Promise<void> | void
-	// Each page has its own set of actions, so no function is guaranteed to
-	// be defined - caller beware!
-	actions?: Record<string, () => Promise<any> | any>
+	// The function to run when the page has loaded, unloaded, etc.
+	hooks: {
+		init: (options: PageInitOptions) => Promise<void> | void
+	}
+	// Page-related stuff
+	page: {
+		// Data to store on a certain page
+		data?: any
+		// The function to run as part of the init hook
+		init?: () => Promise<void> | void
+	} & Record<string, () => Promise<any> | any> // The callbacks that fire when an event occurs on the page
+	// A set of functions that act as a wrapper around the API, defined in
+	// source/actions/index.ts
+	actions: typeof import('./actions')
 }
 
 /**

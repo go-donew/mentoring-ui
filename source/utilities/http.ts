@@ -156,7 +156,7 @@ export const _fetch = ky.create({
  * A wrapper around `ky`, that converts the response to JSON automatically and
  * handles non-HTTP errors.
  *
- * @param options {KyOptions} - The request configuration.
+ * @param {KyOptions} options - The request configuration.
  *
  * @returns {Promise<MentoringApiResponse<T>>} - The response data, wrapped in a Promise.
  */
@@ -199,7 +199,7 @@ export const fetch = async <T>(
 			}
 		}
 
-		// Make the request
+		// Make the request, replacing any slashes at the beginning of the url
 		const response = await _fetch(options.url.replace(/^\/+/g, ''), {
 			method: options.method,
 			json: options.json,
@@ -244,7 +244,7 @@ export const fetch = async <T>(
 /**
  * Determines whether the response is an error response or not.
  *
- * @param response {MentoringApiResponse} - The response received.
+ * @param {MentoringApiResponse} response - The response received.
  *
  * @returns {boolean} - Whether or not it is an error response.
  */

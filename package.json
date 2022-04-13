@@ -48,20 +48,20 @@
 		"@cypress/code-coverage": "3.9.12",
 		"@faker-js/faker": "6.0.0-alpha.7",
 		"commitizen": "4.2.4",
-		"cypress": "9.5.0",
+		"cypress": "9.5.4",
 		"cz-conventional-changelog": "3.3.0",
 		"del-cli": "4.0.1",
-		"esbuild": "0.14.25",
+		"esbuild": "0.14.36",
 		"esbuild-config": "0.2.0",
-		"firebase-tools": "10.2.1",
+		"firebase-tools": "10.6.0",
 		"husky": "7.0.4",
-		"lint-staged": "12.3.4",
+		"lint-staged": "12.3.7",
 		"npm-run-all": "4.1.5",
 		"nyc": "15.1.0",
-		"prettier": "2.5.1",
+		"prettier": "2.6.2",
 		"serve": "13.0.2",
 		"start-server-and-test": "1.14.0",
-		"typescript": "4.5.5",
+		"typescript": "4.6.3",
 		"xo": "0.48.0"
 	},
 	"esbuild": {
@@ -70,8 +70,8 @@
 		"format": "esm",
 		"outdir": "public/dist/",
 		"entry": [
-			"source/pages/**/*.ts",
-			"source/components/*.ts"
+			"source/hooks/index.ts",
+			"source/pages/**/*.ts"
 		]
 	},
 	"xo": {

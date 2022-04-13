@@ -10,11 +10,10 @@
 		<script src="https://cdn.tailwindcss.com"></script>
 
 		<!-- Import our JS code -->
-		<script src="/dist/components/auth.js" type="module"></script>
 		<script src="/dist/pages/groups/index.js" type="module"></script>
+		<script src="/dist/hooks/index.js" type="module"></script>
 		<script type="module">
-			if (window.mentoring.actions.checkAuth())
-				typeof window.mentoring.init === 'function' ? window.mentoring.init() : undefined
+			window.mentoring.hooks.init({ requireAuth: true })
 		</script>
 	</head>
 	<body>

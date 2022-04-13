@@ -24,8 +24,8 @@ const errorsAndMessages: Record<'error' | 'info', Record<string, string>> = {
 /**
  * A function to get a message.
  *
- * @param category {string} - The category to search in for the message. - enum:error,info
- * @param key {string} - The name of the message to return.
+ * @param {string} category - The category to search in for the message. - enum:error,info
+ * @param {string} key - The name of the message to return.
  *
  * @returns {string} - The requested message.
  */

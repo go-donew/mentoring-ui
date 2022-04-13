@@ -10,7 +10,7 @@ export const storage = {
 	/**
 	 * A function to check if data is stored in Local Storage.
 	 *
-	 * @param key {string} - The name of the object to check.
+	 * @param {string} key - The name of the object to check.
 	 *
 	 * @returns {boolean} - Whether any data with the passed name is stored in Local Storage.
 	 */
@@ -23,8 +23,8 @@ export const storage = {
 	/**
 	 * A function to store data in Local Storage.
 	 *
-	 * @param key {string} - The name that will be used to access the data.
-	 * @param data {T} - The data to store.
+	 * @param {string} key - The name that will be used to access the data.
+	 * @param {T} data - The data to store.
 	 *
 	 * @returns {T} - The stored data.
 	 */
@@ -39,7 +39,7 @@ export const storage = {
 	/**
 	 * A function to retrieve data stored in Local Storage.
 	 *
-	 * @param key {string} - The name of the data to retrieve.
+	 * @param {string} key - The name of the data to retrieve.
 	 *
 	 * @returns {T | undefined} - The stored data or `undefined` if it does not exist.
 	 */
@@ -54,7 +54,7 @@ export const storage = {
 	/**
 	 * A function to delete data stored in Local Storage.
 	 *
-	 * @param key {string} - The name of the data to delete.
+	 * @param {string} key - The name of the data to delete.
 	 */
 	delete: (key: string): void => localStorage.removeItem(`data:${key}`),
 }
@@ -66,7 +66,7 @@ export const cache = {
 	/**
 	 * A function to check if data exists in cache.
 	 *
-	 * @param key {string} - The name of the object to check.
+	 * @param {string} key - The name of the object to check.
 	 *
 	 * @returns {boolean} - Whether any data with the passed name is stored in cache and has not expired.
 	 */
@@ -79,15 +79,15 @@ export const cache = {
 	/**
 	 * A function to cache data in Local Storage.
 	 *
-	 * @param key {string} - The name that will be used to access the data.
-	 * @param data {T} - The data to cache.
-	 * @param expiry {number} - The time, in seconds, after which the cache expires.
+	 * @param {string} key - The name that will be used to access the data.
+	 * @param {T} data - The data to cache.
+	 * @param {number} expiry - The time, in seconds, after which the cache expires.
 	 *
 	 * @returns {T} - The cached data.
 	 */
 	set<T = unknown>(key: string, data: T, expiry: number): T {
 		const serializedData = json.stringify({
-			expiry: Date.now() + expiry * 1000, // Convert expiry to milliseconds too
+			expiry: Date.now() + expiry * 1000, // Date.now() returns a timestamp in milliseconds, so ensure expiry is also in milliseconds
 			value: data,
 		})
 
@@ -99,7 +99,7 @@ export const cache = {
 	/**
 	 * A function to retrieve cached data stored in Local Storage.
 	 *
-	 * @param key {string} - The name of the data to retrieve.
+	 * @param {string} key - The name of the data to retrieve.
 	 *
 	 * @returns {T | undefined} - The stored data or `undefined` if it does not exist/has expired.
 	 */
@@ -110,7 +110,7 @@ export const cache = {
 
 		// Delete the cached data if it has expired
 		if (serializedData.expiry < Date.now()) {
-			cache.delete(key)
+			this.delete(key)
 			return undefined
 		}
 
@@ -120,7 +120,7 @@ export const cache = {
 	/**
 	 * A function to delete cached data stored in Local Storage.
 	 *
-	 * @param key {string} - The name of the data to delete.
+	 * @param {string} key - The name of the data to delete.
 	 */
 	delete: (key: string): void => localStorage.removeItem(`cache:${key}`),
 }
