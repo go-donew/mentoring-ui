@@ -37,7 +37,7 @@ describe('Groups List Page', () => {
 		// Then check that all group details are displayed correctly
 		const component = (name: string) =>
 			[
-				'[data-ref=groups-lst]', // The table body, which contains the group list
+				'[data-ref=groups-list]', // The table body, which contains the group list
 				'tr:nth-child(1)', // The first row in the group list
 				`[data-ref=${name}]`, // The component
 			].join(' > ')

@@ -1,0 +1,23 @@
+<!-- public/home/index.html -->
+<!-- The home page -->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- Import our CSS -->
+		<link href="/dist/main.css" rel="stylesheet" />
+
+		<!-- Import our JS code -->
+		<script src="/dist/pages/home/index.js" type="module"></script>
+		<script src="/dist/hooks/index.js" type="module"></script>
+		<script type="module">
+			window.mentoring.hooks.init({ requireAuth: true })
+		</script>
+	</head>
+	<body>
+		<nav></nav>
+	</body>
+</html>

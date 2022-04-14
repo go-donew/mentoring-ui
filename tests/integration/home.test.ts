@@ -1,4 +1,4 @@
-// tests/integration/index.test.ts
+// tests/integration/home.test.ts
 // Integration test for the home page.
 
 describe('Home Page', () => {

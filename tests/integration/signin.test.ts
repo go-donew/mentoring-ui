@@ -71,7 +71,7 @@ describe('Sign In Page', () => {
 
 		// Once a successfull sign in occurs, the website should redirect the user to
 		// the home page, so make sure that happens
-		cy.location('pathname').should('eq', '/', () => {
+		cy.location('pathname').should('eq', '/home', () => {
 			// Once we are on the home page, make sure the user and tokens are stored in
 			// local storage
 			expect(storage.get('user')).to.exist

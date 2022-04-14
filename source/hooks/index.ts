@@ -3,6 +3,8 @@
 
 import * as actions from 'source/actions'
 import { checkAuth } from 'source/hooks/auth'
+import { renderNavbar } from 'source/hooks/nav'
+import { navigate } from 'source/utilities/dom'
 
 import type { PageInitOptions } from 'source/types'
 
@@ -12,13 +14,16 @@ const init = (options: PageInitOptions): void => {
 		options.requireAuth && // If they are not authenticated, redirect them to the signin page
 		!checkAuth()
 	) {
-		window.location.href =
-			'/signin' +
-			`?redirect=${encodeURIComponent(window.location.href)}` +
-			`&error=expired-credentials`
+		navigate('/signin', {
+			redirect: window.location.href,
+			error: 'expired-credentials',
+		})
 
 		return
 	}
+
+	// Render the nav bar
+	renderNavbar()
 
 	// Else run the page `init` function
 	if (typeof window.mentoring?.page?.init === 'function')

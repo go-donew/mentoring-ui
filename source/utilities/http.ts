@@ -4,6 +4,7 @@
 import ky from 'ky'
 
 import { storage, cache } from 'source/utilities/storage'
+import { navigate } from 'source/utilities/dom'
 import { errors } from 'source/utilities/messages'
 
 import type { Tokens } from 'source/types'
@@ -28,12 +29,12 @@ export interface KyOptions {
 	/**
 	 * A JSON object to send as the request body.
 	 */
-	json?: Record<string, unknown>
+	json?: unknown
 
 	/**
 	 * Query parameters to send in the URL.
 	 */
-	query?: URLSearchParams
+	query?: Record<string, string>
 
 	/**
 	 * A JSON object to send as the request headers.
@@ -130,10 +131,10 @@ export const _fetch = ky.create({
 						storage.delete('tokens.bearer')
 						storage.delete('tokens.refresh')
 
-						window.location.href =
-							'/signin' +
-							`?redirect=${encodeURIComponent(window.location.href)}` +
-							`&error=expired-credentials`
+						navigate('/signin', {
+							redirect: window.location.href,
+							error: 'expired-credentials',
+						})
 
 						return
 					}
@@ -166,11 +167,11 @@ export const fetch = async <T>(
 	// Normalize the options
 	const options = passedOptions
 
-	// By default, use cache and store the response in cache for 5 minutes too
+	// By default, use cache and store the response in cache for 20 seconds too
 	options.cache = {
 		use: true,
 		store: true,
-		expiresIn: 5 * 60,
+		expiresIn: 20,
 		...options.cache,
 	}
 	// Pass the authorization token in the `Authorization` header

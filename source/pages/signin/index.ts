@@ -2,7 +2,8 @@
 // Listeners and callbacks for HTML on the sign in page.
 
 import { authenticateUser } from 'source/actions'
-import { select } from 'source/utilities/dom'
+import { select, navigate } from 'source/utilities/dom'
+import { storage } from 'source/utilities/storage'
 import { errors } from 'source/utilities/messages'
 
 /**
@@ -19,7 +20,12 @@ window.mentoring.page.signIn = async (): Promise<void> => {
 
 	// Sign the user in
 	try {
-		await authenticateUser(email, password)
+		const { user, tokens } = await authenticateUser(email, password)
+
+		// If we have the user details, store them in local storage
+		storage.set('user', user)
+		storage.set('tokens.bearer', tokens.bearer)
+		storage.set('tokens.refresh', tokens.refresh)
 	} catch (error: unknown) {
 		select('[data-ref=error-txt]')!.textContent = (error as Error).message
 
@@ -27,8 +33,8 @@ window.mentoring.page.signIn = async (): Promise<void> => {
 	}
 
 	// Redirect the user to the home page or wherever they came from
-	window.location.href =
-		new URLSearchParams(window.location.search).get('redirect') ?? '/'
+	const redirectTo = new URLSearchParams(window.location.search).get('redirect') ?? '/'
+	navigate(redirectTo)
 }
 
 // The init function, that runs on page load

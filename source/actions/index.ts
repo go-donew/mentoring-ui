@@ -2,7 +2,6 @@
 // A set of functions that can be called by any page.
 
 import { fetch, isErrorResponse } from 'source/utilities/http'
-import { storage } from 'source/utilities/storage'
 import { errors } from 'source/utilities/messages'
 
 import type { User, Tokens, Group } from 'source/types'
@@ -65,11 +64,6 @@ export const createUser = async (
 		throw new Error(message)
 	}
 
-	// If we have the user details, store them in local storage
-	storage.set('user', response.user)
-	storage.set('tokens.bearer', response.tokens.bearer)
-	storage.set('tokens.refresh', response.tokens.refresh)
-
 	return response
 }
 
@@ -116,12 +110,39 @@ export const authenticateUser = async (
 		throw new Error(message)
 	}
 
-	// If we have the user details, store them in local storage
-	storage.set('user', response.user)
-	storage.set('tokens.bearer', response.tokens.bearer)
-	storage.set('tokens.refresh', response.tokens.refresh)
-
 	return response
+}
+
+/**
+ * Fetches a list of users using the API.
+ *
+ * @returns {User[]} - The list of users a user has access to.
+ */
+export const listUsers = async (): Promise<User[]> => {
+	// Make the request!
+	const response = await fetch<{ users: User[] }>({
+		url: '/users',
+		method: 'get',
+	})
+
+	// Handle any errors that might arise
+	if (isErrorResponse(response)) {
+		const { error } = response
+		let { message } = error
+
+		switch (error.code) {
+			case 'network-error':
+				message = errors.get('network-error')
+				break
+			default:
+				message = error.message
+		}
+
+		throw new Error(message)
+	}
+
+	// Return the list of users
+	return response.users
 }
 
 /**
@@ -187,5 +208,40 @@ export const fetchGroup = async (groupId: string): Promise<Group> => {
 	}
 
 	// Return the list of groups
+	return response.group
+}
+
+/**
+ * Updates a group using the API.
+ *
+ * @param {Group} group - The updated group details.
+ *
+ * @returns {Group} - The updated group.
+ */
+export const updateGroup = async (group: Group): Promise<Group> => {
+	// Make the request!
+	const response = await fetch<{ group: Group }>({
+		url: `/groups/${group.id}`,
+		method: 'put',
+		json: group,
+	})
+
+	// Handle any errors that might arise
+	if (isErrorResponse(response)) {
+		const { error } = response
+		let { message } = error
+
+		switch (error.code) {
+			case 'network-error':
+				message = errors.get('network-error')
+				break
+			default:
+				message = error.message
+		}
+
+		throw new Error(message)
+	}
+
+	// Return the updated group
 	return response.group
 }

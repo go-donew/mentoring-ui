@@ -1,13 +1,14 @@
 <!-- public/signup.html -->
 <!-- The sign up page -->
 
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<!-- Import Tailwind CSS -->
-		<script src="https://cdn.tailwindcss.com"></script>
+		<!-- Import our CSS -->
+		<link href="/dist/main.css" rel="stylesheet" />
 
 		<!-- Import our JS code -->
 		<script src="/dist/pages/signup/index.js" type="module"></script>
@@ -17,66 +18,81 @@
 		</script>
 	</head>
 	<body>
-		<div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+		<div class="min-h-full flex items-center justify-center py-12 px-4">
 			<div class="max-w-md w-full space-y-8">
 				<div>
 					<img class="mx-auto h-20 w-auto" src="/assets/icon.png" alt="DoNew Logo" />
 					<h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-						Create an account
+						Create a DoNew account
 					</h2>
 					<p class="mt-2 text-center text-sm text-gray-700">
 						Or
 						<a
 							onclick="window.location.href = '/signin' + window.location.search"
-							class="cursor-pointer font-medium text-green-700 hover:text-green-700"
-							data-ref="signin-instead-btn"
+							class="cursor-pointer font-medium text-teal-700 hover:text-teal-700"
+							data-ref="signup-instead-btn"
 						>
 							sign in instead
 						</a>
 					</p>
 				</div>
-				<form class="mt-8 space-y-6">
-					<div class="rounded-md shadow-sm -space-y-px">
-						<div>
-							<input
-								type="name"
-								required
-								class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-700 focus:border-green-600 focus:z-10 sm:text-sm"
-								placeholder="Name"
-								data-ref="name-inp"
-							/>
-						</div>
-						<div>
-							<input
-								type="email"
-								required
-								class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-700 focus:border-green-600 focus:z-10 sm:text-sm"
-								placeholder="Email address"
-								data-ref="email-inp"
-							/>
-						</div>
-						<div>
-							<input
-								type="password"
-								required
-								class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-700 focus:border-green-600 focus:z-10 sm:text-sm"
-								placeholder="Password"
-								data-ref="password-inp"
-							/>
-						</div>
+				<div class="m-4 shadow overflow-hidden rounded-lg">
+					<div class="m-2 px-5 py-5">
+						<form class="space-y-6">
+							<div class="rounded-lg shadow-sm -space-y-px">
+								<div>
+									<label for="name" class="block text-sm font-medium text-gray-700">
+										Name
+									</label>
+									<input
+										required
+										class="appearance-none rounded-lg relative block w-full my-2 px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 focus:outline-none focus:ring-teal-700 focus:border-teal-600 focus:z-10 sm:text-sm"
+										placeholder="Full Name"
+										data-ref="name-inp"
+									/>
+								</div>
+								<div>
+									<label for="email" class="mt-4 block text-sm font-medium text-gray-700">
+										Email address
+									</label>
+									<input
+										type="email"
+										required
+										class="appearance-none rounded-lg relative block w-full my-2 px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 focus:outline-none focus:ring-teal-700 focus:border-teal-600 focus:z-10 sm:text-sm"
+										placeholder="name@email.com"
+										data-ref="email-inp"
+									/>
+								</div>
+								<div>
+									<label
+										for="password"
+										class="mt-4 block text-sm font-medium text-gray-700"
+									>
+										Password
+									</label>
+									<input
+										name="password"
+										type="password"
+										required
+										class="appearance-none rounded-lg relative block w-full my-2 px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 focus:outline-none focus:ring-teal-700 focus:border-teal-600 focus:z-10 sm:text-sm"
+										placeholder="correcthorsebatterystaple"
+										data-ref="password-inp"
+									/>
+								</div>
+							</div>
+							<div>
+								<input
+									type="button"
+									onclick="window.mentoring.page.signUp()"
+									class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-teal-700 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-700"
+									value="Create Account"
+									data-ref="signup-btn"
+								/>
+							</div>
+						</form>
+						<p class="my-3 text-center text-sm text-red-700" data-ref="error-txt"></p>
 					</div>
-
-					<div>
-						<input
-							type="button"
-							onclick="window.mentoring.page.signUp()"
-							class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-700 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-700"
-							value="Sign Up"
-							data-ref="signup-btn"
-						/>
-					</div>
-				</form>
-				<p class="mt-2 text-center text-sm text-red-700" data-ref="error-txt"></p>
+				</div>
 			</div>
 		</div>
 	</body>

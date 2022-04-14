@@ -19,8 +19,11 @@ export declare interface PageInitOptions {
 	requireAuth?: boolean
 }
 
+/**
+ * The stuff under `window.mentoring`.
+ */
 export declare interface MentoringExports {
-	// The function to run when the page has loaded, unloaded, etc.
+	// The functions to run when the page has loaded, unloaded, etc.
 	hooks: {
 		init: (options: PageInitOptions) => Promise<void> | void
 	}
@@ -30,7 +33,7 @@ export declare interface MentoringExports {
 		data?: any
 		// The function to run as part of the init hook
 		init?: () => Promise<void> | void
-	} & Record<string, () => Promise<any> | any> // The callbacks that fire when an event occurs on the page
+	} & Record<string, Function> // The callbacks that fire when an event occurs on the page
 	// A set of functions that act as a wrapper around the API, defined in
 	// source/actions/index.ts
 	actions: typeof import('./actions')

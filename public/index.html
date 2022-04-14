@@ -1,18 +1,14 @@
 <!-- public/index.html -->
-<!-- The home page -->
+<!-- Redirect to /home -->
 
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<!-- Import our JS code -->
-		<script src="/dist/hooks/index.js" type="module"></script>
-		<script type="module">
-			window.mentoring.hooks.init({ requireAuth: true })
+		<script>
+			window.location.href = '/home'
 		</script>
 	</head>
-	<body>
-		<div>Hi</div>
-	</body>
 </html>
