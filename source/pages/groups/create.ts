@@ -1,11 +1,9 @@
 // source/groups/create.ts
-// Listeners and callbacks for HTML on the create group page.
+// Listeners and callbacks for HTML on the group create/create page.
 
-import { fetchGroup, createGroup, listUsers } from 'source/actions'
+import { createGroup, listUsers } from 'source/actions'
 import { select, change, navigate } from 'source/utilities/dom'
 import { generateId } from 'source/utilities/misc'
-
-import { fetchDetailsOfDetails } from './utils'
 
 import type { Group, User } from 'source/types'
 
@@ -60,13 +58,29 @@ const renderParticipant = (user?: string, role?: string): void => {
 				</select>
 			</td>
 			<td class="text-center" data-ref="actions">
-				<input
+				<button
 					type="button"
 					onclick="window.mentoring.page.removeParticipant('${rowId}')"
-					class="cursor-pointer border border-transparent text-sm font-medium rounded-lg text-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-700"
-					value="Remove"
-					data-ref="remove-btn"
-				/>
+					class="inline-flex items-center justify-center p-2 rounded-md text-teal-800 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-teal-800"
+					data-ref="participant-remove-btn"
+				>
+					<span class="sr-only">Remove Participant</span>
+					<svg
+						class="block h-5 w-5"
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						viewBox="0 0 24 24"
+					>
+						<polyline points="3 6 5 6 21 6" />
+						<path
+							d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+						/>
+						<line x1="10" y1="11" x2="10" y2="17" />
+						<line x1="14" y1="11" x2="14" y2="17" />
+					</svg>
+				</button>
 			</td>
 		</tr>
 	`)
@@ -84,7 +98,7 @@ window.mentoring.page.removeParticipant = (rowId: string): void => {
 	change(`[data-ref=participant-row][data-id="${rowId}"]`).remove()
 }
 
-// Save the created group
+// Save the created group details
 window.mentoring.page.createGroup = async (): Promise<void> => {
 	// Get the name, code and tags
 	const name = select<HTMLInputElement>('[data-ref=name-inp]')!.value
@@ -106,9 +120,8 @@ window.mentoring.page.createGroup = async (): Promise<void> => {
 		participants[user] = role
 	}
 
-	// Update the group
+	// Create the group
 	await createGroup({
-		...window.mentoring.page.data.group,
 		name,
 		code,
 		tags,
@@ -123,7 +136,7 @@ window.mentoring.page.createGroup = async (): Promise<void> => {
 
 // The init function, that runs on page load
 window.mentoring.page.init = async (): Promise<void> => {
-	// First, fetch all the users that can be a part of the group
+	// Fetch all the users that can be a part of the group
 	let users
 	try {
 		users = await listUsers()

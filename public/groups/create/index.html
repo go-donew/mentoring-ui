@@ -1,4 +1,4 @@
-<!-- public/groups/ccreate.html -->
+<!-- public/groups/create.html -->
 <!-- The create group page -->
 
 <!DOCTYPE html>
@@ -68,7 +68,7 @@
 													data-ref="tags-inp"
 												/>
 											</div>
-											<table class="col-span-6" data-ref="groups-table">
+											<table class="col-span-6" data-ref="participants-table">
 												<thead>
 													<tr>
 														<th
@@ -83,14 +83,25 @@
 														>
 															Role
 														</th>
-														<th scope="col" class="text-right">
-															<input
+														<th scope="col" class="text-center">
+															<button
 																type="button"
 																onclick="window.mentoring.page.addParticipant()"
-																class="text-sm font-medium text-teal-800"
-																value="Add User"
-																data-ref="Add User"
-															/>
+																class="cursor-pointer text-sm font-bold text-teal-800"
+																data-ref="participant-add-btn"
+															>
+																<span class="sr-only">Add User</span>
+																<svg
+																	class="block h-6 w-6"
+																	xmlns="http://www.w3.org/2000/svg"
+																	fill="none"
+																	stroke="currentColor"
+																	stroke-width="2"
+																>
+																	<line x1="12" y1="5" x2="12" y2="19" />
+																	<line x1="5" y1="12" x2="19" y2="12" />
+																</svg>
+															</button>
 														</th>
 													</tr>
 												</thead>

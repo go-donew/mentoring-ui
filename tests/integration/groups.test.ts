@@ -28,7 +28,7 @@ before(async () => {
 	}))
 })
 
-describe('Groups List Page', () => {
+describe('List Groups Page', () => {
 	beforeEach(() => {
 		// Always run the tests on the groups list page
 		cy.visit('/groups')
@@ -60,9 +60,9 @@ describe('Groups List Page', () => {
 	})
 })
 
-describe('Groups Edit Page', () => {
+describe('Edit Group Page', () => {
 	beforeEach(() => {
-		// Always run the tests on the sign in page
+		// Always run the tests on the edit group page
 		cy.visit(`/groups/edit?id=${group.id}`)
 
 		// Store the user and tokens
@@ -117,6 +117,50 @@ describe('Groups Edit Page', () => {
 										// It should redirect us to `/groups`
 										cy.location('pathname').should('eq', '/groups')
 									})
+							})
+					})
+			})
+	})
+})
+
+describe('Create Group Page', () => {
+	beforeEach(() => {
+		// Always run the tests on the create group page
+		cy.visit(`/groups/create`)
+
+		// Store the user and tokens
+		storage.set('user', user)
+		storage.set('tokens.bearer', tokens.bearer)
+		storage.set('tokens.refresh', tokens.refresh)
+	})
+
+	it('should create a group', () => {
+		// Generate some fake data
+		const fakeGroupData = runTask('fake/group')
+
+		// Fill in the name, code and tags
+		cy.get('[data-ref=name-inp]').type(group.name)
+		cy.get('[data-ref=code-inp]').type(group.code)
+		cy.get('[data-ref=tags-inp]').type(group.tags.join(', '))
+
+		// Add a participant
+		cy.get('[data-ref=participant-add-btn]')
+			.click()
+			.then(() => {
+				cy.get('[data-ref=participants-list] > tr:nth-child(1)')
+					.within(() => {
+						cy.get('[data-ref=name-select]').select(user.id) // Select the user
+						cy.get('[data-ref=role-select]').select('mentor') // Assign them as mentor
+					})
+					.then(() => {
+						// Click save
+						cy.document()
+							.its('body')
+							.find('[data-ref=create-btn]')
+							.click()
+							.then(() => {
+								// It should redirect us to `/groups`
+								cy.location('pathname').should('eq', '/groups')
 							})
 					})
 			})
