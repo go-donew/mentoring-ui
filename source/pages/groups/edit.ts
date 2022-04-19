@@ -3,10 +3,11 @@
 
 import { fetchGroup, updateGroup, listUsers } from 'source/actions'
 import { select, change, navigate } from 'source/utilities/dom'
+import { generateId } from 'source/utilities/misc'
 
 import { fetchDetailsOfDetails } from './utils'
 
-import type { Group, User, Report, Conversation } from 'source/types'
+import type { Group, User } from 'source/types'
 
 /**
  * Fills in the input boxes on the page with the current group details.
@@ -15,20 +16,6 @@ import type { Group, User, Report, Conversation } from 'source/types'
  * @param {User[]} users - The list of users that can be added to the group.
  */
 const renderGroup = (group: Group, users: User[]): void => {
-	// Turn the users into <option>s
-	const usersList = []
-	for (const user of users) {
-		usersList.push(`
-			<option value=${user.id} class="text-sm">${user.name} (${user.email})</option>
-		`)
-	}
-	// Turn the roles into <option>s
-	const rolesList = [
-		`<option value="mentee" class="text-sm">Mentee</option>`,
-		`<option value="mentor" class="text-sm">Mentor</option>`,
-		`<option value="supermentor" class="text-sm">Supermentor</option>`,
-	]
-
 	// Fill in the name input box
 	select<HTMLInputElement>('[data-ref=name-inp]')!.value = group.name
 	// Fill in the code input box
@@ -38,46 +25,83 @@ const renderGroup = (group: Group, users: User[]): void => {
 
 	// Fill in all the participants
 	for (const [user, role] of Object.entries(group.participants)) {
-		change('[data-ref=participants-list]').append(`
-			<tr data-ref="participant-row" data-id="${user}">
-				<td class="pr-3" data-ref="name">
-					<select
-						class="mt-1 block w-full my-2 py-2 px-3 border border-gray-300 bg-white rounded-lg shadow-sm text-sm focus:outline-none focus:ring-teal-600 focus:border-teal-600"
-						data-ref="name-select"
-					>
-						{/* Show the user first, then those who could be included */}
-						${usersList.filter((option) => option.includes(user)).join('\n')}
-						${usersList.filter((option) => !option.includes(user)).join('\n')}
-					</select>
-				</td>
-				<td class="pr-3" data-ref="role">
-					<select
-						class="mt-1 block w-full my-2 py-2 px-3 border border-gray-300 bg-white rounded-lg shadow-sm text-sm focus:outline-none focus:ring-teal-600 focus:border-teal-600"
-						data-ref="role-select"
-					>
-						{/* Show the current role first, then the others */}
-						${rolesList.filter((option) => option.includes(role)).join('\n')}
-						${rolesList.filter((option) => !option.includes(role)).join('\n')}
-					</select>
-				</td>
-				<td class="text-center" data-ref="actions">
-					<input
-						type="button"
-						onclick="window.mentoring.page.removeParticipant('${user}')"
-						class="cursor-pointer border border-transparent text-sm font-medium rounded-lg text-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-700"
-						value="Remove"
-						data-ref="remove-btn"
-					/>
-				</td>
-			</tr>
-		`)
+		renderParticipant(user, role)
 	}
 }
 
+/**
+ * Renders a participant row in the table, given a user and role.
+ *
+ * @param {string} user - The formatted name and email of the user.
+ * @param {string} role - The user's role in the group.
+ */
+const renderParticipant = (user?: string, role?: string): void => {
+	const rowId = generateId()
+	const users = window.mentoring.page.data.users.map(
+		(user: User) => `
+			<option value=${user.id} class="text-sm">${user.name} (${user.email})</option>
+		`
+	)
+	const roles = [
+		`<option value="mentee" class="text-sm">Mentee</option>`,
+		`<option value="mentor" class="text-sm">Mentor</option>`,
+		`<option value="supermentor" class="text-sm">Supermentor</option>`,
+	]
+
+	change('[data-ref=participants-list]').append(`
+		<tr data-ref="participant-row" data-id="${rowId}">
+			<td class="pr-3" data-ref="name">
+				<select
+					onchange=""
+					class="mt-1 block w-full my-2 py-2 px-3 border border-gray-300 bg-white rounded-lg shadow-sm text-sm focus:outline-none focus:ring-teal-600 focus:border-teal-600"
+					data-ref="name-select"
+				>
+					${users
+						.map((option: string) =>
+							option.includes(user ?? rowId)
+								? option.replace('<option', '<option selected="true"')
+								: option
+						)
+						.join('\n')}
+				</select>
+			</td>
+			<td class="pr-3" data-ref="role">
+				<select
+					class="mt-1 block w-full my-2 py-2 px-3 border border-gray-300 bg-white rounded-lg shadow-sm text-sm focus:outline-none focus:ring-teal-600 focus:border-teal-600"
+					data-ref="role-select"
+				>
+					${roles
+						.map((option: string) =>
+							option.includes(role ?? rowId)
+								? option.replace('<option', '<option selected="true"')
+								: option
+						)
+						.join('\n')}
+				</select>
+			</td>
+			<td class="text-center" data-ref="actions">
+				<input
+					type="button"
+					onclick="window.mentoring.page.removeParticipant('${rowId}')"
+					class="cursor-pointer border border-transparent text-sm font-medium rounded-lg text-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-700"
+					value="Remove"
+					data-ref="remove-btn"
+				/>
+			</td>
+		</tr>
+	`)
+}
+
+// Add a participant to the group
+window.mentoring.page.addParticipant = (): void => {
+	// Add a row to the participants table
+	renderParticipant()
+}
+
 // Remove a participant from the group
-window.mentoring.page.removeParticipant = (user: string): void => {
+window.mentoring.page.removeParticipant = (rowId: string): void => {
 	// Select the row and delete it
-	change(`[data-ref=participant-row][data-id="${user}"]`).remove()
+	change(`[data-ref=participant-row][data-id="${rowId}"]`).remove()
 }
 
 // Save the updated group details
@@ -93,8 +117,8 @@ window.mentoring.page.updateGroup = async (): Promise<void> => {
 	const participants: Group['participants'] = {}
 	const participantRows = change('[data-ref=participant-row]').nodes
 	for (const row of participantRows) {
-		const user = select<HTMLSelectElement>('[data-ref=name-select]')!.value
-		const role = select<HTMLSelectElement>('[data-ref=role-select]')!.value as
+		const user = select<HTMLSelectElement>('[data-ref=name-select]', row)!.value
+		const role = select<HTMLSelectElement>('[data-ref=role-select]', row)!.value as
 			| 'mentee'
 			| 'mentor'
 			| 'supermentor'

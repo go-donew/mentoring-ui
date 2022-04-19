@@ -26,6 +26,9 @@
 						<div class="py-10">
 							<form>
 								<div class="border-2 border-gray-50 overflow-hidden rounded-lg">
+									<div class="px-4 py-5 bg-gray-100">
+										<span class="font-medium text-gray-800">Edit Group</span>
+									</div>
 									<div class="px-4 py-5 bg-white sm:p-6">
 										<div class="grid grid-cols-6 gap-6">
 											<div class="col-span-6 sm:col-span-3">
@@ -83,6 +86,7 @@
 														<th scope="col" class="text-right">
 															<input
 																type="button"
+																onclick="window.mentoring.page.addParticipant()"
 																class="text-sm font-medium text-teal-800"
 																value="Add User"
 																data-ref="Add User"
@@ -94,7 +98,9 @@
 											</table>
 										</div>
 									</div>
-									<div class="px-4 py-3 grid grid-cols-4 gap-4 md:grid-cols-6 md:gap-6">
+									<div
+										class="px-4 py-3 grid grid-cols-4 gap-4 md:grid-cols-6 md:gap-6 bg-gray-100"
+									>
 										<div class="hidden md:block md:col-span-4"></div>
 										<input
 											type="button"
