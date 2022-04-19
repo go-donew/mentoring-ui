@@ -1,33 +1,13 @@
-// source/groups/edit.ts
-// Listeners and callbacks for HTML on the group edit/create page.
+// source/groups/create.ts
+// Listeners and callbacks for HTML on the create group page.
 
-import { fetchGroup, updateGroup, listUsers } from 'source/actions'
+import { fetchGroup, createGroup, listUsers } from 'source/actions'
 import { select, change, navigate } from 'source/utilities/dom'
 import { generateId } from 'source/utilities/misc'
 
 import { fetchDetailsOfDetails } from './utils'
 
 import type { Group, User } from 'source/types'
-
-/**
- * Fills in the input boxes on the page with the current group details.
- *
- * @param {Group} group - The group details to fill in.
- * @param {User[]} users - The list of users that can be added to the group.
- */
-const renderGroup = (group: Group, users: User[]): void => {
-	// Fill in the name input box
-	select<HTMLInputElement>('[data-ref=name-inp]')!.value = group.name
-	// Fill in the code input box
-	select<HTMLInputElement>('[data-ref=code-inp]')!.value = group.code
-	// Fill in the tags
-	select<HTMLInputElement>('[data-ref=tags-inp]')!.value = group.tags.join(', ')
-
-	// Fill in all the participants
-	for (const [user, role] of Object.entries(group.participants)) {
-		renderParticipant(user, role)
-	}
-}
 
 /**
  * Renders a participant row in the table, given a user and role.
@@ -80,29 +60,13 @@ const renderParticipant = (user?: string, role?: string): void => {
 				</select>
 			</td>
 			<td class="text-center" data-ref="actions">
-				<button
+				<input
 					type="button"
 					onclick="window.mentoring.page.removeParticipant('${rowId}')"
-					class="inline-flex items-center justify-center p-2 rounded-md text-teal-800 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-teal-800"
-					data-ref="participant-remove-btn"
-				>
-					<span class="sr-only">Remove Participant</span>
-					<svg
-						class="block h-5 w-5"
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						viewBox="0 0 24 24"
-					>
-						<polyline points="3 6 5 6 21 6" />
-						<path
-							d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
-						/>
-						<line x1="10" y1="11" x2="10" y2="17" />
-						<line x1="14" y1="11" x2="14" y2="17" />
-					</svg>
-				</button>
+					class="cursor-pointer border border-transparent text-sm font-medium rounded-lg text-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-700"
+					value="Remove"
+					data-ref="remove-btn"
+				/>
 			</td>
 		</tr>
 	`)
@@ -120,8 +84,8 @@ window.mentoring.page.removeParticipant = (rowId: string): void => {
 	change(`[data-ref=participant-row][data-id="${rowId}"]`).remove()
 }
 
-// Save the updated group details
-window.mentoring.page.updateGroup = async (): Promise<void> => {
+// Save the created group
+window.mentoring.page.createGroup = async (): Promise<void> => {
 	// Get the name, code and tags
 	const name = select<HTMLInputElement>('[data-ref=name-inp]')!.value
 	const code = select<HTMLInputElement>('[data-ref=code-inp]')!.value
@@ -143,12 +107,14 @@ window.mentoring.page.updateGroup = async (): Promise<void> => {
 	}
 
 	// Update the group
-	await updateGroup({
+	await createGroup({
 		...window.mentoring.page.data.group,
 		name,
 		code,
 		tags,
 		participants,
+		conversations: {},
+		reports: {},
 	})
 
 	// Then return to the groups page
@@ -157,31 +123,17 @@ window.mentoring.page.updateGroup = async (): Promise<void> => {
 
 // The init function, that runs on page load
 window.mentoring.page.init = async (): Promise<void> => {
-	// First, get the ID of the group to update from the `id` URL param
-	const groupId = new URLSearchParams(window.location.search).get('id')
-	// If there is no ID, redirect to /groups
-	if (!groupId) {
-		navigate('/groups')
-		return
-	}
-
-	// Then fetch the group as well as all the users
-	let group
+	// First, fetch all the users that can be a part of the group
 	let users
 	try {
-		group = await fetchDetailsOfDetails(await fetchGroup(groupId))
 		users = await listUsers()
 	} catch (error: unknown) {
 		select('[data-ref=error-txt]')!.textContent = (error as Error).message
 
 		return
 	}
-	// Save the group details and user list in page data
+	// Save the user list in page data
 	window.mentoring.page.data = {
-		group,
 		users,
 	}
-
-	// Then, render the group for the user to edit
-	renderGroup(group, users)
 }

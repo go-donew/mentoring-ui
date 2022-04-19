@@ -212,6 +212,41 @@ export const fetchGroup = async (groupId: string): Promise<Group> => {
 }
 
 /**
+ * Creates a group using the API.
+ *
+ * @param {Group} group - The created group.
+ *
+ * @returns {Group} - The created group.
+ */
+export const createGroup = async (group: Omit<Group, 'id'>): Promise<Group> => {
+	// Make the request!
+	const response = await fetch<{ group: Group }>({
+		url: `/groups`,
+		method: 'post',
+		json: group,
+	})
+
+	// Handle any errors that might arise
+	if (isErrorResponse(response)) {
+		const { error } = response
+		let { message } = error
+
+		switch (error.code) {
+			case 'network-error':
+				message = errors.get('network-error')
+				break
+			default:
+				message = error.message
+		}
+
+		throw new Error(message)
+	}
+
+	// Return the created group
+	return response.group
+}
+
+/**
  * Updates a group using the API.
  *
  * @param {Group} group - The updated group details.
