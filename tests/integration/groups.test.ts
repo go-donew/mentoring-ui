@@ -7,30 +7,36 @@ import { runTask } from 'helpers/tasks'
 import type { User, Group } from 'source/types'
 
 // Create a fake group and user
-const user = runTask('fake/user')
-const group = runTask('fake/group')
+let user = runTask('fake/user')
+let group = runTask('fake/group')
+let tokens = {}
 
 // Call the API to create these entities
 before(async () => {
 	// Create a test user and group first
-	const { user: profile, tokens } = await runTask('api/create-groot-user', user)
+	;({ user, tokens } = await runTask('api/create-groot-user', user))
 
 	// Store the user and tokens
-	storage.set('user', profile)
+	storage.set('user', user)
 	storage.set('tokens.bearer', tokens.bearer)
 	storage.set('tokens.refresh', tokens.refresh)
 
 	// Create a group with the user
-	await runTask('api/create-random-group', {
+	;({ group } = await runTask('api/create-random-group', {
 		...group,
-		participants: { [profile.id]: 'supermentor' },
-	})
+		participants: { [user.id]: 'supermentor' },
+	}))
 })
 
 describe('Groups List Page', () => {
-	// Always run the tests on the sign in page
 	beforeEach(() => {
+		// Always run the tests on the groups list page
 		cy.visit('/groups')
+
+		// Store the user and tokens
+		storage.set('user', user)
+		storage.set('tokens.bearer', tokens.bearer)
+		storage.set('tokens.refresh', tokens.refresh)
 	})
 
 	it('should fetch and display the groups the user is a part of', () => {
@@ -51,5 +57,68 @@ describe('Groups List Page', () => {
 		Object.values(group.participants).forEach((role) =>
 			cy.get(component('participants')).should('contain', role)
 		)
+	})
+})
+
+describe('Groups Edit Page', () => {
+	beforeEach(() => {
+		// Always run the tests on the sign in page
+		cy.visit(`/groups/edit?id=${group.id}`)
+
+		// Store the user and tokens
+		storage.set('user', user)
+		storage.set('tokens.bearer', tokens.bearer)
+		storage.set('tokens.refresh', tokens.refresh)
+	})
+
+	it('should fetch and display the group detail in the form', () => {
+		// Check that all group details are displayed correctly
+
+		// Check for the name, code and tags
+		cy.get('[data-ref=name-inp]').should('have.value', group.name)
+		cy.get('[data-ref=code-inp]').should('have.value', group.code)
+		cy.get('[data-ref=tags-inp]').should('have.value', group.tags.join(', '))
+
+		// Check for the participants
+		cy.get('[data-ref=participants-list] > tr:nth-child(1)').within(() => {
+			// Check that the name of the participant appears as the selected option
+			cy.get(`[data-ref=name-select]`)
+				.find('option:selected')
+				.should('have.text', `${user.name} (${user.email})`)
+				.should('have.value', user.id)
+			// Check that the role of the participant appears as the selected option
+			cy.get(`[data-ref=role-select]`)
+				.find('option:selected')
+				.should('have.value', group.participants[user.id])
+		})
+	})
+
+	it('should allow removing and adding participants', () => {
+		// Remove the first user
+		cy.get('[data-ref=participant-remove-btn]')
+			.click()
+			.then(() => {
+				// Then add them back
+				cy.get('[data-ref=participant-add-btn]')
+					.click()
+					.then(() => {
+						cy.get('[data-ref=participants-list] > tr:nth-child(1)')
+							.within(() => {
+								cy.get('[data-ref=name-select]').select(user.id) // Select the user
+								cy.get('[data-ref=role-select]').select('mentee') // Re-assign them as mentee
+							})
+							.then(() => {
+								// Click save
+								cy.document()
+									.its('body')
+									.find('[data-ref=update-btn]')
+									.click()
+									.then(() => {
+										// It should redirect us to `/groups`
+										cy.location('pathname').should('eq', '/groups')
+									})
+							})
+					})
+			})
 	})
 })
