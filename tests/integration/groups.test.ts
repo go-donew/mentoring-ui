@@ -71,6 +71,14 @@ describe('Edit Group Page', () => {
 		storage.set('tokens.refresh', tokens.refresh)
 	})
 
+	it('should go back to the group list page if no `id` is given', () => {
+		// Re-visit the edit page without the ID
+		cy.visit('/groups/edit')
+
+		// It should redirect us to `/groups`
+		cy.location('pathname').should('eq', '/groups')
+	})
+
 	it('should fetch and display the group detail in the form', () => {
 		// Check that all group details are displayed correctly
 

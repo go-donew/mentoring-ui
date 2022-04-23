@@ -4,7 +4,7 @@
 import { fetch, isErrorResponse } from 'source/utilities/http'
 import { errors } from 'source/utilities/messages'
 
-import type { User, Tokens, Group } from 'source/types'
+import type { User, Tokens, Group, Conversation } from 'source/types'
 
 /**
  * Order of functions:
@@ -279,4 +279,146 @@ export const updateGroup = async (group: Group): Promise<Group> => {
 
 	// Return the updated group
 	return response.group
+}
+
+/**
+ * Fetches a list of conversations using the API.
+ *
+ * @returns {Conversation[]} - The list of conversations a user has access to.
+ */
+export const listConversations = async (): Promise<Conversation[]> => {
+	// Make the request!
+	const response = await fetch<{ conversations: Conversation[] }>({
+		url: '/conversations',
+		method: 'get',
+	})
+
+	// Handle any errors that might arise
+	if (isErrorResponse(response)) {
+		const { error } = response
+		let { message } = error
+
+		switch (error.code) {
+			case 'network-error':
+				message = errors.get('network-error')
+				break
+			default:
+				message = error.message
+		}
+
+		throw new Error(message)
+	}
+
+	// Return the list of conversations
+	return response.conversations
+}
+
+/**
+ * Fetches a conversation using the API.
+ *
+ * @param {string} conversationId - The ID of the conversation to fetch.
+ *
+ * @returns {Conversation} - The requested conversation.
+ */
+export const fetchConversation = async (
+	conversationId: string
+): Promise<Conversation> => {
+	// Make the request!
+	const response = await fetch<{ conversation: Conversation }>({
+		url: `/conversations/${conversationId}`,
+		method: 'get',
+	})
+
+	// Handle any errors that might arise
+	if (isErrorResponse(response)) {
+		const { error } = response
+		let { message } = error
+
+		switch (error.code) {
+			case 'network-error':
+				message = errors.get('network-error')
+				break
+			default:
+				message = error.message
+		}
+
+		throw new Error(message)
+	}
+
+	// Return the list of conversations
+	return response.conversation
+}
+
+/**
+ * Creates a conversation using the API.
+ *
+ * @param {Conversation} conversation - The created conversation.
+ *
+ * @returns {Conversation} - The created conversation.
+ */
+export const createConversation = async (
+	conversation: Omit<Conversation, 'id'>
+): Promise<Conversation> => {
+	// Make the request!
+	const response = await fetch<{ conversation: Conversation }>({
+		url: `/conversations`,
+		method: 'post',
+		json: conversation,
+	})
+
+	// Handle any errors that might arise
+	if (isErrorResponse(response)) {
+		const { error } = response
+		let { message } = error
+
+		switch (error.code) {
+			case 'network-error':
+				message = errors.get('network-error')
+				break
+			default:
+				message = error.message
+		}
+
+		throw new Error(message)
+	}
+
+	// Return the created conversation
+	return response.conversation
+}
+
+/**
+ * Updates a conversation using the API.
+ *
+ * @param {Conversation} conversation - The updated conversation details.
+ *
+ * @returns {Conversation} - The updated conversation.
+ */
+export const updateConversation = async (
+	conversation: Conversation
+): Promise<Conversation> => {
+	// Make the request!
+	const response = await fetch<{ conversation: Conversation }>({
+		url: `/conversations/${conversation.id}`,
+		method: 'put',
+		json: conversation,
+	})
+
+	// Handle any errors that might arise
+	if (isErrorResponse(response)) {
+		const { error } = response
+		let { message } = error
+
+		switch (error.code) {
+			case 'network-error':
+				message = errors.get('network-error')
+				break
+			default:
+				message = error.message
+		}
+
+		throw new Error(message)
+	}
+
+	// Return the updated conversation
+	return response.conversation
 }

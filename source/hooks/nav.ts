@@ -126,6 +126,7 @@ export const renderNavbar = (): void => {
 	const pages = [
 		{ name: 'Home', link: '/home' },
 		{ name: 'Groups', link: '/groups' },
+		{ name: 'Conversations', link: '/conversations' },
 	]
 
 	// The focused and unfocused items have different css

@@ -9,10 +9,10 @@ specifiers:
   del-cli: 4.0.1
   esbuild: 0.14.36
   esbuild-config: 0.2.0
-  firebase-tools: 10.6.0
+  firebase-tools: 10.7.0
   husky: 7.0.4
   ky: 0.30.0
-  lint-staged: 12.3.8
+  lint-staged: 12.4.0
   nanoid: 3.3.3
   npm-run-all: 4.1.5
   nyc: 15.1.0
@@ -40,9 +40,9 @@ devDependencies:
   del-cli: 4.0.1
   esbuild: 0.14.36
   esbuild-config: 0.2.0
-  firebase-tools: 10.6.0
+  firebase-tools: 10.7.0
   husky: 7.0.4
-  lint-staged: 12.3.8
+  lint-staged: 12.4.0
   npm-run-all: 4.1.5
   nyc: 15.1.0
   prettier: 2.6.2
@@ -6784,10 +6784,19 @@ packages:
       resolve-dir: 1.0.1
     dev: true
 
-  /firebase-tools/10.6.0:
+  /firebase-frameworks/0.3.0:
     resolution:
       {
-        integrity: sha512-bJvamfCfvgoPixnJQwKdju88u+fWC0fvbQHRD11IPKFH6G9zd41nlAzqP/b9Sh9YjA/MSDpVA7nUnlnipxB01g==,
+        integrity: sha512-Zxtx5WsD8ZZdItIeDjjpM+JgaIWDdwBujmLYLKf2Ou6onyRsd8bNRrnVsqrnq4S3FN9TcNYliXdwMu7AwYdW7Q==,
+      }
+    dependencies:
+      tslib: 2.3.1
+    dev: true
+
+  /firebase-tools/10.7.0:
+    resolution:
+      {
+        integrity: sha512-yCrYNvfL3IbAGgsRsYsO/cqqdabEn4ujnEq1vEgUGvPadStvUrU51/pdLAAI4cFQ4HbKCULKiVXqz52JZOJT2A==,
       }
     engines: { node: '>= 12' }
     hasBin: true
@@ -6813,6 +6822,7 @@ packages:
       exit-code: 1.0.2
       express: 4.17.3
       filesize: 6.4.0
+      firebase-frameworks: 0.3.0
       fs-extra: 5.0.0
       glob: 7.2.0
       google-auth-library: 7.12.0
@@ -9084,10 +9094,10 @@ packages:
       }
     dev: true
 
-  /lint-staged/12.3.8:
+  /lint-staged/12.4.0:
     resolution:
       {
-        integrity: sha512-0+UpNaqIwKRSGAFOCcpuYNIv/j5QGVC+xUVvmSdxHO+IfIGoHbFLo3XcPmV/LLnsVj5EAncNHVtlITSoY5qWGQ==,
+        integrity: sha512-3X7MR0h9b7qf4iXf/1n7RlVAx+EzpAZXoCEMhVSpaBlgKDfH2ewf+QUm7BddFyq29v4dgPP+8+uYpWuSWx035A==,
       }
     engines: { node: ^12.20.0 || ^14.13.1 || >=16.0.0 }
     hasBin: true

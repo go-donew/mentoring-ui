@@ -35,6 +35,18 @@ export const tasks = {
 	},
 
 	/**
+	 * Generate fake conversation data.
+	 */
+	'fake/conversation': (): Conversation => {
+		return {
+			name: faker.name.findName(),
+			description: faker.lorem.sentence(),
+			tags: [faker.internet.domainWord(), faker.internet.domainWord()],
+			once: faker.random.boolean(),
+		}
+	},
+
+	/**
 	 * Create a new user with random data.
 	 */
 	'api/create-random-user': async (
@@ -116,6 +128,29 @@ export const tasks = {
 			json: {
 				...tasks['fake/group'](),
 				...groupDetails,
+			},
+		})
+
+		// If an error occurs, throw the error
+		if (isErrorResponse(response)) throw new Error(response.error.message)
+
+		// Else return the user and tokens
+		return response
+	},
+
+	/**
+	 * Create a new conversation with random data.
+	 */
+	'api/create-random-conversation': async (
+		conversationDetails?: Partial<Conversation> = {}
+	): Promise<{ conversation: Conversation }> => {
+		// Create the conversation
+		const response = await fetch<{ conversation: Conversation }>({
+			method: 'post',
+			url: '/conversations',
+			json: {
+				...tasks['fake/conversation'](),
+				...conversationDetails,
 			},
 		})
 

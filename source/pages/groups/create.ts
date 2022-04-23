@@ -1,5 +1,5 @@
 // source/groups/create.ts
-// Listeners and callbacks for HTML on the group create/create page.
+// Listeners and callbacks for HTML on the group create page.
 
 import { createGroup, listUsers } from 'source/actions'
 import { select, change, navigate } from 'source/utilities/dom'

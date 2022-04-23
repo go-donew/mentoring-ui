@@ -1,5 +1,5 @@
-<!-- public/groups/index.html -->
-<!-- The view groups page -->
+<!-- public/conversations/index.html -->
+<!-- The view conversations page -->
 
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,7 @@
 		<link href="/dist/main.css" rel="stylesheet" />
 
 		<!-- Import our JS code -->
-		<script src="/dist/pages/groups/index.js" type="module"></script>
+		<script src="/dist/pages/conversations/index.js" type="module"></script>
 		<script src="/dist/hooks/index.js" type="module"></script>
 		<script type="module">
 			window.mentoring.hooks.init({ requireAuth: true })
@@ -25,18 +25,21 @@
 					<span
 						class="col-span-11 text-left items-center justify-center py-2 font-medium text-gray-900"
 					>
-						Groups
+						Conversations
 					</span>
 					<input
 						type="button"
-						onclick="window.location.href = '/groups/create'"
+						onclick="window.location.href = '/conversations/create'"
 						class="block rounded-lg text-sm font-medium text-teal-800"
 						value="Create"
-						data-ref="create-group-btn"
+						data-ref="create-conversation-btn"
 					/>
 				</div>
 				<div class="mt-4 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-					<table class="min-w-full divide-y divide-gray-200" data-ref="groups-table">
+					<table
+						class="min-w-full divide-y divide-gray-200"
+						data-ref="conversations-table"
+					>
 						<thead class="bg-gray-50">
 							<tr>
 								<th
@@ -49,7 +52,7 @@
 									scope="col"
 									class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 								>
-									Code
+									Description
 								</th>
 								<th
 									scope="col"
@@ -61,19 +64,7 @@
 									scope="col"
 									class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 								>
-									Participants
-								</th>
-								<th
-									scope="col"
-									class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-								>
-									Conversations
-								</th>
-								<th
-									scope="col"
-									class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-								>
-									Reports
+									Once
 								</th>
 								<th scope="col" class="relative px-6 py-1">
 									<span class="sr-only">Actions</span>
@@ -82,7 +73,7 @@
 						</thead>
 						<tbody
 							class="bg-white divide-y divide-gray-200"
-							data-ref="groups-list"
+							data-ref="conversations-list"
 						></tbody>
 					</table>
 				</div>
