@@ -15,7 +15,7 @@ const init = (options: PageInitOptions): void => {
 		!checkAuth()
 	) {
 		navigate('/signin', {
-			redirect: window.location.href,
+			redirect: window.location.pathname,
 			error: 'expired-credentials',
 		})
 
