@@ -18,10 +18,11 @@ describe('Sign Up Page', () => {
 		// Click the sign up button
 		cy.get('[data-ref=signup-btn]').click()
 		// Make sure the error message is the invalid email text
-		cy.get('[data-ref=error-txt]').should(
-			'have.text',
-			errors.get('invalid-email-address')
-		)
+		cy.get('[data-ref=current-toast]')
+			.invoke('text')
+			.then((text) => {
+				expect(text.trim()).to.eq(errors.get('invalid-email-address'))
+			})
 	})
 
 	it('should show a validation error when a weak password is entered', () => {
@@ -35,7 +36,11 @@ describe('Sign Up Page', () => {
 		// Click the sign up button
 		cy.get('[data-ref=signup-btn]').click()
 		// Make sure the error message is the weak password text
-		cy.get('[data-ref=error-txt]').should('have.text', errors.get('weak-password'))
+		cy.get('[data-ref=current-toast]')
+			.invoke('text')
+			.then((text) => {
+				expect(text.trim()).to.eq(errors.get('weak-password'))
+			})
 	})
 
 	it('should sign up successfully', () => {

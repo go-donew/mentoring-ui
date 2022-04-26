@@ -18,7 +18,10 @@ const errorsAndMessages: Record<'error' | 'info', Record<string, string>> = {
 		'network-error':
 			'A network error occurred while signing in. Please check your internet connectivity and try again.',
 	},
-	info: {},
+	info: {
+		'signing-in': 'Signing you in...',
+		'signed-in': 'Successfully signed you in!',
+	},
 }
 
 /**

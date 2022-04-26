@@ -2,14 +2,20 @@
 // Listeners and callbacks for HTML on the sign in page.
 
 import { authenticateUser } from 'source/actions'
-import { select, navigate } from 'source/utilities/dom'
+import { select, navigate, toast } from 'source/utilities/dom'
 import { storage } from 'source/utilities/storage'
-import { errors } from 'source/utilities/messages'
+import { errors, messages } from 'source/utilities/messages'
 
 /**
  * Signs the user in, based on the email and password they entered.
  */
 window.mentoring.page.signIn = async (): Promise<void> => {
+	// Show a sign of progress
+	toast({
+		type: 'info',
+		message: messages.get('signing-in'),
+	})
+
 	// Get the input the user has entered
 	const email = select<HTMLInputElement>('[data-ref=email-inp]')!.value
 	const password = select<HTMLInputElement>('[data-ref=password-inp]')!.value
@@ -26,8 +32,17 @@ window.mentoring.page.signIn = async (): Promise<void> => {
 		storage.set('user', user)
 		storage.set('tokens.bearer', tokens.bearer)
 		storage.set('tokens.refresh', tokens.refresh)
+
+		// We are done!
+		toast({
+			type: 'success',
+			message: messages.get('signed-in'),
+		})
 	} catch (error: unknown) {
-		select('[data-ref=error-txt]')!.textContent = (error as Error).message
+		toast({
+			type: 'error',
+			message: (error as Error).message,
+		})
 
 		return
 	}
@@ -42,5 +57,9 @@ window.mentoring.page.init = (): void => {
 	// Check if the user was redirected here due to an issue with credentials
 	const error = new URLSearchParams(window.location.search).get('error')
 	// If an error was passed, display it
-	if (error) select('[data-ref=error-txt]')!.textContent = errors.get(error)
+	if (error)
+		toast({
+			type: 'error',
+			message: errors.get(error),
+		})
 }
