@@ -36,7 +36,7 @@
 										name="name"
 										required
 										class="appearance-none rounded relative block w-full my-2 px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 text-sm focus:outline-none focus:ring-teal-700 focus:border-teal-600 focus:z-10"
-										placeholder="Loading..."
+										placeholder="An Interesting Conversation"
 										data-ref="name-inp"
 									/>
 								</div>
@@ -51,7 +51,7 @@
 										name="description"
 										required
 										class="appearance-none rounded relative block w-full my-2 px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 text-sm focus:outline-none focus:ring-teal-700 focus:border-teal-600 focus:z-10"
-										placeholder="Loading..."
+										placeholder="Something to give a whirl :)"
 										data-ref="description-inp"
 									/>
 								</div>
@@ -63,16 +63,16 @@
 										name="tags"
 										required
 										class="appearance-none rounded relative block w-full my-2 px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 text-sm focus:outline-none focus:ring-teal-700 focus:border-teal-600 focus:z-10"
-										placeholder="Loading..."
+										placeholder="quiz, strengths"
 										data-ref="tags-inp"
 									/>
 								</div>
 								<div class="col-span-6">
 									<label for="once" class="block text-sm font-medium text-gray-700">
 										Once
-										<span class="text-gray-500">
-											(if true, the user can take it only once)
-										</span>
+										<span class="text-gray-500"
+											>(if true, the user can take it only once)</span
+										>
 									</label>
 									<select
 										class="mt-1 block w-full my-2 py-2 px-3 border border-gray-300 bg-white rounded-lg shadow-sm text-sm focus:outline-none focus:ring-teal-600 focus:border-teal-600"
@@ -83,6 +83,32 @@
 									</select>
 								</div>
 							</div>
+						</div>
+						<div class="px-4 py-5 bg-gray-100" data-ref="questions-section">
+							<div class="grid grid-cols-6 gap-6">
+								<span class="col-span-5 font-medium text-gray-800">Questions</span>
+								<div class="col-span-1 text-right">
+									<button
+										type="button"
+										onclick="window.mentoring.page.addQuestion()"
+										class="cursor-pointer text-sm font-bold text-teal-800"
+										data-ref="question-add-btn"
+									>
+										<span class="sr-only">Add Question</span>
+										<svg
+											class="block h-6 w-6"
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
+										>
+											<line x1="12" y1="5" x2="12" y2="19" />
+											<line x1="5" y1="12" x2="19" y2="12" />
+										</svg>
+									</button>
+								</div>
+							</div>
+							<div data-ref="questions-list"></div>
 						</div>
 						<div
 							class="px-4 py-3 grid grid-cols-4 gap-4 md:grid-cols-6 md:gap-6 bg-gray-100"

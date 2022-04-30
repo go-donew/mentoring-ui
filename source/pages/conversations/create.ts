@@ -2,7 +2,10 @@
 // Listeners and callbacks for HTML on the conversation create page.
 
 import { createConversation } from 'source/actions'
-import { select, navigate } from 'source/utilities/dom'
+import { select, change, navigate } from 'source/utilities/dom'
+import { generateId } from 'source/utilities/misc'
+
+import type { Conversation } from 'source/types'
 
 // Save the created conversation details
 window.mentoring.page.createConversation = async (): Promise<void> => {
@@ -15,13 +18,13 @@ window.mentoring.page.createConversation = async (): Promise<void> => {
 	const once = Boolean(select<HTMLSelectElement>('[data-ref=once-select]')!.value)
 
 	// Create the conversation
-	await createConversation({
+	const { id } = await createConversation({
 		name,
 		description,
 		tags,
 		once,
 	})
 
-	// Then return to the conversations page
-	navigate('/conversations')
+	// Then take them to the conversation edit page, so they can add questions
+	navigate('/conversations/edit', { id })
 }

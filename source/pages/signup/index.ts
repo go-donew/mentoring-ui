@@ -13,7 +13,7 @@ window.mentoring.page.signUp = async (): Promise<void> => {
 	// Show a sign of progress
 	toast({
 		type: 'info',
-		message: messages.get('signing-in'),
+		message: messages.get('signing-up'),
 	})
 
 	// Get the input the user has entered
@@ -42,7 +42,7 @@ window.mentoring.page.signUp = async (): Promise<void> => {
 		// We are done!
 		toast({
 			type: 'success',
-			message: messages.get('signed-in'),
+			message: messages.get('signed-up'),
 		})
 	} catch (error: unknown) {
 		toast({

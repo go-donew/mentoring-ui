@@ -2,7 +2,7 @@
 // Listeners and callbacks for HTML on the conversation viewing page.
 
 import { listConversations } from 'source/actions'
-import { select, change } from 'source/utilities/dom'
+import { select, change, toast } from 'source/utilities/dom'
 
 import type { Conversation } from 'source/types'
 
@@ -47,7 +47,10 @@ window.mentoring.page.init = async (): Promise<void> => {
 	try {
 		conversations = await listConversations()
 	} catch (error: unknown) {
-		select('[data-ref=error-txt]')!.textContent = (error as Error).message
+		toast({
+			type: 'error',
+			message: (error as Error).message,
+		})
 
 		return
 	}

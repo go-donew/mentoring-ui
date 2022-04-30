@@ -2,7 +2,7 @@
 // Listeners and callbacks for HTML on the group edit/create page.
 
 import { fetchGroup, updateGroup, listUsers } from 'source/actions'
-import { select, change, navigate } from 'source/utilities/dom'
+import { select, change, navigate, toast } from 'source/utilities/dom'
 import { generateId } from 'source/utilities/misc'
 
 import { fetchDetailsOfDetails } from './utils'
@@ -172,7 +172,10 @@ window.mentoring.page.init = async (): Promise<void> => {
 		group = await fetchDetailsOfDetails(await fetchGroup(groupId))
 		users = await listUsers()
 	} catch (error: unknown) {
-		select('[data-ref=error-txt]')!.textContent = (error as Error).message
+		toast({
+			type: 'error',
+			message: (error as Error).message,
+		})
 
 		return
 	}

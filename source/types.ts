@@ -123,6 +123,24 @@ export declare interface Group {
 }
 
 /**
+ * An interface representing an attribute.
+ *
+ * @typedef {object} Attribute
+ * @property {string} id.required - The attribute ID.
+ * @property {string} name.required - The attribute's name.
+ * @property {string} description.required - The attribute's description.
+ * @property {array<string>} tags.required - Tags to enhance the attribute's searchability.
+ * @property {array<string>} conversations.required - A list of conversations that might set this attribute.
+ */
+export declare interface Attribute {
+	id: string
+	name: string
+	description: string
+	tags: string[]
+	conversations: string[]
+}
+
+/**
  * An interface representing a conversation.
  *
  * @typedef {object} Conversation
@@ -137,6 +155,72 @@ export declare interface Conversation {
 	name: string
 	description: string
 	once: boolean
+	tags: string[]
+}
+
+/**
+ * An object that contains the data about the attribute to set when a user
+ * answers a question with a given option.
+ *
+ * @typedef {object} AttributeToSet
+ * @property {string} id.required - The ID of the attribute to set.
+ * @property {string | number | boolean} value.required - The value of the attribute to set. If the `type` of the question is `input` and the user input is undefined, then this value will be set.
+ */
+export declare interface AttributeToSet {
+	id: string
+	value: string | number | boolean
+}
+
+/**
+ * An object that contains the data about the next question to show a user when
+ * they answer a question with a given option.
+ *
+ * @typedef {object} NextQuestion
+ * @property {string} conversation.required - The ID of the conversation the next question is a part of.
+ * @property {string} question.required - The ID of the question.
+ */
+export declare interface NextQuestion {
+	conversation: string
+	question: string
+}
+
+/**
+ * An option a user can select to answer a question.
+ *
+ * @typedef {object} Option
+ * @property {number} position.required - The position to show the option in if `randomizeOptionOrder` is `false`.
+ * @property {string} type.required - The type of option. If it is `input`, the user can enter text as their answer - enum:select,input
+ * @property {string} text.required - The question text. Should be shown as a hint for the textbox if `type` is `input`.
+ * @property {AttributeToSet} attribute.required - The attribute to set when a user answers the question with this option.
+ * @property {NextQuestion} nextQuestion - The next question to show the user if they select this option.
+ */
+export declare interface Option {
+	position: number
+	type: 'select' | 'input'
+	text: string
+	attribute: AttributeToSet
+	nextQuestion?: NextQuestion
+}
+
+/**
+ * A class representing a question.
+ *
+ * @typedef {object} Question
+ * @property {string} id.required - The question ID.
+ * @property {string} text.required - The question text.
+ * @property {array<Option>} options.required - The options to the question.
+ * @property {boolean} first.required - Whether this is the first question in the conversation.
+ * @property {boolean} last.required - Whether this is the last question in the conversation.
+ * @property {boolean} randomizeOptionOrder.required - Whether to randomize the order of the options.
+ * @property {array<string>} tags.required - Tags to enhance searchability of the conversation.
+ */
+export declare interface Question {
+	id: string
+	text: string
+	options: Option[]
+	first: boolean
+	last: boolean
+	randomizeOptionOrder: boolean
 	tags: string[]
 }
 
@@ -183,7 +267,3 @@ export declare interface Report {
 	template: string
 	input: DependentAttribute[]
 }
-
-// Export something to make sure Typescript knows this is a module file (see
-// https://stackoverflow.com/a/59499895)
-export {}

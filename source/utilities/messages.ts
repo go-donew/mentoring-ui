@@ -11,8 +11,7 @@ const errorsAndMessages: Record<'error' | 'info', Record<string, string>> = {
 			'The email/password entered was incorrect. Please try again with valid credentials.',
 		'user-already-exists':
 			'A user with the same email address already exists. Perhaps you meant to sign in?',
-		'expired-credentials':
-			'Your session has expired and could not be renewed automatically. Please sign in to continue using the application.',
+		'expired-credentials': 'Please sign in to view this page.',
 		'server-crash':
 			'An unexpected error occurred. Please try again in a few seconds or report this issue.',
 		'network-error':
@@ -21,6 +20,9 @@ const errorsAndMessages: Record<'error' | 'info', Record<string, string>> = {
 	info: {
 		'signing-in': 'Signing you in...',
 		'signed-in': 'Successfully signed you in!',
+		'signing-up': 'Creating your account...',
+		'signed-up': 'Welcome to the DoNew Mentoring Platform!',
+		'saved-conversation': 'Successfully saved the conversation and all its questions!',
 	},
 }
 

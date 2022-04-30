@@ -2,7 +2,7 @@
 // Listeners and callbacks for HTML on the group create page.
 
 import { createGroup, listUsers } from 'source/actions'
-import { select, change, navigate } from 'source/utilities/dom'
+import { select, change, navigate, toast } from 'source/utilities/dom'
 import { generateId } from 'source/utilities/misc'
 
 import type { Group, User } from 'source/types'
@@ -141,7 +141,10 @@ window.mentoring.page.init = async (): Promise<void> => {
 	try {
 		users = await listUsers()
 	} catch (error: unknown) {
-		select('[data-ref=error-txt]')!.textContent = (error as Error).message
+		toast({
+			type: 'error',
+			message: (error as Error).message,
+		})
 
 		return
 	}

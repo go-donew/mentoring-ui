@@ -26,7 +26,7 @@ export const toast = (options: {
 	if (select('[data-ref=current-toast]'))
 		change('[data-ref=current-toast]')
 			.children()
-			.each((node: any) => {
+			.each((node: typeof change) => {
 				node.remove()
 			})
 	// Else add the toast container to the page

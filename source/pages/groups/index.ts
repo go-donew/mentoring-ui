@@ -2,7 +2,7 @@
 // Listeners and callbacks for HTML on the group viewing page.
 
 import { listGroups } from 'source/actions'
-import { select, change } from 'source/utilities/dom'
+import { select, change, toast } from 'source/utilities/dom'
 
 import { fetchDetailsOfDetails } from './utils'
 
@@ -89,7 +89,10 @@ window.mentoring.page.init = async (): Promise<void> => {
 	try {
 		fetchedGroups = await listGroups()
 	} catch (error: unknown) {
-		select('[data-ref=error-txt]')!.textContent = (error as Error).message
+		toast({
+			type: 'error',
+			message: (error as Error).message,
+		})
 
 		return
 	}
