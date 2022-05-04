@@ -2,7 +2,7 @@
 // Integration test for the sign in page.
 
 import { storage } from 'source/utilities/storage'
-import { errors } from 'source/utilities/messages'
+import { errors, messages } from 'source/utilities/messages'
 import { runTask } from 'helpers/tasks'
 
 // Create a test user first
@@ -38,11 +38,13 @@ describe('Sign In Page', () => {
 		// Click the sign in button
 		cy.get('[data-ref=signin-btn]').click()
 		// Make sure the error message is the invalid email text
-		cy.get('[data-ref=current-toast]')
-			.invoke('text')
-			.then((text) => {
-				expect(text.trim()).to.eq(errors.get('invalid-email-address'))
-			})
+		cy.wait(500).then(() => {
+			cy.get('[data-ref=current-toast]')
+				.invoke('text')
+				.then((text) => {
+					expect(text.trim()).to.eq(errors.get('invalid-email-address'))
+				})
+		})
 	})
 
 	it('should show an invalid credential error when the wrong credentials are entered', () => {
@@ -56,11 +58,13 @@ describe('Sign In Page', () => {
 		// Click the sign in button
 		cy.get('[data-ref=signin-btn]').click()
 		// Make sure the error message is the incorrect user text
-		cy.get('[data-ref=current-toast]')
-			.invoke('text')
-			.then((text) => {
-				expect(text.trim()).to.eq(errors.get('incorrect-credentials'))
-			})
+		cy.wait(500).then(() => {
+			cy.get('[data-ref=current-toast]')
+				.invoke('text')
+				.then((text) => {
+					expect(text.trim()).to.eq(errors.get('incorrect-credentials'))
+				})
+		})
 	})
 
 	it('should sign in successfully', () => {

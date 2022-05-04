@@ -109,8 +109,8 @@ describe('Create Conversation Page', () => {
 		cy.get('[data-ref=create-btn]')
 			.click()
 			.then(() => {
-				// It should redirect us to `/conversations`
-				cy.location('pathname').should('eq', '/conversations')
+				// It should redirect us to `/conversations/edit` to add questions
+				cy.location('pathname').should('eq', '/conversations/edit')
 			})
 	})
 })

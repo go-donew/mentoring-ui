@@ -20,7 +20,7 @@
 		"build:app": "esbuild $(esbuild-config)",
 		"build:css": "tailwindcss --input public/main.css --output public/dist/main.css --config config/tailwind/config.cjs",
 		"compile": "run-s clean build:*",
-		"watch:build": "run-p 'build:* -- --watch'",
+		"watch:build": "run-p 'build:* --watch'",
 		"watch:tests": "start-test http-get://localhost:3000/index.html cypress:open",
 		"watch": "run-p watch:*",
 		"test:tsc": "tsc",

@@ -24,7 +24,7 @@ import type { Attribute, Conversation, Question, Option } from 'source/types'
  * @param {Question} question - The question to render.
  *
  */
-const renderQuestion = (question: Question = {}): void => {
+const renderQuestion = (question: Question | any = {}): void => {
 	const questionId = question.id ?? generateId()
 	window.mentoring.page.data.numbering.question += 1
 
@@ -165,7 +165,7 @@ const renderQuestion = (question: Question = {}): void => {
  * @param {string} questionId - The ID of the question that the option is a part of.
  * @param {Option} option - The option to render, if it exists. Else render a blank form to create an option.
  */
-const renderOption = (questionId: string, option: Option = {}): void => {
+const renderOption = (questionId: string, option: Option | any = {}): void => {
 	const optionId = generateId()
 	const attributes = window.mentoring.page.data.attributes.map(
 		(attribute: Attribute) => `
@@ -430,7 +430,7 @@ window.mentoring.page.updateConversation = async (): Promise<void> => {
 			}
 
 			const option = { text, type, position, attribute, nextQuestion }
-			if (!option.attribute.value) delete option.attribute
+			// @ts-expect-error It is optional
 			if (!option.nextQuestion.question) delete option.nextQuestion
 
 			question.options.push(option)
