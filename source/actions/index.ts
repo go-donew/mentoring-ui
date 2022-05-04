@@ -578,7 +578,7 @@ export const deleteQuestion = async (
 	questionId: string
 ): Promise<void> => {
 	// Make the request!
-	const response = await fetch<{}>({
+	const response = await fetch({
 		url: `/conversations/${conversationId}/questions/${questionId}`,
 		method: 'delete',
 	})
@@ -598,6 +598,4 @@ export const deleteQuestion = async (
 
 		throw new Error(message)
 	}
-
-	return
 }
