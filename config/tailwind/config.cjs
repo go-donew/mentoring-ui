@@ -2,7 +2,7 @@
 // Tailwind configuration file
 
 module.exports = {
-	content: ['./public/**/*.html', './source/**/*.ts'],
+	content: ['./source/**/*.html', './source/**/*.ts'],
 	theme: {
 		extend: {},
 	},

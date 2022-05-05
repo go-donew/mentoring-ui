@@ -31,7 +31,7 @@ const renderConversations = (conversations: Conversation[]): void => {
 				<td class="px-6 py-4" data-ref="tags" data-id="${conversation.id}">${tags}</td>
 				<td class="px-6 py-4" data-ref="once" data-id="${conversation.id}">${once}</td>
 				<td class="px-6 py-4 text-right text-sm font-medium">
-					<a href="/conversations/edit?id=${conversation.id}" class="text-teal-800 hover:text-gray-900">
+					<a href="/app/conversations/edit?id=${conversation.id}" class="text-teal-800 hover:text-gray-900">
 						Edit
 					</a>
 				</td>

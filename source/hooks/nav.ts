@@ -85,7 +85,7 @@ export const renderNavbar = (): void => {
 								aria-controls="mobile-menu"
 								aria-expanded="false"
 								data-ref="settings-btn"
-								onclick="window.location.href = '/settings'"
+								onclick="window.location.href = '/app/settings'"
 							>
 								<span class="sr-only">Open settings</span>
 								<svg
@@ -124,9 +124,9 @@ export const renderNavbar = (): void => {
 
 	// Then add in the pages
 	const pages = [
-		{ name: 'Home', link: '/home' },
-		{ name: 'Groups', link: '/groups' },
-		{ name: 'Conversations', link: '/conversations' },
+		{ name: 'Home', link: '/app/home' },
+		{ name: 'Groups', link: '/app/groups' },
+		{ name: 'Conversations', link: '/app/conversations' },
 	]
 
 	// The focused and unfocused items have different css

@@ -61,7 +61,7 @@ export const navigate = (location: string, query?: Record<string, string>): void
 }
 
 // This initialization is done here because this file is imported in all
-// `source/pages/` files
+// `source/app/` files
 if (typeof window.mentoring === 'undefined')
 	// @ts-expect-error Nothing is defined yet, but its fine because we do it later
 	window.mentoring = { page: { data: {} }, actions: {}, hooks: {} }

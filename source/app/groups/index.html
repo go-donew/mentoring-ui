@@ -1,4 +1,4 @@
-<!-- public/groups/index.html -->
+<!-- source/app/groups/index.html -->
 <!-- The view groups page -->
 
 <!DOCTYPE html>
@@ -8,11 +8,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!-- Import our CSS -->
-		<link href="/dist/main.css" rel="stylesheet" />
+		<link href="/styles/main.css" rel="stylesheet" />
 
 		<!-- Import our JS code -->
-		<script src="/dist/pages/groups/index.js" type="module"></script>
-		<script src="/dist/hooks/index.js" type="module"></script>
+		<script src="/app/groups/index.js" type="module"></script>
+		<script src="/hooks/index.js" type="module"></script>
 		<script type="module">
 			window.mentoring.hooks.init({ requireAuth: true })
 		</script>
@@ -29,7 +29,7 @@
 					</span>
 					<input
 						type="button"
-						onclick="window.location.href = '/groups/create'"
+						onclick="window.location.href = '/app/groups/create'"
 						class="block rounded-lg text-sm font-medium text-teal-800"
 						value="Create"
 						data-ref="create-group-btn"

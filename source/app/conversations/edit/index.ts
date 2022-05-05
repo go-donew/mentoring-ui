@@ -457,7 +457,7 @@ window.mentoring.page.init = async (): Promise<void> => {
 	const conversationId = new URLSearchParams(window.location.search).get('id')
 	// If there is no ID, redirect to /conversations
 	if (!conversationId) {
-		navigate('/conversations')
+		navigate('/app/conversations')
 		return
 	}
 

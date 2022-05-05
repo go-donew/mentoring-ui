@@ -3,8 +3,8 @@
 
 **/node_modules/
 **/coverage/
-**/source/vendor/
-**/public/dist/
+**/source/**/*.js
+**/source/styles/main.css
 **/tests/assets/
 **/tests/mocks/api/
 **/.nyc_output/

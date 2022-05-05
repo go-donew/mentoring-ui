@@ -1,5 +1,5 @@
-<!-- public/groups/create.html -->
-<!-- The create group page -->
+<!-- source/app/groups/edit.html -->
+<!-- The edit group page -->
 
 <!DOCTYPE html>
 <html>
@@ -8,11 +8,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!-- Import our CSS -->
-		<link href="/dist/main.css" rel="stylesheet" />
+		<link href="/styles/main.css" rel="stylesheet" />
 
 		<!-- Import our JS code -->
-		<script src="/dist/pages/groups/create.js" type="module"></script>
-		<script src="/dist/hooks/index.js" type="module"></script>
+		<script src="/app/groups/edit/index.js" type="module"></script>
+		<script src="/hooks/index.js" type="module"></script>
 		<script type="module">
 			window.mentoring.hooks.init({ requireAuth: true })
 		</script>
@@ -24,7 +24,7 @@
 				<form>
 					<div class="border-2 border-gray-50 overflow-hidden rounded-lg">
 						<div class="px-4 py-5 bg-gray-100">
-							<span class="font-medium text-gray-800">Create Group</span>
+							<span class="font-medium text-gray-800">Edit Group</span>
 						</div>
 						<div class="px-4 py-5 bg-white sm:p-6">
 							<div class="grid grid-cols-6 gap-6">
@@ -36,7 +36,7 @@
 										name="name"
 										required
 										class="appearance-none rounded relative block w-full my-2 px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 text-sm focus:outline-none focus:ring-teal-700 focus:border-teal-600 focus:z-10"
-										placeholder="The Groots"
+										placeholder="Loading..."
 										data-ref="name-inp"
 									/>
 								</div>
@@ -48,7 +48,7 @@
 										name="code"
 										required
 										class="appearance-none rounded relative block w-full my-2 px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 text-sm focus:outline-none focus:ring-teal-700 focus:border-teal-600 focus:z-10"
-										placeholder="secret-code-to-join"
+										placeholder="Loading..."
 										data-ref="code-inp"
 									/>
 								</div>
@@ -60,7 +60,7 @@
 										name="tags"
 										required
 										class="appearance-none rounded relative block w-full my-2 px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 text-sm focus:outline-none focus:ring-teal-700 focus:border-teal-600 focus:z-10"
-										placeholder="groots, admin-only, secret"
+										placeholder="Loading..."
 										data-ref="tags-inp"
 									/>
 								</div>
@@ -105,17 +105,17 @@
 							<div class="hidden md:block md:col-span-4"></div>
 							<input
 								type="button"
-								onclick="window.location.href = '/groups'"
+								onclick="window.location.href = '/app/groups'"
 								class="col-span-2 md:col-span-1 justify-center py-2 px-4 cursor-pointer border border-transparent text-sm font-medium rounded-lg text-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-700"
 								value="Cancel"
 								data-ref="cancel-btn"
 							/>
 							<input
 								type="button"
-								onclick="window.mentoring.page.createGroup()"
+								onclick="window.mentoring.page.updateGroup()"
 								class="col-span-2 md:col-span-1 justify-center py-2 px-4 cursor-pointer border border-transparent text-sm font-medium rounded-lg text-white bg-teal-700 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-700"
-								value="Create"
-								data-ref="create-btn"
+								value="Save"
+								data-ref="update-btn"
 							/>
 						</div>
 					</div>

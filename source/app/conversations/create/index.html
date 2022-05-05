@@ -1,5 +1,5 @@
-<!-- public/groups/edit.html -->
-<!-- The edit group page -->
+<!-- source/app/conversations/create.html -->
+<!-- The create conversation page -->
 
 <!DOCTYPE html>
 <html>
@@ -8,11 +8,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!-- Import our CSS -->
-		<link href="/dist/main.css" rel="stylesheet" />
+		<link href="/styles/main.css" rel="stylesheet" />
 
 		<!-- Import our JS code -->
-		<script src="/dist/pages/groups/edit.js" type="module"></script>
-		<script src="/dist/hooks/index.js" type="module"></script>
+		<script src="/app/conversations/create/index.js" type="module"></script>
+		<script src="/hooks/index.js" type="module"></script>
 		<script type="module">
 			window.mentoring.hooks.init({ requireAuth: true })
 		</script>
@@ -24,11 +24,11 @@
 				<form>
 					<div class="border-2 border-gray-50 overflow-hidden rounded-lg">
 						<div class="px-4 py-5 bg-gray-100">
-							<span class="font-medium text-gray-800">Edit Group</span>
+							<span class="font-medium text-gray-800">Create Conversation</span>
 						</div>
 						<div class="px-4 py-5 bg-white sm:p-6">
 							<div class="grid grid-cols-6 gap-6">
-								<div class="col-span-6 sm:col-span-3">
+								<div class="col-span-6">
 									<label for="name" class="block text-sm font-medium text-gray-700">
 										Name
 									</label>
@@ -36,20 +36,23 @@
 										name="name"
 										required
 										class="appearance-none rounded relative block w-full my-2 px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 text-sm focus:outline-none focus:ring-teal-700 focus:border-teal-600 focus:z-10"
-										placeholder="Loading..."
+										placeholder="An Interesting Conversation"
 										data-ref="name-inp"
 									/>
 								</div>
-								<div class="col-span-6 sm:col-span-3">
-									<label for="code" class="block text-sm font-medium text-gray-700">
-										Code <span class="text-gray-500">(used to join the group)</span>
+								<div class="col-span-6">
+									<label
+										for="description"
+										class="block text-sm font-medium text-gray-700"
+									>
+										Description
 									</label>
 									<input
-										name="code"
+										name="description"
 										required
 										class="appearance-none rounded relative block w-full my-2 px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 text-sm focus:outline-none focus:ring-teal-700 focus:border-teal-600 focus:z-10"
-										placeholder="Loading..."
-										data-ref="code-inp"
+										placeholder="Something to give a whirl :)"
+										data-ref="description-inp"
 									/>
 								</div>
 								<div class="col-span-6">
@@ -60,43 +63,25 @@
 										name="tags"
 										required
 										class="appearance-none rounded relative block w-full my-2 px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 text-sm focus:outline-none focus:ring-teal-700 focus:border-teal-600 focus:z-10"
-										placeholder="Loading..."
+										placeholder="quiz, strengths"
 										data-ref="tags-inp"
 									/>
 								</div>
-								<table class="col-span-6" data-ref="participants-table">
-									<thead>
-										<tr>
-											<th scope="col" class="text-left text-sm font-medium text-gray-700">
-												Participant
-											</th>
-											<th scope="col" class="text-left text-sm font-medium text-gray-700">
-												Role
-											</th>
-											<th scope="col" class="text-center">
-												<button
-													type="button"
-													onclick="window.mentoring.page.addParticipant()"
-													class="cursor-pointer text-sm font-bold text-teal-800"
-													data-ref="participant-add-btn"
-												>
-													<span class="sr-only">Add User</span>
-													<svg
-														class="block h-6 w-6"
-														xmlns="http://www.w3.org/2000/svg"
-														fill="none"
-														stroke="currentColor"
-														stroke-width="2"
-													>
-														<line x1="12" y1="5" x2="12" y2="19" />
-														<line x1="5" y1="12" x2="19" y2="12" />
-													</svg>
-												</button>
-											</th>
-										</tr>
-									</thead>
-									<tbody class="bg-white" data-ref="participants-list"></tbody>
-								</table>
+								<div class="col-span-6">
+									<label for="once" class="block text-sm font-medium text-gray-700">
+										Once
+										<span class="text-gray-500"
+											>(if true, the user can take it only once)</span
+										>
+									</label>
+									<select
+										class="mt-1 block w-full my-2 py-2 px-3 border border-gray-300 bg-white rounded-lg shadow-sm text-sm focus:outline-none focus:ring-teal-600 focus:border-teal-600"
+										data-ref="once-select"
+									>
+										<option value="true">Yes</option>
+										<option value="false">No</option>
+									</select>
+								</div>
 							</div>
 						</div>
 						<div
@@ -105,17 +90,17 @@
 							<div class="hidden md:block md:col-span-4"></div>
 							<input
 								type="button"
-								onclick="window.location.href = '/groups'"
+								onclick="window.location.href = '/app/conversations'"
 								class="col-span-2 md:col-span-1 justify-center py-2 px-4 cursor-pointer border border-transparent text-sm font-medium rounded-lg text-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-700"
 								value="Cancel"
 								data-ref="cancel-btn"
 							/>
 							<input
 								type="button"
-								onclick="window.mentoring.page.updateGroup()"
+								onclick="window.mentoring.page.createConversation()"
 								class="col-span-2 md:col-span-1 justify-center py-2 px-4 cursor-pointer border border-transparent text-sm font-medium rounded-lg text-white bg-teal-700 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-700"
-								value="Save"
-								data-ref="update-btn"
+								value="Create"
+								data-ref="create-btn"
 							/>
 						</div>
 					</div>

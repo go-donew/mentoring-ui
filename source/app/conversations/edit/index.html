@@ -1,4 +1,4 @@
-<!-- public/conversations/edit.html -->
+<!-- source/app/conversations/edit.html -->
 <!-- The edit conversation page -->
 
 <!DOCTYPE html>
@@ -8,11 +8,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<!-- Import our CSS -->
-		<link href="/dist/main.css" rel="stylesheet" />
+		<link href="/styles/main.css" rel="stylesheet" />
 
 		<!-- Import our JS code -->
-		<script src="/dist/pages/conversations/edit.js" type="module"></script>
-		<script src="/dist/hooks/index.js" type="module"></script>
+		<script src="/app/conversations/edit/index.js" type="module"></script>
+		<script src="/hooks/index.js" type="module"></script>
 		<script type="module">
 			window.mentoring.hooks.init({ requireAuth: true })
 		</script>
@@ -116,7 +116,7 @@
 							<div class="hidden md:block md:col-span-4"></div>
 							<input
 								type="button"
-								onclick="window.location.href = '/conversations'"
+								onclick="window.location.href = '/app/conversations'"
 								class="col-span-2 md:col-span-1 justify-center py-2 px-4 cursor-pointer border border-transparent text-sm font-medium rounded-lg text-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-700"
 								value="Cancel"
 								data-ref="cancel-btn"

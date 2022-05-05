@@ -3,7 +3,8 @@
 
 node_modules/
 coverage/
-public/dist/
+source/**/*.js
+source/styles/main.css
 tests/assets/
 .nyc_output/
 .firebase/

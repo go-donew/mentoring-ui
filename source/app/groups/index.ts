@@ -3,10 +3,69 @@
 
 import { listGroups } from 'source/actions'
 import { select, change, toast } from 'source/utilities/dom'
+import { fetch, isErrorResponse } from 'source/utilities/http'
 
-import { fetchDetailsOfDetails } from './utils'
+import type { Group, User, Report, Conversation } from 'source/types'
 
-import type { Group } from 'source/types'
+/**
+ * Replace the IDs in the `participants`, `conversations` and `reports` fields in
+ * the Group object with the name of the thing the ID refers to.
+ *
+ * @param {Group} group - The group object.
+ *
+ * @returns {Group} - The group object, but with names instead of IDs.
+ */
+export const fetchDetailsOfDetails = async (group: Group): Promise<Group> => {
+	const participantsByIds = group.participants
+	group.participants = {}
+	for (const userId of Object.keys(participantsByIds)) {
+		// Fetch info about the user
+		const response = await fetch<{ user: User }>({
+			url: `/users/${userId}`,
+			method: 'get',
+		})
+		// Skip the user if we encounter an error - if we are not allowed to retrieve
+		// data about it, don't show it to the user
+		if (isErrorResponse(response)) continue
+
+		const { user } = response
+		group.participants[`${user.name} (${user.email})`] = participantsByIds[userId]
+	}
+
+	const conversationsByIds = group.conversations
+	group.conversations = {}
+	for (const conversationId of Object.keys(conversationsByIds)) {
+		// Fetch info about the conversation
+		const response = await fetch<{ conversation: Conversation }>({
+			url: `/conversations/${conversationId}`,
+			method: 'get',
+		})
+		// Skip the user if we encounter an error - if we are not allowed to retrieve
+		// data about it, don't show it to the user
+		if (isErrorResponse(response)) continue
+
+		const { conversation } = response
+		group.conversations[conversation.name] = conversationsByIds[conversationId]
+	}
+
+	const reportsByIds = group.reports
+	group.reports = {}
+	for (const reportId of Object.keys(reportsByIds)) {
+		// Fetch info about the report
+		const response = await fetch<{ report: Report }>({
+			url: `/reports/${reportId}`,
+			method: 'get',
+		})
+		// Skip the user if we encounter an error - if we are not allowed to retrieve
+		// data about it, don't show it to the user
+		if (isErrorResponse(response)) continue
+
+		const { report } = response
+		group.reports[report.name] = reportsByIds[reportId]
+	}
+
+	return group
+}
 
 const renderGroups = (groups: Group[]): void => {
 	// Render the list of groups
@@ -73,7 +132,7 @@ const renderGroups = (groups: Group[]): void => {
 				<td class="px-6 py-4" data-ref="conversations" data-id="${group.id}">${conversations}</td>
 				<td class="px-6 py-4" data-ref="reports" data-id="${group.id}">${reports}</td>
 				<td class="px-6 py-4 text-right text-sm font-medium">
-					<a href="/groups/edit?id=${group.id}" class="text-teal-800 hover:text-gray-900">
+					<a href="/app/groups/edit?id=${group.id}" class="text-teal-800 hover:text-gray-900">
 						Edit
 					</a>
 				</td>

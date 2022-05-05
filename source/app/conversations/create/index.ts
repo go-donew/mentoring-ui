@@ -26,5 +26,5 @@ window.mentoring.page.createConversation = async (): Promise<void> => {
 	})
 
 	// Then take them to the conversation edit page, so they can add questions
-	navigate('/conversations/edit', { id })
+	navigate('/app/conversations/edit', { id })
 }

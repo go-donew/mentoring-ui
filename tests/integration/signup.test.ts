@@ -5,7 +5,7 @@ import { errors } from 'source/utilities/messages'
 
 describe('Sign Up Page', () => {
 	// Always run the tests on the sign up page
-	beforeEach(() => cy.visit('/signup'))
+	beforeEach(() => cy.visit('/app/signup'))
 
 	it('should show a validation error when an invalid email is entered', () => {
 		// Type in a valid name
@@ -57,7 +57,7 @@ describe('Sign Up Page', () => {
 
 		// Once a successfull sign up occurs, the website should redirect the user to
 		// the home page, so make sure that happens
-		cy.location('pathname').should('eq', '/home', () => {
+		cy.location('pathname').should('eq', '/app/home', () => {
 			// Once we are on the home page, make sure the user and tokens are stored in
 			// local storage
 			expect(localStorage.get('user')).to.exist()

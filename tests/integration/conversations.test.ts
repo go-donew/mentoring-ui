@@ -31,7 +31,7 @@ before(async () => {
 describe('List Conversations Page', () => {
 	beforeEach(() => {
 		// Always run the tests on the conversations list page
-		cy.visit('/conversations')
+		cy.visit('/app/conversations')
 
 		// Store the user and tokens
 		storage.set('user', user)
@@ -59,7 +59,7 @@ describe('List Conversations Page', () => {
 describe('Edit Conversation Page', () => {
 	beforeEach(() => {
 		// Always run the tests on the edit conversation page
-		cy.visit(`/conversations/edit?id=${conversation.id}`)
+		cy.visit(`/app/conversations/edit?id=${conversation.id}`)
 
 		// Store the user and tokens
 		storage.set('user', user)
@@ -69,10 +69,10 @@ describe('Edit Conversation Page', () => {
 
 	it('should go back to the conversation list page if no `id` is given', () => {
 		// Re-visit the edit page without the ID
-		cy.visit('/conversations/edit')
+		cy.visit('/app/conversations/edit')
 
-		// It should redirect us to `/conversations`
-		cy.location('pathname').should('eq', '/conversations')
+		// It should redirect us to `/app/conversations`
+		cy.location('pathname').should('eq', '/app/conversations')
 	})
 
 	it('should fetch and display the conversation detail in the form', () => {
@@ -87,7 +87,7 @@ describe('Edit Conversation Page', () => {
 describe('Create Conversation Page', () => {
 	beforeEach(() => {
 		// Always run the tests on the create conversation page
-		cy.visit(`/conversations/create`)
+		cy.visit(`/app/conversations/create`)
 
 		// Store the user and tokens
 		storage.set('user', user)
@@ -109,8 +109,8 @@ describe('Create Conversation Page', () => {
 		cy.get('[data-ref=create-btn]')
 			.click()
 			.then(() => {
-				// It should redirect us to `/conversations/edit` to add questions
-				cy.location('pathname').should('eq', '/conversations/edit')
+				// It should redirect us to `/app/conversations/edit` to add questions
+				cy.location('pathname').should('eq', '/app/conversations/edit')
 			})
 	})
 })

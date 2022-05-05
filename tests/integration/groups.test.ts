@@ -31,7 +31,7 @@ before(async () => {
 describe('List Groups Page', () => {
 	beforeEach(() => {
 		// Always run the tests on the groups list page
-		cy.visit('/groups')
+		cy.visit('/app/groups')
 
 		// Store the user and tokens
 		storage.set('user', user)
@@ -63,7 +63,7 @@ describe('List Groups Page', () => {
 describe('Edit Group Page', () => {
 	beforeEach(() => {
 		// Always run the tests on the edit group page
-		cy.visit(`/groups/edit?id=${group.id}`)
+		cy.visit(`/app/groups/edit?id=${group.id}`)
 
 		// Store the user and tokens
 		storage.set('user', user)
@@ -73,10 +73,10 @@ describe('Edit Group Page', () => {
 
 	it('should go back to the group list page if no `id` is given', () => {
 		// Re-visit the edit page without the ID
-		cy.visit('/groups/edit')
+		cy.visit('/app/groups/edit')
 
-		// It should redirect us to `/groups`
-		cy.location('pathname').should('eq', '/groups')
+		// It should redirect us to `/app/groups`
+		cy.location('pathname').should('eq', '/app/groups')
 	})
 
 	it('should fetch and display the group detail in the form', () => {
@@ -122,8 +122,8 @@ describe('Edit Group Page', () => {
 									.find('[data-ref=update-btn]')
 									.click()
 									.then(() => {
-										// It should redirect us to `/groups`
-										cy.location('pathname').should('eq', '/groups')
+										// It should redirect us to `/app/groups`
+										cy.location('pathname').should('eq', '/app/groups')
 									})
 							})
 					})
@@ -134,7 +134,7 @@ describe('Edit Group Page', () => {
 describe('Create Group Page', () => {
 	beforeEach(() => {
 		// Always run the tests on the create group page
-		cy.visit(`/groups/create`)
+		cy.visit(`/app/groups/create`)
 
 		// Store the user and tokens
 		storage.set('user', user)
@@ -167,8 +167,8 @@ describe('Create Group Page', () => {
 							.find('[data-ref=create-btn]')
 							.click()
 							.then(() => {
-								// It should redirect us to `/groups`
-								cy.location('pathname').should('eq', '/groups')
+								// It should redirect us to `/app/groups`
+								cy.location('pathname').should('eq', '/app/groups')
 							})
 					})
 			})

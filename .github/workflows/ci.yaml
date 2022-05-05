@@ -64,7 +64,9 @@ jobs:
           node-version: 16
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          pnpm install
+          pnpm cypress install
       - name: Run tests
         run: |
           pnpm test
