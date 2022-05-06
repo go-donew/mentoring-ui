@@ -1,7 +1,7 @@
 {
-	"include": ["./source/"],
+	"include": ["../source/"],
 	"compilerOptions": {
-		"baseUrl": "./",
+		"baseUrl": "../",
 		"target": "esnext",
 		"module": "esnext",
 		"noEmit": true,

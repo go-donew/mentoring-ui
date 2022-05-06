@@ -25,7 +25,7 @@
 		"watch:build": "run-p 'build:* --watch'",
 		"watch:tests": "start-test :3000 cypress:open",
 		"watch": "run-p watch:*",
-		"test:tsc": "tsc",
+		"test:tsc": "tsc --project config/tsconfig.json",
 		"test:app": "start-test :3000 cypress:run",
 		"test": "run-s compile lint test:*",
 		"cypress:run": "cypress run --config-file config/cypress/config.json",
@@ -73,6 +73,7 @@
 		"bundle": true,
 		"target": "esnext",
 		"format": "esm",
+		"tsconfig": "config/tsconfig.json",
 		"outdir": "source/"
 	},
 	"xo": {
@@ -86,6 +87,9 @@
 			"import/no-unassigned-import": 0,
 			"no-await-in-loop": 0,
 			"capitalized-comments": 0
+		},
+		"parserOptions": {
+			"project": "config/tsconfig.json"
 		}
 	},
 	"prettier": {
