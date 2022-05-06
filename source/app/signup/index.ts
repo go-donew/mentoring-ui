@@ -54,7 +54,8 @@ window.mentoring.page.signUp = async (): Promise<void> => {
 	}
 
 	// Redirect the user to the home page or wherever they came from
-	const redirectTo = new URLSearchParams(window.location.search).get('redirect') ?? '/'
+	const redirectTo =
+		new URLSearchParams(window.location.search).get('redirect') ?? '/app/home'
 	navigate(redirectTo)
 }
 
