@@ -4,6 +4,16 @@
 import { select, change } from 'source/utilities/dom'
 
 /**
+ * The pages to render in the navbar.
+ */
+const pages = [
+	{ name: 'Home', link: '/app/home' },
+	{ name: 'Groups', link: '/app/groups' },
+	{ name: 'Attributes', link: '/app/attributes' },
+	{ name: 'Conversations', link: '/app/conversations' },
+]
+
+/**
  * Renders the navbar for each page.
  */
 export const renderNavbar = (): void => {
@@ -123,12 +133,6 @@ export const renderNavbar = (): void => {
 	`)
 
 	// Then add in the pages
-	const pages = [
-		{ name: 'Home', link: '/app/home' },
-		{ name: 'Groups', link: '/app/groups' },
-		{ name: 'Conversations', link: '/app/conversations' },
-	]
-
 	// The focused and unfocused items have different css
 	const focusedItem = `
 		<a

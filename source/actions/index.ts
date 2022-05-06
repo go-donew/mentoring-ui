@@ -314,6 +314,116 @@ export const listAttributes = async (): Promise<Attribute[]> => {
 }
 
 /**
+ * Fetches a attribute using the API.
+ *
+ * @param {string} attributeId - The ID of the attribute to fetch.
+ *
+ * @returns {Attribute} - The requested attribute.
+ */
+ export const fetchAttribute = async (
+	attributeId: string
+): Promise<Attribute> => {
+	// Make the request!
+	const response = await fetch<{ attribute: Attribute }>({
+		url: `/attributes/${attributeId}`,
+		method: 'get',
+	})
+
+	// Handle any errors that might arise
+	if (isErrorResponse(response)) {
+		const { error } = response
+		let { message } = error
+
+		switch (error.code) {
+			case 'network-error':
+				message = errors.get('network-error')
+				break
+			default:
+				message = error.message
+		}
+
+		throw new Error(message)
+	}
+
+	// Return the list of attributes
+	return response.attribute
+}
+
+/**
+ * Creates a attribute using the API.
+ *
+ * @param {Attribute} attribute - The attribute to create.
+ *
+ * @returns {Attribute} - The created attribute.
+ */
+ export const createAttribute = async (
+	attribute: Omit<Attribute, 'id'>
+): Promise<Attribute> => {
+	// Make the request!
+	const response = await fetch<{ attribute: Attribute }>({
+		url: `/attributes`,
+		method: 'post',
+		json: attribute,
+	})
+
+	// Handle any errors that might arise
+	if (isErrorResponse(response)) {
+		const { error } = response
+		let { message } = error
+
+		switch (error.code) {
+			case 'network-error':
+				message = errors.get('network-error')
+				break
+			default:
+				message = error.message
+		}
+
+		throw new Error(message)
+	}
+
+	// Return the created attribute
+	return response.attribute
+}
+
+/**
+ * Updates a attribute using the API.
+ *
+ * @param {Attribute} attribute - The updated attribute details.
+ *
+ * @returns {Attribute} - The updated attribute.
+ */
+ export const updateAttribute = async (
+	attribute: Attribute
+): Promise<Attribute> => {
+	// Make the request!
+	const response = await fetch<{ attribute: Attribute }>({
+		url: `/attributes/${attribute.id}`,
+		method: 'put',
+		json: attribute,
+	})
+
+	// Handle any errors that might arise
+	if (isErrorResponse(response)) {
+		const { error } = response
+		let { message } = error
+
+		switch (error.code) {
+			case 'network-error':
+				message = errors.get('network-error')
+				break
+			default:
+				message = error.message
+		}
+
+		throw new Error(message)
+	}
+
+	// Return the updated attribute
+	return response.attribute
+}
+
+/**
  * Fetches a list of conversations using the API.
  *
  * @returns {Conversation[]} - The list of conversations a user has access to.
@@ -384,7 +494,7 @@ export const fetchConversation = async (
 /**
  * Creates a conversation using the API.
  *
- * @param {Conversation} conversation - The created conversation.
+ * @param {Conversation} conversation - The conversation to create.
  *
  * @returns {Conversation} - The created conversation.
  */

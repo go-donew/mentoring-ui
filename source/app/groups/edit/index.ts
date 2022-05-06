@@ -1,5 +1,5 @@
 // source/groups/edit.ts
-// Listeners and callbacks for HTML on the group edit/create page.
+// Listeners and callbacks for HTML on the group edit page.
 
 import { fetchGroup, updateGroup, listUsers } from 'source/actions'
 import { select, change, navigate, toast } from 'source/utilities/dom'
