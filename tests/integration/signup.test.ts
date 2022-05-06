@@ -49,6 +49,7 @@ describe('Sign Up Page', () => {
 
 	it('should sign up successfully', () => {
 		// Type in a valid name, email address and password combination
+		cy.get('[data-ref=name-inp]').type('A User')
 		cy.get('[data-ref=email-inp]').type('yay-a-random-new-user@example.com')
 		cy.get('[data-ref=password-inp]').type('this-is-sooo-not-secure')
 

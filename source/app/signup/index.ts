@@ -2,6 +2,7 @@
 // Listeners and callbacks for HTML on the sign up page.
 
 import { createUser } from 'source/actions'
+import { checkAuth } from 'source/hooks/auth'
 import { select, navigate, toast } from 'source/utilities/dom'
 import { storage } from 'source/utilities/storage'
 import { errors, messages } from 'source/utilities/messages'
@@ -26,9 +27,18 @@ window.mentoring.page.signUp = async (): Promise<void> => {
 	if (
 		typeof name !== 'string' ||
 		typeof email !== 'string' ||
-		typeof password !== 'string'
-	)
-		return // TODO: Add validation error message
+		typeof password !== 'string' ||
+		!name ||
+		!email ||
+		!password
+	) {
+		toast({
+			type: 'error',
+			message: errors.get('incorrect-credentials'),
+		})
+
+		return
+	}
 
 	// Create the user
 	try {
@@ -69,4 +79,12 @@ window.mentoring.page.init = (): void => {
 			type: 'error',
 			message: errors.get(error),
 		})
+
+	// If the user is signed in already...
+	if (checkAuth()) {
+		// ..redirect the user to the home page or wherever they came from
+		const redirectTo =
+			new URLSearchParams(window.location.search).get('redirect') ?? '/app/home'
+		navigate(redirectTo)
+	}
 }

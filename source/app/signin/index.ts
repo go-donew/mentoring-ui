@@ -2,6 +2,7 @@
 // Listeners and callbacks for HTML on the sign in page.
 
 import { authenticateUser } from 'source/actions'
+import { checkAuth } from 'source/hooks/auth'
 import { select, navigate, toast } from 'source/utilities/dom'
 import { storage } from 'source/utilities/storage'
 import { errors, messages } from 'source/utilities/messages'
@@ -22,7 +23,14 @@ window.mentoring.page.signIn = async (): Promise<void> => {
 
 	// The input element will take care of validation, so we just return if
 	// invalid input is passed
-	if (typeof email !== 'string' || typeof password !== 'string') return
+	if (typeof email !== 'string' || typeof password !== 'string' || !email || !password) {
+		toast({
+			type: 'error',
+			message: errors.get('incorrect-credentials'),
+		})
+
+		return
+	}
 
 	// Sign the user in
 	try {
@@ -63,4 +71,12 @@ window.mentoring.page.init = (): void => {
 			type: 'error',
 			message: errors.get(error),
 		})
+
+	// If the user is signed in already...
+	if (checkAuth()) {
+		// ..redirect the user to the home page or wherever they came from
+		const redirectTo =
+			new URLSearchParams(window.location.search).get('redirect') ?? '/app/home'
+		navigate(redirectTo)
+	}
 }
