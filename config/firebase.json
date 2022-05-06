@@ -1,10 +1,23 @@
 {
 	"hosting": {
 		"public": "source",
+		"cleanUrls": true,
 		"rewrites": [
 			{
 				"source": "/api/**",
 				"function": "app"
+			}
+		],
+		"redirects": [
+			{
+				"source": "/",
+				"destination": "/app/home",
+				"type": 301
+			},
+			{
+				"source": "/app",
+				"destination": "/app/home",
+				"type": 301
 			}
 		]
 	}
