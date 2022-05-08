@@ -2,10 +2,8 @@
 // Listeners and callbacks for HTML on the conversation create page.
 
 import { createConversation } from 'source/actions'
-import { select, change, navigate } from 'source/utilities/dom'
-import { generateId } from 'source/utilities/misc'
-
-import type { Conversation } from 'source/types'
+import { select, navigate, toast } from 'source/utilities/dom'
+import { errors } from 'source/utilities/messages'
 
 // Save the created conversation details
 window.mentoring.page.createConversation = async (): Promise<void> => {
@@ -15,7 +13,17 @@ window.mentoring.page.createConversation = async (): Promise<void> => {
 	const tags = select<HTMLInputElement>('[data-ref=tags-inp]')!
 		.value.split(',')
 		.map((tag) => tag.trim())
+		.filter((tag) => !!tag)
 	const once = Boolean(select<HTMLSelectElement>('[data-ref=once-select]')!.value)
+
+	if (!name || !description) {
+		toast({
+			type: 'error',
+			message: errors.get('incomplete-input'),
+		})
+
+		return
+	}
 
 	// Create the conversation
 	const { id } = await createConversation({

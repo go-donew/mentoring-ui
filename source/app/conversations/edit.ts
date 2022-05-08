@@ -12,7 +12,7 @@ import {
 	deleteQuestion,
 } from 'source/actions'
 import { select, change, navigate, toast } from 'source/utilities/dom'
-import { messages } from 'source/utilities/messages'
+import { errors, messages } from 'source/utilities/messages'
 import { generateId } from 'source/utilities/misc'
 
 import type { Attribute, Conversation, Question, Option } from 'source/types'
@@ -22,7 +22,6 @@ import type { Attribute, Conversation, Question, Option } from 'source/types'
  * to create a question.
  *
  * @param {Question} question - The question to render.
- *
  */
 const renderQuestion = (question: Question | any = {}): void => {
 	const questionId = question.id ?? generateId()
@@ -124,10 +123,10 @@ const renderQuestion = (question: Question | any = {}): void => {
 						<option value="true">Yes</option>
 					</select>
 				</div>
-				<span class="col-span-5 text-sm font-bold text-gray-800">Options for question ${
+				<span class="col-span-5 p-2 text-sm font-bold text-gray-800 bg-gray-50">Options for question ${
 					window.mentoring.page.data.numbering.question
 				}</span>
-				<div class="col-span-1 text-right">
+				<div class="col-span-1 pt-2 text-right bg-gray-50">
 					<button
 						type="button"
 						onclick="window.mentoring.page.addOption('${questionId}')"
@@ -154,6 +153,7 @@ const renderQuestion = (question: Question | any = {}): void => {
 		</div>
 	`)
 
+	window.mentoring.page.data.numbering.option[questionId] = 0
 	for (const option of question.options ?? []) {
 		renderOption(question.id, option)
 	}
@@ -166,6 +166,8 @@ const renderQuestion = (question: Question | any = {}): void => {
  * @param {Option} option - The option to render, if it exists. Else render a blank form to create an option.
  */
 const renderOption = (questionId: string, option: Option | any = {}): void => {
+	window.mentoring.page.data.numbering.option[questionId] += 1
+
 	const optionId = generateId()
 	const attributes = window.mentoring.page.data.attributes.map(
 		(attribute: Attribute) => `
@@ -174,14 +176,16 @@ const renderOption = (questionId: string, option: Option | any = {}): void => {
 	)
 	const conversations = window.mentoring.page.data.conversations.map(
 		(conversation: Conversation) => `
-			<option value=${conversation.id} class="text-sm">${conversation.name} (${conversation.description})</option>
+			<option value=${conversation.id} class="text-sm" ${
+			window.mentoring.page.data.conversation.id === conversation.id ? 'selected' : ''
+		}>${conversation.name} (${conversation.description})</option>
 		`
 	)
 
 	change(`[data-id="${questionId}"] > div > [data-ref=options-list]`).append(`
 		<div class="contents mt-2" data-ref="option-row" data-id="${optionId}">
-			<span class="col-span-5 block text-sm font-medium text-gray-700">
-				Option Text
+			<span class="col-span-5 py-2 text-sm font-medium text-gray-700">
+				Option ${window.mentoring.page.data.numbering.option[questionId]} Text
 			</span>
 			<div class="col-span-1 text-right">
 				<button
@@ -240,13 +244,13 @@ const renderOption = (questionId: string, option: Option | any = {}): void => {
 					required
 					class="appearance-none rounded relative block w-full my-2 px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 text-sm focus:outline-none focus:ring-teal-700 focus:border-teal-600 focus:z-10"
 					placeholder="1"
-					value="${option.position ?? ''}"
+					value="${option.position ?? window.mentoring.page.data.numbering.option[questionId]}"
 					data-ref="position-inp"
 				/>
 			</div>
 			<div class="col-span-6 sm:col-span-3">
 				<label for="attribute" class="block text-sm font-medium text-gray-700">
-					Attribute <span class="text-gray-500">(updated when option is selected)</span>
+					Attribute
 				</label>
 				<select
 					class="mt-2 block w-full my-2 py-2 px-3 border border-gray-300 bg-white rounded-lg shadow-sm text-sm focus:outline-none focus:ring-teal-600 focus:border-teal-600"
@@ -258,7 +262,7 @@ const renderOption = (questionId: string, option: Option | any = {}): void => {
 			</div>
 			<div class="col-span-6 sm:col-span-3">
 				<label for="value" class="block text-sm font-medium text-gray-700">
-					Value <span class="text-gray-500">(stored under the attribute)</span>
+					Value
 				</label>
 				<input
 					name="text"
@@ -271,12 +275,12 @@ const renderOption = (questionId: string, option: Option | any = {}): void => {
 			</div>
 			<div class="col-span-6 sm:col-span-3">
 				<label for="next-conversation" class="block text-sm font-medium text-gray-700">
-					Next Conversation <span class="text-gray-500">(within which next question resides)</span>
+					Next Conversation
 				</label>
 				<select
 					onclick="window.mentoring.page.renderNextQuestions('${optionId}')"
 					class="mt-2 block w-full my-2 py-2 px-3 border border-gray-300 bg-white rounded-lg shadow-sm text-sm focus:outline-none focus:ring-teal-600 focus:border-teal-600"
-					value="${option.nextQuestion?.conversation ?? ''}"
+					value="${option.nextQuestion?.conversation ?? window.mentoring.page.data.conversation.id}"
 					data-ref="next-conversation-select"
 				>
 					${conversations.join('\n')}
@@ -284,33 +288,46 @@ const renderOption = (questionId: string, option: Option | any = {}): void => {
 			</div>
 			<div class="col-span-6 sm:col-span-3">
 				<label for="next-question" class="block text-sm font-medium text-gray-700">
-					Next Question <span class="text-gray-500">(question to jump to)</span>
+					Next Question
 				</label>
 				<select
 					class="mt-2 block w-full my-2 py-2 px-3 border border-gray-300 bg-white rounded-lg shadow-sm text-sm focus:outline-none focus:ring-teal-600 focus:border-teal-600"
-					value="${option.nextQuestion?.question ?? ''}"
+					value="${option.nextQuestion?.question ?? 'auto-next'}"
 					data-ref="next-question-select"
 				></select>
 			</div>
 			<hr class="col-span-6"/>
 		</div>
 	`)
+
+	window.mentoring.page.renderNextQuestions(
+		optionId,
+		option.nextQuestion?.question ?? 'auto-next'
+	)
 }
 
 /**
  * Renders a list of questions that could be the next question in a given conversation.
  */
-window.mentoring.page.renderNextQuestions = (optionId: string): void => {
+window.mentoring.page.renderNextQuestions = (
+	optionId: string,
+	selected?: string
+): void => {
 	const selectedConversation = select<HTMLSelectElement>(
 		`[data-ref=option-row][data-id="${optionId}"] > div > [data-ref=next-conversation-select]`
 	)!.value
 
 	listQuestions(selectedConversation).then((questions) => {
-		const questionOptions = questions.map(
-			(question: Question) => `
-				<option value=${question.id} class="text-sm">${question.text}</option>
+		const questionOptions = [
+			`<option value="auto-next" class="text-sm">Auto-select next question</option>`,
+			...questions.map(
+				(question: Question) => `
+				<option value=${question.id} class="text-sm" ${
+					question.id === selected ? 'selected' : ''
+				}>${question.text}</option>
 			`
-		)
+			),
+		]
 
 		const dropdown = change(
 			`[data-ref=option-row][data-id="${optionId}"] > div > [data-ref=next-question-select]`
@@ -372,83 +389,126 @@ window.mentoring.page.updateConversation = async (): Promise<void> => {
 	const tags = select<HTMLInputElement>('[data-ref=tags-inp]')!
 		.value.split(',')
 		.map((tag) => tag.trim())
+		.filter((tag) => !!tag)
 	const once = select<HTMLSelectElement>('[data-ref=once-select]')!.value === 'true'
 
 	// Update the conversation
-	const { id: conversationId } = await updateConversation({
-		...window.mentoring.page.data.conversation,
-		name,
-		description,
-		tags,
-		once,
-	})
-
-	// Now save the questions
-	const questionRows = change('[data-ref=question-row]').nodes
-	for (const row of questionRows) {
-		// Get the text, tags, and metadata of the question
-		const text = select<HTMLInputElement>('[data-ref=text-inp]', row)!.value
-		const tags = select<HTMLInputElement>('[data-ref=tags-inp]', row)!
-			.value.split(',')
-			.map((tag) => tag.trim())
-		const first =
-			select<HTMLInputElement>('[data-ref=first-select]', row)!.value === 'true'
-		const last = select<HTMLInputElement>('[data-ref=last-select]', row)!.value === 'true'
-		const randomizeOptionOrder =
-			select<HTMLInputElement>('[data-ref=randomize-select]', row)!.value === 'true'
-
-		const question = {
-			id: row.getAttribute('data-id'),
-			text,
+	try {
+		const { id: conversationId } = await updateConversation({
+			...window.mentoring.page.data.conversation,
+			name,
+			description,
 			tags,
-			first,
-			last,
-			randomizeOptionOrder,
-			options: [],
-		} as Question
+			once,
+		})
 
-		// Get the options for the question
-		const optionRows = change(row).find('[data-ref=option-row]').nodes
-		for (const optionRow of optionRows) {
-			const text = select<HTMLInputElement>('[data-ref=text-inp]', optionRow)!.value
-			const type = select<HTMLInputElement>('[data-ref=type-select]', optionRow)!
-				.value as 'select' | 'input'
-			const position = parseInt(
-				select<HTMLInputElement>('[data-ref=position-inp]', optionRow)!.value
-			)
-			const attribute = {
-				id: select<HTMLInputElement>('[data-ref=attribute-select]', optionRow)!.value,
-				value: select<HTMLInputElement>('[data-ref=value-inp]', optionRow)!.value,
+		// Now save the questions
+		const questionRows = change('[data-ref=question-row]').nodes.reverse()
+		const questionRowsLength = questionRows.length
+		const savedQuestions = []
+		for (let index = 0; index < questionRowsLength; index++) {
+			const row = questionRows[index]
+			// Get the text, tags, and metadata of the question
+			const text = select<HTMLInputElement>('[data-ref=text-inp]', row)!.value
+			const tags = select<HTMLInputElement>('[data-ref=tags-inp]', row)!
+				.value.split(',')
+				.map((tag) => tag.trim())
+				.filter((tag) => !!tag)
+			const first =
+				select<HTMLInputElement>('[data-ref=first-select]', row)!.value === 'true'
+			const last =
+				select<HTMLInputElement>('[data-ref=last-select]', row)!.value === 'true'
+			const randomizeOptionOrder =
+				select<HTMLInputElement>('[data-ref=randomize-select]', row)!.value === 'true'
+
+			if (!text) {
+				toast({
+					type: 'error',
+					message: errors.get('incomplete-input'),
+				})
+
+				return
 			}
-			const nextQuestion = {
-				conversation: select<HTMLInputElement>(
-					'[data-ref=next-conversation-select]',
-					optionRow
-				)!.value,
-				question: select<HTMLInputElement>('[data-ref=next-question-select]', optionRow)!
-					.value,
+
+			const question = {
+				id: row.getAttribute('data-id'),
+				text,
+				tags,
+				first,
+				last,
+				randomizeOptionOrder,
+				options: [],
+			} as Question
+
+			// Get the options for the question
+			const optionRows = change(row).find('[data-ref=option-row]').nodes
+			for (const optionRow of optionRows) {
+				const text = select<HTMLInputElement>('[data-ref=text-inp]', optionRow)!.value
+				const type = select<HTMLInputElement>('[data-ref=type-select]', optionRow)!
+					.value as 'select' | 'input'
+				const position = parseInt(
+					select<HTMLInputElement>('[data-ref=position-inp]', optionRow)!.value
+				)
+				const attribute = {
+					id: select<HTMLInputElement>('[data-ref=attribute-select]', optionRow)!.value,
+					value: select<HTMLInputElement>('[data-ref=value-inp]', optionRow)!.value,
+				}
+				const nextQuestion = {
+					conversation: select<HTMLInputElement>(
+						'[data-ref=next-conversation-select]',
+						optionRow
+					)!.value,
+					question: select<HTMLInputElement>(
+						'[data-ref=next-question-select]',
+						optionRow
+					)!.value,
+				}
+
+				if (!text || !position) {
+					toast({
+						type: 'error',
+						message: errors.get('incomplete-input'),
+					})
+
+					return
+				}
+
+				const option = { text, type, position, attribute, nextQuestion }
+
+				console.log(savedQuestions, nextQuestion, index)
+				if (option.nextQuestion.question === 'auto-next')
+					option.nextQuestion.question = savedQuestions[index - 1]?.id
+				// @ts-expect-error It is optional
+				if (!option.nextQuestion.question) delete option.nextQuestion
+				// @ts-expect-error It is optional
+				if (!option.attribute.id || !option.attribute.value) delete option.attribute
+
+				question.options.push(option)
 			}
 
-			const option = { text, type, position, attribute, nextQuestion }
-			// @ts-expect-error It is optional
-			if (!option.nextQuestion.question) delete option.nextQuestion
-
-			question.options.push(option)
+			// First try updating the question, else create a new one.
+			try {
+				savedQuestions.push(await updateQuestion(conversationId, question))
+			} catch (error) {
+				// TODO: How dare you hard code this?!
+				if ((error as Error).message === 'The requested entity was not found.') {
+					savedQuestions.push(await createQuestion(conversationId, question))
+				} else throw error
+			}
 		}
 
-		// First try updating the question, else create a new one.
-		try {
-			await updateQuestion(conversationId, question)
-		} catch (error) {
-			if ((error as any).code === 'entity-not-found')
-				await createQuestion(conversationId, question)
-		}
+		toast({
+			type: 'success',
+			message: messages.get('saved-conversation'),
+		})
+	} catch (error: unknown) {
+		toast({
+			type: 'error',
+			message: (error as Error).message,
+		})
+
+		return
 	}
-
-	toast({
-		type: 'success',
-		message: messages.get('saved-conversation'),
-	})
 }
 
 // The init function, that runs on page load
@@ -480,6 +540,7 @@ window.mentoring.page.init = async (): Promise<void> => {
 	window.mentoring.page.data = {
 		numbering: {
 			question: 0,
+			option: {},
 		},
 		attributes,
 		conversations,
