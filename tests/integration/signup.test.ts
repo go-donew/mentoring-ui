@@ -5,7 +5,7 @@ import { errors } from 'source/utilities/messages'
 
 describe('Sign Up Page', () => {
 	// Always run the tests on the sign up page
-	beforeEach(() => cy.visit('/app/signup'))
+	beforeEach(() => cy.visit('/app/auth/signup'))
 
 	it('should show a validation error when an invalid email is entered', () => {
 		// Type in a valid name

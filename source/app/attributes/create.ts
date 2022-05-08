@@ -19,7 +19,7 @@ const renderConversation = (conversation?: string): void => {
 			<option value=${conversation.id} class="text-sm">${conversation.name}</option>
 		`
 	)
-	
+
 	change('[data-ref=conversations-list]').append(`
 		<tr data-ref="conversation-row" data-id="${rowId}">
 			<td class="pr-3" data-ref="name">
@@ -86,6 +86,7 @@ window.mentoring.page.createAttribute = async (): Promise<void> => {
 	const tags = select<HTMLInputElement>('[data-ref=tags-inp]')!
 		.value.split(',')
 		.map((tag) => tag.trim())
+		.filter((tag) => !!tag)
 
 	// Get the conversations list from the DOM
 	const conversations: Attribute['conversations'] = []

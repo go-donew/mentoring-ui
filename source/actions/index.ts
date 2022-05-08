@@ -320,9 +320,7 @@ export const listAttributes = async (): Promise<Attribute[]> => {
  *
  * @returns {Attribute} - The requested attribute.
  */
- export const fetchAttribute = async (
-	attributeId: string
-): Promise<Attribute> => {
+export const fetchAttribute = async (attributeId: string): Promise<Attribute> => {
 	// Make the request!
 	const response = await fetch<{ attribute: Attribute }>({
 		url: `/attributes/${attributeId}`,
@@ -356,7 +354,7 @@ export const listAttributes = async (): Promise<Attribute[]> => {
  *
  * @returns {Attribute} - The created attribute.
  */
- export const createAttribute = async (
+export const createAttribute = async (
 	attribute: Omit<Attribute, 'id'>
 ): Promise<Attribute> => {
 	// Make the request!
@@ -393,9 +391,7 @@ export const listAttributes = async (): Promise<Attribute[]> => {
  *
  * @returns {Attribute} - The updated attribute.
  */
- export const updateAttribute = async (
-	attribute: Attribute
-): Promise<Attribute> => {
+export const updateAttribute = async (attribute: Attribute): Promise<Attribute> => {
 	// Make the request!
 	const response = await fetch<{ attribute: Attribute }>({
 		url: `/attributes/${attribute.id}`,

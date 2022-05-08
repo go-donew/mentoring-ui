@@ -16,6 +16,7 @@ const errorsAndMessages: Record<'error' | 'info', Record<string, string>> = {
 			'An unexpected error occurred. Please try again in a few seconds or report this issue.',
 		'network-error':
 			'A network error occurred while signing in. Please check your internet connectivity and try again.',
+		'incomplete-input': 'Please fill in all the required fields.',
 	},
 	info: {
 		'signing-in': 'Signing you in...',

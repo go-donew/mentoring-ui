@@ -106,6 +106,7 @@ window.mentoring.page.createGroup = async (): Promise<void> => {
 	const tags = select<HTMLInputElement>('[data-ref=tags-inp]')!
 		.value.split(',')
 		.map((tag) => tag.trim())
+		.filter((tag) => !!tag)
 
 	// Get the participants list from the DOM
 	const participants: Group['participants'] = {}

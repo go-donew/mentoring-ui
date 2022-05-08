@@ -1,5 +1,5 @@
-<!-- source/app/signin.html -->
-<!-- The sign in page -->
+<!-- source/app/auth/signup.html -->
+<!-- The sign up page -->
 
 <!DOCTYPE html>
 <html>
@@ -11,28 +11,28 @@
 		<link href="/styles/main.css" rel="stylesheet" />
 
 		<!-- Import our JS code -->
-		<script src="/app/signin/index.js" type="module"></script>
+		<script src="/app/auth/signup.js" type="module"></script>
 		<script src="/hooks/index.js" type="module"></script>
 		<script type="module">
 			window.mentoring.hooks.init({ requireAuth: false })
 		</script>
 	</head>
 	<body>
-		<div class="min-h-full flex items-center justify-center py-12" data-ref="page">
-			<div class="max-w-md w-full space-y-8">
+		<div class="min-h-full flex items-center justify-center py-12 px-4" data-ref="page">
+			<div class="max-w-md w-full space-y-8" data-ref="page">
 				<div>
 					<img class="mx-auto h-20 w-auto" src="/assets/icon.png" alt="DoNew Logo" />
 					<h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-						Sign in to DoNew
+						Create a DoNew account
 					</h2>
 					<p class="mt-2 text-center text-sm text-gray-700">
 						Or
 						<a
-							onclick="window.location.href = '/app/signup' + window.location.search"
+							onclick="window.location.href = '/app/auth/signin' + window.location.search"
 							class="cursor-pointer font-medium text-teal-700 hover:text-teal-700"
 							data-ref="signup-instead-btn"
 						>
-							sign up instead
+							sign in instead
 						</a>
 					</p>
 				</div>
@@ -41,7 +41,18 @@
 						<form class="space-y-6">
 							<div class="rounded-lg shadow-sm -space-y-px">
 								<div>
-									<label for="email" class="block text-sm font-medium text-gray-700">
+									<label for="name" class="block text-sm font-medium text-gray-700">
+										Name
+									</label>
+									<input
+										required
+										class="appearance-none rounded-lg relative block w-full my-2 px-3 py-2 border border-gray-300 placeholder-gray-600 text-gray-900 focus:outline-none focus:ring-teal-700 focus:border-teal-600 focus:z-10 sm:text-sm"
+										placeholder="Full Name"
+										data-ref="name-inp"
+									/>
+								</div>
+								<div>
+									<label for="email" class="mt-4 block text-sm font-medium text-gray-700">
 										Email address
 									</label>
 									<input
@@ -72,10 +83,10 @@
 							<div>
 								<input
 									type="button"
-									onclick="window.mentoring.page.signIn()"
+									onclick="window.mentoring.page.signUp()"
 									class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-teal-700 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-700"
-									value="Sign In"
-									data-ref="signin-btn"
+									value="Create Account"
+									data-ref="signup-btn"
 								/>
 							</div>
 						</form>

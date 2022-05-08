@@ -131,7 +131,7 @@ export const _fetch = ky.create({
 						storage.delete('tokens.bearer')
 						storage.delete('tokens.refresh')
 
-						navigate('/app/signin', {
+						navigate('/app/auth/signin', {
 							redirect: window.location.pathname,
 							error: 'expired-credentials',
 						})

@@ -198,7 +198,7 @@ export declare interface Option {
 	position: number
 	type: 'select' | 'input'
 	text: string
-	attribute: AttributeToSet
+	attribute?: AttributeToSet
 	nextQuestion?: NextQuestion
 }
 

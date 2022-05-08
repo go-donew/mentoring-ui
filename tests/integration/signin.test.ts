@@ -15,18 +15,18 @@ before(() => runTask('api/create-random-user', credentials))
 describe('Sign In Page', () => {
 	// Always run the tests on the sign in page
 	beforeEach(() => {
-		cy.visit('/app/signin')
+		cy.visit('/app/auth/signin')
 	})
 
 	it('should keep url params when user wants to sign up instead', () => {
 		// Add the URL parameters
-		cy.visit('/app/signin?redirect=%2F&error=expired-credentials')
+		cy.visit('/app/auth/signin?redirect=%2F&error=expired-credentials')
 
 		// Click the sign up instead button
 		cy.get('[data-ref=signup-instead-btn]').click()
 
 		// Make sure the page redirects to /signup and keeps the params
-		cy.url().should('include', '/app/signup?redirect=%2F&error=expired-credentials')
+		cy.url().should('include', '/app/auth/signup?redirect=%2F&error=expired-credentials')
 	})
 
 	it('should show a validation error when an invalid email is entered', () => {

@@ -62,8 +62,8 @@ const renderAttributes = (attributes: Attribute[]): void => {
 							`
 						)
 						.join('\n')
-		
-    // Add this as a row to the attribute table
+
+		// Add this as a row to the attribute table
 		change('[data-ref=attributes-list]').append(`
 			<tr>
 				<td class="px-6 py-4" data-ref="name" data-id="${attribute.id}">${name}</td>

@@ -106,6 +106,7 @@ window.mentoring.page.updateAttribute = async (): Promise<void> => {
 	const tags = select<HTMLInputElement>('[data-ref=tags-inp]')!
 		.value.split(',')
 		.map((tag) => tag.trim())
+		.filter((tag) => !!tag)
 
 	// Get the conversations list from the DOM
 	const conversations: Attribute['conversations'] = []

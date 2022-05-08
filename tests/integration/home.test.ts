@@ -11,6 +11,6 @@ describe('Home Page', () => {
 
 		// The redirect should automatically take place within a few seconds. Ensure
 		// the user is redirected to the sign in page
-		cy.location('pathname').should('eq', '/app/signin')
+		cy.location('pathname').should('eq', '/app/auth/signin')
 	})
 })

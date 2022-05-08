@@ -14,7 +14,7 @@ const init = (options: PageInitOptions): void => {
 		options.requireAuth && // If they are not authenticated, redirect them to the signin page
 		!checkAuth()
 	) {
-		navigate('/app/signin', {
+		navigate('/app/auth/signin', {
 			redirect: window.location.pathname,
 			error: 'expired-credentials',
 		})

@@ -42,6 +42,7 @@ export const toast = (options: {
 	change('[data-ref=current-toast]').append(
 		toasts[options.type].replace('{message}', options.message)
 	)
+	select('[data-ref=current-toast]')!.scrollIntoView({ behavior: 'smooth' })
 
 	// Remove it after the specified timeout (defaults to 2 and a half seconds)
 	setTimeout(() => {
