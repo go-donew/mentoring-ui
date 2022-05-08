@@ -1,13 +1,12 @@
 {
 	"baseUrl": "http://localhost:3000",
-	"fileServerFolder": "public",
 	"downloadsFolder": "tests/assets/downloads",
 	"screenshotsFolder": "tests/assets/screenshots",
 	"videosFolder": "tests/assets/videos",
 	"fixturesFolder": "tests/fixtures",
 	"integrationFolder": "tests/integration",
+	"pluginsFile": false,
+	"supportFile": false,
 	"testFiles": "**/*.test.ts",
-	"pluginsFile": "config/cypress/plugins.ts",
-	"supportFile": "config/cypress/support.ts",
 	"defaultCommandTimeout": 30000
 }
